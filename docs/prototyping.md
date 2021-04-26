@@ -5,12 +5,10 @@ It's used for developing the frontend for the ledger server and SQL apps.
 
 ## Running dev server
 
-First, run the development server:
+First, run the development server. You may need to run `npm install` if you haven't already done so.
 
 ```bash
 npm run dev
-# or
-yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
