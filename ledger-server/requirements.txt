@@ -3,13 +3,12 @@ databases
 sqlalchemy
 aiofiles
 jinja2
-python-multipart
-azure-storage-blob
+#python-multipart
 python-dotenv
 # Required for blob storage
 aiohttp
-# Required for video indexer
-aiohttp[speedups]
+# TODO: Fix aiohttp speedups
+#aiohttp[speedups]
 # Required for deploying to Azure
 uvicorn
 uvloop
