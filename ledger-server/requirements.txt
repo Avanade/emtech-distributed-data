@@ -1,0 +1,16 @@
+starlette
+databases
+sqlalchemy
+aiofiles
+jinja2
+python-multipart
+azure-storage-blob
+python-dotenv
+# Required for blob storage
+aiohttp
+# Required for video indexer
+aiohttp[speedups]
+# Required for deploying to Azure
+uvicorn
+uvloop
+httptools
