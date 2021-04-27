@@ -137,10 +137,55 @@ def SimulateHeart():
         time.sleep(4)
 
 
+def getAll(table_name):
+
+    engine = sqlEngine()
+    conn = engine.connect()
+    metadata = sa.MetaData()
+    metadata.reflect(bind=engine)
+
+    table = metadata.tables[table_name]
+
+    s = table.select()
+    rs = conn.execute(s)
+
+    return rs
+
+
+def dropTable(table_name):
+    engine = sqlEngine()
+    conn = engine.connect()
+    metadata = sa.MetaData()
+    metadata.reflect(bind=engine)
+
+    table = metadata.tables[table_name]
+
+    table.drop(engine)
+
+
+def revokeAccess(PartnerId):
+    engine = sqlEngine()
+    conn = engine.connect()
+    metadata = sa.MetaData()
+    metadata.reflect(bind=engine)
+
+    table = metadata.tables["Oltiva_DataSet"]
+
+    query = sa.delete(table)
+    query = query.where(table.columns.PartnerId == PartnerId)
+    results = conn.execute(query)
+
+
 # engine = sqlEngine()
 
 
 # getQR(engine, 4001)
 # sqlInsert(engine, "Oltiva_Partners")
 
-SimulateHeart()
+# SimulateHeart()
+
+# print(getAll("Oltiva_DataPoint"))
+
+# dropTable("Oltiva_DataPoint")
+
+revokeAccess(3003)
