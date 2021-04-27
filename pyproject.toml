@@ -1,0 +1,38 @@
+[tool.liccheck]
+# Authorized and unauthorized licenses in lowercase - MIT and Apache preferred
+authorized_licenses = [
+        "new bsd",
+        "new bsd license",
+        "simplified bsd",
+        "apache",
+        "apache 2.0",
+        "apache-2.0",
+        "apache software license",
+        "apache software",
+        "gnu lgpl",
+        "isc license",
+        "isc license (iscl)",
+        "mit",
+        "mit license",
+        "python software foundation license",
+        "bsd-3-clause"
+
+]
+
+unauthorized_licenses = [
+        "gpl v3",
+        "gpl v2",
+        "zpl 2.1",
+        "lgpl with exceptions or zpl",
+        "agpl",
+        "agpl v3",
+        "original bsd",
+        "eupl"
+]
+
+# the following packages are variants of BSD3; rather than the original "BSD License", which contained an advertising clause
+[tool.liccheck.authorized_packages]
+databases = "<=0.4.3"
+python-dotenv = "<=0.17.0"
+starlette = "<=0.14.2"
+uvicorn = "<=0.13.4"

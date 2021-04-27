@@ -1,0 +1,69 @@
+name: Build and Deploy SQL Ledger Demo - karoliina-neas-12769
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "prototyping/**"
+  workflow_dispatch:
+
+concurrency:
+  group: main_branch_deploy
+  cancel-in-progress: true
+
+defaults:
+  run:
+    working-directory: prototyping
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js version
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
+      - uses: actions/cache@v2
+        id: npm-build-cache
+        with:
+          path: |
+            node_modules
+            ${{ github.workspace }}/.next/cache
+          key: ${{ runner.os }}-node_modules-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node_modules-build-
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run build --if-present
+          npm run test --if-present
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v2
+        with:
+          name: node-app
+          path: .
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: "production"
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: node-app
+
+      - name: "Deploy to Azure Web App"
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: "karoliina-neas-12769"
+          slot-name: "production"
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_F33A80DDD6AD494DB86CA0A8F4B30BFC }}
+          package: .
