@@ -6,6 +6,9 @@ on:
       - main
     paths-ignore:
       - "docs/**"
+concurrency:
+  group: main_branch
+  cancel-in-progress: true
 jobs:
   todos:
     runs-on: ubuntu-latest

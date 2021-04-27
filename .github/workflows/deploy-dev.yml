@@ -8,6 +8,10 @@ on:
       - "prototyping/**"
   workflow_dispatch:
 
+concurrency:
+  group: main_branch
+  cancel-in-progress: true
+
 defaults:
   run:
     working-directory: prototyping
