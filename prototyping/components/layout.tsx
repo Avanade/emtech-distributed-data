@@ -77,7 +77,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </div>
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <a href="scan"
+                  <a href="/scan"
                     type="button"
                     className="relative inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
