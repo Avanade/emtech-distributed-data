@@ -7,3 +7,6 @@ Found in the `ledger-server` directory, a Python web application designed to sho
 ![](./sql-ledger-images/sitemap.png)
 ## Data Model
 ![](./sql-ledger-images/data-model.png)
+
+## Technical Architecture
+![](./diagrams-as-code/sql_ledger_technical_architecture.png)

@@ -12,7 +12,6 @@ Because of that, you could install and setup every widget and configuration, but
 - Ledger Server - *The Python App used to demonstrate SQL ledger.*
 - Protoyping - *The next.js app used for frontend prototyping.*
 - Confidential Server - *The 2D demonstrator for self-driving cars and Confidential Ledger.*
-
 # Software Installation
 
 1. Create a separate Python environment for your installation, and activate it. You have two options:
@@ -46,3 +45,21 @@ Because of that, you could install and setup every widget and configuration, but
 4. [Create an Azure App Service with a Python Linux plan](https://docs.microsoft.com/en-us/azure/developer/python/tutorial-deploy-app-service-on-linux-03), and deploy the `webapp` folder.
 5. [Set the *Azure Startup Command* on your Azure App Service](https://docs.microsoft.com/en-us/azure/app-service/configure-language-python#customize-startup-command) to `gunicorn -c gunicorn_config.py app:app`.
 6. [Set the Azure App Service settings](https://docs.microsoft.com/en-us/azure/app-service/configure-common#configure-app-settings) for your blob storage, matching the names you used on your local `.env` file, or [use the extension in VS code](https://docs.microsoft.com/en-us/azure/developer/python/tutorial-deploy-app-service-on-linux-03#optional-upload-an-environment-variable-definitions-file).
+
+
+# Adding to the documentation
+## Requirements
+### Diagrams
+Run the following commands to install `graphviz`, and set up an environment to be able to generate documentation images.
+
+`brew install graphviz`
+`conda create --name distribdata python=3.9 -y`
+`pip install diagrams`
+
+### Mermaid
+Install the [Mermaid Extension for VS Code](https://marketplace.visualstudio.com/items?itemName=tomoyukim.vscode-mermaid-editor).
+
+Generate images as .mmd files are updated, and commit them.
+
+## Image Generation
+Diagrams are generated with [Python Diagrams](https://pypi.org/project/diagrams/) and using the [Mermaid Extension for VS Code](https://marketplace.visualstudio.com/items?itemName=tomoyukim.vscode-mermaid-editor), which supports most [mermaid formatting](https://github.com/mermaid-js/mermaid/blob/master/README.md), in the .mmd format.
