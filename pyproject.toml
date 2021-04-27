@@ -15,6 +15,7 @@ authorized_licenses = [
         "mit",
         "mit license",
         "python software foundation license",
+        "bsd-3-clause"
 
 ]
 
@@ -28,3 +29,10 @@ unauthorized_licenses = [
         "original bsd",
         "eupl"
 ]
+
+# the following packages are variants of BSD3; rather than the original "BSD License", which contained an advertising clause
+[tool.liccheck.authorized_packages]
+databases = "<=0.4.3"
+python-dotenv = "<=0.17.0"
+starlette = "<=0.14.2"
+uvicorn = "<=0.13.4"
