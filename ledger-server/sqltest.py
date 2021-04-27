@@ -1,12 +1,13 @@
 import os
 import sqlalchemy as sa
-from sqlalchemy import create_engine, insert
+from sqlalchemy import create_engine
 from urllib.parse import quote_plus
 from dotenv import load_dotenv
 import urllib
 
 import random
 from datetime import datetime
+import time
 
 
 def sqlEngine():
@@ -67,7 +68,7 @@ def sqlInsert(engine, table_name):
 
     TABLE = META_DATA.tables[table_name]
 
-    stmt = insert(TABLE).values(
+    stmt = sa.insert(TABLE).values(
         [{"PartnerId": 3009}, {"PartnerName": "Wandsworth Health Service"}]
     )
 
@@ -98,29 +99,48 @@ def getQR(engine, code):
 
 
 def SimulateHeart():
-    HRSim = random.randint(60, 180)
 
-    metadata = sa.MetaData(bind=sqlEngine(), reflect=True)
+    engine = sqlEngine()
+    conn = engine.connect()
+    metadata = sa.MetaData()
+    metadata.reflect(bind=engine)
+
     HR_table = metadata.tables["Oltiva_DataPoint"]
 
-    DataSetId = 5001
+    i_DataSetId = 5001
+    i_DataPointId = 0
 
-    # datetime object containing current date and time
-    now = datetime.now()
-    # dd/mm/YY H:M:S
-    DataTimeStamp = now.strftime("%d/%m/%Y %H:%M:%S")
+    while True:
+        i_DataPointId += 1
 
-    toInsert = insert(HR_table).values(
-        DataSetId=DataSetId, DataTimeStamp=DataTimeStamp, DataValue=HRSim
-    )
+        HRSim = random.randint(60, 180)
 
-    toInsert.execute()
+        # datetime object containing current date and time
+        now = datetime.now()
+        # dd/mm/YY H:M:S
+        i_DataTimeStamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        ins = (
+            metadata.tables["Oltiva_DataPoint"]
+            .insert()
+            .values(
+                DataSetId=i_DataSetId,
+                DataPointId=i_DataPointId,
+                DataTimestamp=i_DataTimeStamp,
+                DataValue=str(HRSim),
+            )
+        )
+        try:
+            conn.execute(ins)
+        except:
+            print("wait")
+        time.sleep(4)
 
 
-engine = sqlEngine()
+# engine = sqlEngine()
 
 
-getQR(engine, 4001)
+# getQR(engine, 4001)
 # sqlInsert(engine, "Oltiva_Partners")
 
 SimulateHeart()
