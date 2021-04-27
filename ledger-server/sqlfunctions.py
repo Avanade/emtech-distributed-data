@@ -20,23 +20,6 @@ def sqlEngine():
     password = os.getenv("PASSWORD")
     port = os.getenv("PORT")
 
-    driver = "{ODBC Driver 13 for SQL Server}"
-    # connect using parsed URL
-    odbc_str = (
-        "DRIVER="
-        + driver
-        + ";SERVER="
-        + server
-        + ";PORT="
-        + port
-        + ";DATABASE="
-        + database
-        + ";UID="
-        + username
-        + ";PWD="
-        + password
-    )
-
     driver = "{ODBC Driver 17 for SQL Server}"
 
     odbc_str = (
@@ -190,4 +173,4 @@ def revokeAccess(PartnerId):
 
 # dropTable("Oltiva_DataPoint")
 
-revokeAccess(3003)
+# revokeAccess(3003)
