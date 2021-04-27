@@ -9,6 +9,8 @@ on:
     paths-ignore:
       - "docs/**"
       - "*.md"
+      - "*.yml"
+      - "*.mmd"
       - ".cz-config"
 concurrency:
   group: ci-${{ github.ref }}
