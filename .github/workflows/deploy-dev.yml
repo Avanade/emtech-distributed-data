@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: "karoliina-neas-12769"
           slot-name: "production"
-          publish-profile: \${{ secrets.AzureAppService_PublishProfile_1234 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_F33A80DDD6AD494DB86CA0A8F4B30BFC }}
           package: .
