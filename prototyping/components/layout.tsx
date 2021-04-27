@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 
 const navigation = [
   { name: 'Data Dashboard', href: '/'},
-  { name: 'About', href: '/scan' },
+  { name: 'About', href: '/about' },
 ]
 
 function classNames(...classes) {
@@ -80,7 +80,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
           <Disclosure.Panel className="md:hidden">
             <div className="pt-2 pb-3 space-y-1">
-                {/* Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" */}
                 {navigation.map((item) => (
                     <a
                       key={item.name}
