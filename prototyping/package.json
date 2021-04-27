@@ -1,7 +1,18 @@
 {
-  "name": "prototyping",
+  "name": "avanade.emtech.sql-ledger-demo",
+  "description": "Avanade's exploration with SQL Ledger from Microsoft in a Healthcare scenario.",
   "version": "0.1.0",
   "private": true,
+  "contributors": [
+    "Chris Lloyd-Jones",
+    "Fergus Kidd"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Avanade/emtech-distributed-data.git",
+    "directory": "prototyping"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
