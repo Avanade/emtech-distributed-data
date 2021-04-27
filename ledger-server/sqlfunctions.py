@@ -73,7 +73,9 @@ def sqlInsert(engine, table_name):
     )
 
 
-def getQR(engine, code):
+def getQR(code):
+
+    engine = sqlEngine()
 
     # Create MetaData instance
     metadata = sa.MetaData(bind=engine, reflect=True)
