@@ -77,9 +77,21 @@ def getQR(engine, code):
 
     # Get Table
     ex_table = metadata.tables["Oltiva_QR"]
-    print(ex_table)
 
-    ex_table.select()
+    s = ex_table.select()
+    rs = s.execute()
+    for row in rs:
+        if row.QRlocId == code:
+            found = row.PartnerId
+
+    partner_table = metadata.tables["Oltiva_Partners"]
+    ps = partner_table.select()
+    prs = ps.execute()
+    for prow in prs:
+        if prow.PartnerId == found:
+            print("partner is ", prow.PartnerName)
+
+            return prow.PartnerName
 
 
 engine = sqlEngine()
