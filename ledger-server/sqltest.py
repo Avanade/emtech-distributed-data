@@ -55,9 +55,35 @@ def sqlEngine():
 
     print(engine.execute("SELECT TOP 100 * FROM [dbo].[Oltiva_Partners]").fetchall())
 
+    return engine
 
-def sqlInsert(user_table):
-    stmt = insert(user_table).values(name="username", fullname="Full Username")
+
+def sqlInsert(engine, table_name):
+
+    META_DATA = sa.MetaData(bind=engine, reflect=True)
+
+    TABLE = META_DATA.tables[table_name]
+
+    stmt = insert(TABLE).values(
+        [{"PartnerId": 3009}, {"PartnerName": "Wandsworth Health Service"}]
+    )
+
+
+def getQR(engine, code):
+
+    # Create MetaData instance
+    metadata = sa.MetaData(bind=engine, reflect=True)
+    print(metadata.tables)
+
+    # Get Table
+    ex_table = metadata.tables["Oltiva_QR"]
+    print(ex_table)
+
+    ex_table.select()
 
 
 engine = sqlEngine()
+
+
+getQR(engine, 4001)
+# sqlInsert(engine, "Oltiva_Partners")
