@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: main_branch
+  group: main_branch_deploy
   cancel-in-progress: true
 
 defaults:

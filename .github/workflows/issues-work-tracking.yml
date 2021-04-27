@@ -7,7 +7,7 @@ on:
     paths-ignore:
       - "docs/**"
 concurrency:
-  group: main_branch
+  group: main_branch_issues
   cancel-in-progress: true
 jobs:
   todos:
