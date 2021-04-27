@@ -31,6 +31,7 @@ jobs:
         with:
           path: |
             node_modules
+            ${{ github.workspace }}/.next/cache
           key: ${{ runner.os }}-node_modules-build-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node_modules-build-
