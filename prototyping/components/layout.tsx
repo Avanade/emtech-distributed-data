@@ -1,6 +1,6 @@
 
-import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
+import { Disclosure } from "@headlessui/react";
+import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { QrcodeIcon } from "@heroicons/react/solid";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -53,7 +53,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </div>
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <button
+                  <a href="scan"
                     type="button"
                     className="relative inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
@@ -62,7 +62,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                       aria-hidden="true"
                     />
                     <span>Scan QR Code</span>
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
