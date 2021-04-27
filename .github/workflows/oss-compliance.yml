@@ -10,6 +10,9 @@ on:
       - "docs/**"
       - "*.md"
       - ".cz-config"
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   pylicence:
     runs-on: ubuntu-latest
