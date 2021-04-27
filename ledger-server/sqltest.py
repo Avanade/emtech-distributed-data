@@ -5,6 +5,9 @@ from urllib.parse import quote_plus
 from dotenv import load_dotenv
 import urllib
 
+import random
+from datetime import datetime
+
 
 def sqlEngine():
 
@@ -94,8 +97,30 @@ def getQR(engine, code):
             return prow.PartnerName
 
 
+def SimulateHeart():
+    HRSim = random.randint(60, 180)
+
+    metadata = sa.MetaData(bind=sqlEngine(), reflect=True)
+    HR_table = metadata.tables["Oltiva_DataPoint"]
+
+    DataSetId = 5001
+
+    # datetime object containing current date and time
+    now = datetime.now()
+    # dd/mm/YY H:M:S
+    DataTimeStamp = now.strftime("%d/%m/%Y %H:%M:%S")
+
+    toInsert = insert(HR_table).values(
+        DataSetId=DataSetId, DataTimeStamp=DataTimeStamp, DataValue=HRSim
+    )
+
+    toInsert.execute()
+
+
 engine = sqlEngine()
 
 
 getQR(engine, 4001)
 # sqlInsert(engine, "Oltiva_Partners")
+
+SimulateHeart()
