@@ -1,9 +1,20 @@
 
-import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
+import { Disclosure } from "@headlessui/react";
+import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { QrcodeIcon } from "@heroicons/react/solid";
+import { useRouter } from 'next/router';
+
+const navigation = [
+  { name: 'Data Dashboard', href: '/'},
+  { name: 'About', href: '/about' },
+]
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   return (
     <>
     <Disclosure as="nav" className="bg-white shadow">
@@ -36,24 +47,24 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   />
                 </div>
                 <div className="hidden md:ml-6 md:flex md:space-x-8">
-                  {/* Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" */}
-                  <a
-                    href="#"
-                    className="border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-                  >
-                    Shared Data
-                  </a>
-                  <a
-                    href="#"
-                    className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
-                  >
-                    About
-                  </a>
+                    {navigation.map((item) => (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      className={classNames(
+
+                        (router.pathname == item.href) ? 'border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium'
+                      )}
+                      aria-current={(router.pathname == item.href) ? 'page' : undefined}
+                    >
+                      {item.name}
+                    </a>
+                  ))}
                 </div>
               </div>
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <button
+                  <a href="scan"
                     type="button"
                     className="relative inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
@@ -62,27 +73,25 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                       aria-hidden="true"
                     />
                     <span>Scan QR Code</span>
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
           </div>
           <Disclosure.Panel className="md:hidden">
             <div className="pt-2 pb-3 space-y-1">
-              {/* Current: "bg-indigo-50 border-indigo-500 text-indigo-700", Default: "border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700" */}
-              <a
-                href="#"
-                className="bg-indigo-50 border-indigo-500 text-indigo-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium sm:pl-5 sm:pr-6"
-              >
-                Shared Data
-              </a>
-
-              <a
-                href="#"
-                className="border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium sm:pl-5 sm:pr-6"
-              >
-                About
-              </a>
+                {navigation.map((item) => (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      className={classNames(
+                        (router.pathname == item.href) ? 'bg-indigo-50 border-indigo-500 text-indigo-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium sm:pl-5 sm:pr-6' : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium sm:pl-5 sm:pr-6'
+                      )}
+                      aria-current={(router.pathname == item.href) ? 'page' : undefined}
+                    >
+                      {item.name}
+                    </a>
+                  ))}
             </div>
           </Disclosure.Panel>
 
