@@ -80,7 +80,7 @@ routes = [
     Route("/about", about),
     Route("/favicon.ico", FileResponse("static/favicon.ico")),
     Route("/append", append),
-    Route("/read/{carid}", read),
+    Route("/read/{carid}", read, methods=["GET"]),
     Mount(
         "/static",
         app=StaticFiles(directory="static"),
