@@ -144,14 +144,13 @@ def rpc_get_latest():
     return response
 
 
-def rpc_put(self, wait_for_commit=False):
+def rpc_put(body, wait_for_commit=False):
     commit_data = {}
-    body = input("body: ")
     # Using the same LedgerId
     data = {"id": 1, "body": body}
     print(data)
-    response = self._make_request__(
-        self._app_data, "latest", data=data, request_type=RequestType.POST
+    response = _make_request__(
+        createAppData(), "latest", data=data, request_type=RequestType.POST
     )
 
 

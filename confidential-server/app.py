@@ -52,14 +52,19 @@ async def read(request):
         # TODO use carid dependent on data structure
         latest_data = cl.rpc_get_latest()
     except:
-        latest_data = "The data connection seems not to be working"
+        latest_data = "The confidential data connection seems not to be working"
 
     return JSONResponse({"read": name, "data": latest_data})
 
 
 async def append(request):
-    data = request.json()
-    return JSONResponse({"append": str(data)})
+    bodyData = request.json()
+    try:
+        returnData = cl.rpc_put(bodyData)
+    except:
+        datreturnDataa = "The confidential data connection seems not to be working"
+
+    return JSONResponse({"append": str(returnData)})
 
 
 async def error_template(request, exc):
