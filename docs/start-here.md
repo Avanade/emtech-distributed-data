@@ -47,6 +47,15 @@ Because of that, you could install and setup every widget and configuration, but
 6. [Set the Azure App Service settings](https://docs.microsoft.com/en-us/azure/app-service/configure-common#configure-app-settings) for your blob storage, matching the names you used on your local `.env` file, or [use the extension in VS code](https://docs.microsoft.com/en-us/azure/developer/python/tutorial-deploy-app-service-on-linux-03#optional-upload-an-environment-variable-definitions-file).
 
 
+# Running the SQL code
+Make sure you have MS SQL drivers installed.
+```
+brew install unixodbc
+brew tap microsoft/mssql-release https://github.com/Microsoft/homebrew-mssql-release
+brew update
+brew install msodbcsql mssql-tools
+```
+
 # Adding to the documentation
 ## Requirements
 ### Diagrams
