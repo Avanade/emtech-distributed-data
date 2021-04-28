@@ -13,3 +13,4 @@ aiohttp
 uvicorn
 uvloop
 httptools
+pyodbc

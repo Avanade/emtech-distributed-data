@@ -25,6 +25,8 @@ from datetime import datetime, timedelta
 from urllib.parse import quote
 import date_funcs
 
+import sqlfunctions as sq
+
 templates = Jinja2Templates(directory="templates")
 
 config = Config(".env")
@@ -41,6 +43,19 @@ async def homepage(request):
 async def about(request):
     """Renders the About page."""
     return templates.TemplateResponse("about.html", {"request": request})
+
+
+async def ReadQR(request):
+
+    qp = request.query_params
+
+    print(str(qp))
+
+    # sq.getQR(request.
+
+    return JSONResponse(
+        status_code=200, content={"title": "test", "summary": "test summary"}
+    )
 
 
 async def error_template(request, exc):
@@ -67,6 +82,7 @@ async def error_template(request, exc):
 routes = [
     Route("/", homepage),
     Route("/about", about),
+    Route("/qr", ReadQR),
     Route("/favicon.ico", FileResponse("static/favicon.ico")),
     Mount(
         "/static",
