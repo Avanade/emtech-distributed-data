@@ -58,7 +58,8 @@ async def read(request):
 
 
 async def append(request):
-    return JSONResponse({"append": "no input"})
+    data = request.json()
+    return JSONResponse({"append": str(data)})
 
 
 async def error_template(request, exc):
@@ -86,7 +87,7 @@ routes = [
     Route("/", homepage),
     Route("/about", about),
     Route("/favicon.ico", FileResponse("static/favicon.ico")),
-    Route("/append", append),
+    Route("/append", append, methods=["GET", "POST"]),
     Route("/read/{carid}", read, methods=["GET"]),
     Mount(
         "/static",
