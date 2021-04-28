@@ -27,11 +27,7 @@ module.exports = {
     { value: "WIP", name: "WIP:      Work in progress" },
   ],
 
-  scopes: [
-    { name: "sql-ledger" },
-    { name: "confidential-ledger" },
-    { name: "prototyping" },
-  ],
+  scopes: [{ name: "confidential-ledger" }, { name: "sql-ledger" }],
 
   allowTicketNumber: false,
   isTicketNumberRequired: false,
@@ -41,7 +37,7 @@ module.exports = {
   // it needs to match the value for field type. Eg.: 'fix'
 
   scopeOverrides: {
-    ci: [{ name: "arm" }, { name: "github-actions" }],
+    ci: [{ name: "github-actions" }, { name: "arm" }],
   },
 
   // override the messages, defaults are as follows
