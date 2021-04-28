@@ -1,4 +1,4 @@
-name: Build and Deploy SQL Ledger Demo - karoliina-neas-12769
+name: Build Docker Containers
 
 on:
   push:
@@ -9,17 +9,15 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: main_branch_deploy
+  group: main_branch_build
   cancel-in-progress: true
 
-defaults:
-  run:
-    working-directory: sql-ledger-frontend
-
 jobs:
-  build:
+  build-sql-ledger:
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: ./sql-ledger-frontend
     steps:
       - uses: azure/docker-login@v1
         with:
