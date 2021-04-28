@@ -1,0 +1,30 @@
+name: Build Docker Containers
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "sql-ledger-frontend/**"
+  workflow_dispatch:
+
+concurrency:
+  group: main_branch_build
+  cancel-in-progress: true
+
+jobs:
+  build-sql-ledger:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sql-ledger-frontend
+    steps:
+      - uses: actions/checkout@v2
+      - uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_REGISTRY }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+      - run: |
+          docker build . -t ${{ secrets.ACR_REGISTRY }}/sql-ledger-demo:${{ github.sha }} -t ${{ secrets.ACR_REGISTRY }}/sql-ledger-demo:latest
+          docker push ${{ secrets.ACR_REGISTRY }}/sql-ledger-demo
