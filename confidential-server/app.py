@@ -24,19 +24,13 @@ import uvicorn
 from datetime import datetime, timedelta
 from urllib.parse import quote
 import date_funcs
-from dotenv import load_dotenv
+
+import confidentialledger
 
 templates = Jinja2Templates(directory="templates")
 
 config = Config(".env")
 DEBUG = config("DEBUG", cast=bool, default=False)
-
-
-def getLedgerUri():
-
-    load_dotenv()  # take environment variables from .env.
-
-    return (os.getenv("IDENTITY_SERVICE_URI"), os.getenv("LEDGER_URI"))
 
 
 async def homepage(request):
