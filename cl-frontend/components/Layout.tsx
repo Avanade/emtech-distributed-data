@@ -1,9 +1,7 @@
 
 import { Disclosure } from "@headlessui/react";
 import { MenuIcon, XIcon } from "@heroicons/react/outline";
-import { QrcodeIcon } from "@heroicons/react/solid";
 import { useRouter } from 'next/router';
-import Image from 'next/image';
 
 const navigation = [
   { name: 'About', href: '/' },

@@ -60,7 +60,7 @@ export default function Home() {
             className="mt-2 inline-flex items-center px-6 py-3 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
           >
             <BeakerIcon className="-ml-1 mr-3 h-5 w-5" aria-hidden="true" />
-            Watch the simulation
+            Try the simulation
           </a>
           <div className="mt-12 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-16">
             {features.map((feature) => (
