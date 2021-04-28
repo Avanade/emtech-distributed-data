@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - "sql-ledger-frontend/**"
+      - "cl-frontend/**"
   workflow_dispatch:
 
 concurrency:
