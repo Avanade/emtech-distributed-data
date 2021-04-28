@@ -44,7 +44,10 @@ async def about(request):
 
 
 async def read(request):
-    return JSONResponse({"read": "no input"})
+    name = request.path_params["carid"]
+    # get data
+
+    return JSONResponse({"read": name})
 
 
 async def append(request):
@@ -77,7 +80,7 @@ routes = [
     Route("/about", about),
     Route("/favicon.ico", FileResponse("static/favicon.ico")),
     Route("/append", append),
-    Route("/read", read),
+    Route("/read/{carid}", read),
     Mount(
         "/static",
         app=StaticFiles(directory="static"),
