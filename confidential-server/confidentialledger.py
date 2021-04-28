@@ -1,3 +1,7 @@
+# Copyright (c) 2021 Microsoft.
+# Copyright (c) 2021 Avanade Inc.
+
+
 from typing import Dict, NamedTuple
 import argparse
 
