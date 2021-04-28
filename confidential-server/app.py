@@ -62,7 +62,7 @@ async def append(request):
     try:
         returnData = cl.rpc_put(bodyData)
     except:
-        datreturnDataa = "The confidential data connection seems not to be working"
+        returnData = "The confidential data connection seems not to be working"
 
     return JSONResponse({"append": str(returnData)})
 
