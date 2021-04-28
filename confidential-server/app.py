@@ -43,6 +43,14 @@ async def about(request):
     return templates.TemplateResponse("about.html", {"request": request})
 
 
+async def read(request):
+    return JSONResponse({"read": "no input"})
+
+
+async def append(request):
+    return JSONResponse({"append": "no input"})
+
+
 async def error_template(request, exc):
     """Returns an error template and a message specific to the error case."""
     error_messages = {
@@ -68,6 +76,8 @@ routes = [
     Route("/", homepage),
     Route("/about", about),
     Route("/favicon.ico", FileResponse("static/favicon.ico")),
+    Route("/append", append),
+    Route("/read", read),
     Mount(
         "/static",
         app=StaticFiles(directory="static"),
