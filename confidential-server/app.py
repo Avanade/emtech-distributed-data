@@ -23,9 +23,8 @@ import aiofiles
 import uvicorn
 from datetime import datetime, timedelta
 from urllib.parse import quote
-import date_funcs
 
-import confidentialledger
+import confidentialledger as cl
 
 templates = Jinja2Templates(directory="templates")
 
@@ -48,8 +47,14 @@ async def about(request):
 async def read(request):
     name = request.path_params["carid"]
     # get data
+    try:
+        # TODO test with real connection
+        # TODO use carid dependent on data structure
+        latest_data = cl.rpc_get_latest()
+    except:
+        latest_data = "The data connection seems not to be working"
 
-    return JSONResponse({"read": name})
+    return JSONResponse({"read": name, "data": latest_data})
 
 
 async def append(request):
