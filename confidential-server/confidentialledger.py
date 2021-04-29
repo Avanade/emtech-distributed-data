@@ -163,7 +163,7 @@ def _make_request__(
     request_type: RequestType = RequestType.GET,
 ):
     _session = (requests.Session(),)
-    _network_cert_path = self._ledger_client_phase.network_cert_path
+    # _network_cert_path = self._ledger_client_phase.network_cert_path TODO get this another way
     """Makes a request to the network."""
     headers = (
         None
