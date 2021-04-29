@@ -51,7 +51,11 @@ async def read(request):
     # Until confidential ledger access is granted:
     with open("sampledata.json") as json_file:
         data = json.load(json_file)
-    return JSONResponse(data)
+
+        if name == data["Meta"]["guid"]:
+            return JSONResponse(data)
+        else:
+            return JSONResponse({"error": "specified car not found"})
 
     # get data
     try:
@@ -66,6 +70,21 @@ async def read(request):
 
 
 async def append(request):
+
+    newEntryId = str(uuid.uuid4())
+
+    # Until confidential ledger access is granted:
+    bodyData = request.json()
+
+    # verify json
+    try:
+        json.loads(bodyData)
+    except:
+        return JSONResponse({"error": "Body is not a valid json"})
+
+    return JSONResponse({"entry-id": newEntryId})
+
+    # after ledger access
     bodyData = request.json()
     try:
         returnData = cl.rpc_put(bodyData)
