@@ -6,6 +6,7 @@ interface Car {
     licencePlate: string;
     sprite: string;
     id: string;
+    location: { x: number, y: number};
 }
 
 interface GridSquare {
