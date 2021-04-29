@@ -1,7 +1,7 @@
 import "tailwindcss/tailwind.css";
 import Layout from "../components/Layout";
 
-// Support SSR for webcam component in scan.js
+// Support SSR for headless UI
 if (typeof window === "undefined") global.window = {};
 if (typeof global.navigator === "undefined") global.navigator = {};
 
