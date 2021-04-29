@@ -4,7 +4,6 @@ import { XIcon } from '@heroicons/react/outline';
 
 export default function SlideOver(props) {
   let [isOpen, setIsOpen] = [props.open,props.setIsOpen];
- // let [isOpen, setIsOpen] = useState(props.open);
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -39,14 +38,15 @@ export default function SlideOver(props) {
                     </div>
                     <div className="mt-1">
                       <p className="text-sm text-indigo-300">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit aliquam ad hic recusandae soluta.
+                        { props.vehicleId }
                       </p>
                     </div>
                   </div>
                   <div className="relative flex-1 py-6 px-4 sm:px-6">
                     {/* Replace with your content */}
+                    {/* TODO: Add car information from feed on click */}
                     <div className="absolute inset-0 py-6 px-4 sm:px-6">
-                      <div className="h-full border-2 border-dashed border-gray-200" aria-hidden="true" >Test</div>
+                      <div className="h-full border-2 border-dashed border-gray-200" aria-hidden="true" >Car Information Goes Here</div>
                     </div>
                     {/* /End replace */}
                   </div>

@@ -10,11 +10,17 @@ const DynamicSlideOver = dynamic(() => import("../components/SlideOver"), {
 export default function Simulate() {
   let [isOpen, setIsOpen] = useState(false);
   let [modal, setModal] = useState(<></>);
+  let [carGrid, setCarGrid] = useState(false);
+
   useEffect(() => {
     if (isOpen === true) {
       setModal(
         <>
-          <DynamicSlideOver open={isOpen} setIsOpen={setIsOpen} />
+          <DynamicSlideOver
+            open={isOpen}
+            vehicleId="licence-plate"
+            setIsOpen={setIsOpen}
+          />
         </>
       );
     } else {
