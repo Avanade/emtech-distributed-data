@@ -8,6 +8,7 @@ from typing import Dict, NamedTuple, Iterable
 import argparse
 
 from dotenv import load_dotenv
+import requests
 import os
 import json
 
@@ -135,9 +136,9 @@ def createAppData():
 
 
 def rpc_get_latest():
-
+    appData = createAppData()
     result = _make_request__(
-        createAppData(), "latest", data={"id": 1}  # this should (be?) commitId
+        appData, "latest", data={"id": 1}  # this should (be?) commitId
     )
     # Format to ledger Response
     response = GetLedgerDataResponseWithBody.from_json_response(json.loads(result))
@@ -145,48 +146,50 @@ def rpc_get_latest():
 
 
 def rpc_put(body, wait_for_commit=False):
-    commit_data = {}
     # Using the same LedgerId
     data = {"id": 1, "body": body}
     print(data)
+    appData = createAppData()
     response = _make_request__(
-        createAppData(), "latest", data=data, request_type=RequestType.POST
+        appData, "latest", data=data, request_type=RequestType.POST
     )
+    return response
 
 
 def _make_request__(
-    self,
     app_data: AppData,
     method: str,
     data: Dict = None,
     request_type: RequestType = RequestType.GET,
 ):
+    _session = (requests.Session(),)
+    _network_cert_path = self._ledger_client_phase.network_cert_path
     """Makes a request to the network."""
     headers = (
         None
         if request_type == RequestType.GET
         else {"content-type": "application/json"}
     )
-    url = f"https://{self._app_data.ledger_url}/app/{method}"
+    url = f"https://{app_data.ledger_url}/app/{method}"
     if request_type == RequestType.GET:
-        response = self._session.get(
+        response = _session.get(
             url,
             headers=headers,
-            verify=self._network_cert_path,
+            # verify=self._network_cert_path,
             cert=(
-                self._app_data.certificates.public_key_filename,
-                self._app_data.certificates.private_key_filename,
+                app_data.certificates.public_key_filename,
+                app_data.certificates.private_key_filename,
             ),
             params=data,
         )
     elif request_type == RequestType.POST:
-        response = self._session.post(
+        response = _session.post(
             url,
             headers=headers,
-            verify=self._network_cert_path,
+            # verify=self._network_cert_path,
             cert=(
-                self._app_data.certificates.public_key_filename,
-                self._app_data.certificates.private_key_filename,
+                app_data.certificates.public_key_filename,
+                app_data.certificates.private_key_filename,
             ),
             json=data,
         )

@@ -2,3 +2,4 @@
 
 pylint
 black
+requests==2.23.0

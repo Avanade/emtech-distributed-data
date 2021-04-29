@@ -27,7 +27,9 @@ def sqlEngine():
         + driver
         + ";SERVER="
         + server
-        + ";PORT=1433;UID="
+        + ";PORT="
+        + port
+        + ";UID="
         + username
         + ";DATABASE="
         + database
@@ -36,11 +38,7 @@ def sqlEngine():
     )
     connect_str = "mssql+pyodbc:///?odbc_connect=" + urllib.parse.quote_plus(odbc_str)
 
-    print(connect_str)
-
     engine = create_engine(connect_str)
-
-    print(engine.execute("SELECT TOP 100 * FROM [dbo].[Oltiva_Partners]").fetchall())
 
     return engine
 
@@ -51,7 +49,7 @@ def sqlInsert(engine, table_name):
 
     TABLE = META_DATA.tables[table_name]
 
-    stmt = sa.insert(TABLE).values(
+    sa.insert(TABLE).values(
         [{"PartnerId": 3009}, {"PartnerName": "Wandsworth Health Service"}]
     )
 
@@ -89,8 +87,6 @@ def SimulateHeart():
     conn = engine.connect()
     metadata = sa.MetaData()
     metadata.reflect(bind=engine)
-
-    HR_table = metadata.tables["Oltiva_DataPoint"]
 
     i_DataSetId = 5001
     i_DataPointId = 0
@@ -139,13 +135,12 @@ def getAll(table_name):
 
 def dropTable(table_name):
     engine = sqlEngine()
-    conn = engine.connect()
     metadata = sa.MetaData()
     metadata.reflect(bind=engine)
 
-    table = metadata.tables[table_name]
+    dropTable = metadata.tables[table_name]
 
-    table.drop(engine)
+    dropTable.drop(engine)
 
 
 def revokeAccess(PartnerId):
@@ -158,19 +153,4 @@ def revokeAccess(PartnerId):
 
     query = sa.delete(table)
     query = query.where(table.columns.PartnerId == PartnerId)
-    results = conn.execute(query)
-
-
-# engine = sqlEngine()
-
-
-# getQR(engine, 4001)
-# sqlInsert(engine, "Oltiva_Partners")
-
-# SimulateHeart()
-
-# print(getAll("Oltiva_DataPoint"))
-
-# dropTable("Oltiva_DataPoint")
-
-# revokeAccess(3003)
+    conn.execute(query)
