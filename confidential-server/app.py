@@ -75,7 +75,6 @@ async def append(request):
 
     # Until confidential ledger access is granted:
     bodyData = request.json()
-
     # verify json
     try:
         json.loads(bodyData)
