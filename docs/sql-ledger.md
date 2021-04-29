@@ -14,10 +14,18 @@ Once an Azure SQL with ledger enabled has been setup, use the [Setup.sql](ledger
 
 Fill in the [.env file](ledger-server/.env.TEMPLATE) with the required details. Don't forget to whitelist the IP you will connect in from
 
+### Run the backend server
+
+`cd ledger-server`
+`./dev-server-start.sh`
+
+### API
+
+Endpoints:
+
 ### Data Model:
 
 ![](./sql-ledger-images/data-model.png)
-
 
 ## User Journey
 
@@ -28,4 +36,5 @@ Fill in the [.env file](ledger-server/.env.TEMPLATE) with the required details. 
 ![](./sql-ledger-images/sitemap.png)
 
 ## Technical Architecture
+
 ![](./diagrams-as-code/sql_ledger_technical_architecture.png)
