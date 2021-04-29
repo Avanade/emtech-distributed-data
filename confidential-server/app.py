@@ -23,6 +23,7 @@ import aiofiles
 import uvicorn
 from datetime import datetime, timedelta
 from urllib.parse import quote
+import json
 
 import confidentialledger as cl
 
@@ -46,13 +47,20 @@ async def about(request):
 
 async def read(request):
     name = request.path_params["carid"]
+
+    # Until confidential ledger access is granted:
+    with open("sampledata.json") as json_file:
+        data = json.load(json_file)
+    return JSONResponse(data)
+
     # get data
     try:
         # TODO test with real connection
         # TODO use carid dependent on data structure
         latest_data = cl.rpc_get_latest()
     except:
-        latest_data = "The confidential data connection seems not to be working"
+        errorMessage = "The confidential data connection seems not to be working"
+        return JSONResponse({"Error": errorMessage})
 
     return JSONResponse({"read": name, "data": latest_data})
 
