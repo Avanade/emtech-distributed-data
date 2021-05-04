@@ -12,7 +12,7 @@ CREATE TABLE [Oltiva_Partners](
 CREATE TABLE [Oltiva_QR](
   QRlocId int NOT NULL,
   PartnerId int NOT NULL,
-  QRType int,
+  QRType varchar(255),
   Duration DATETIME,
   PRIMARY KEY (QRlocID),
   FOREIGN KEY (PartnerId) REFERENCES Oltiva_Partners(PartnerId)
