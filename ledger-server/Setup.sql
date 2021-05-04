@@ -46,4 +46,35 @@ INSERT INTO
   [dbo].[Oltiva_Partner] (PartnerId, PartnerName)
 VALUES
   (3001, 'Sacred Heart Health Ltd'),
-  (3002, 'Greater London Health Service')
+  (3002, 'Greater London Health Service'),
+  (3003, 'Wandsworth Heath Surgery'),
+  (3004, 'Jamesons Sports Equipment'),
+  (3005, 'Diabetes Research UK'),
+  (3006, 'Le Lapment Laboratories')
+INSERT INTO
+  [dbo].[Oltiva_Users] (UserId, UserName, JoinDate, LastActiveDate)
+VALUES
+  (
+    1001,
+    'Leah Wallis',
+    '2021-04-17T10:41:34',
+    '2021-04-17T10:41:34'
+  ),
+  (
+    1002,
+    'James Wallis',
+    '2021-04-18T11:44:34',
+    '2021-04-17T09:32:34'
+  ),
+  (
+    1003,
+    'Daniel Sing',
+    '2021-02-11T17:54:14',
+    '2021-04-17T09:33:35'
+  ),
+  (
+    1004,
+    'Sarah Green',
+    '2021-01-21T13:11:54',
+    '2021-04-16T17:31:33'
+  )
