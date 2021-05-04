@@ -1,4 +1,4 @@
-name: Build Docker Containers
+name: Docker - SQL Ledger
 
 on:
   push:
@@ -6,7 +6,6 @@ on:
       - main
     paths:
       - "sql-ledger-frontend/**"
-      - "cl-frontend/**"
   workflow_dispatch:
 
 concurrency:
@@ -29,18 +28,3 @@ jobs:
       - run: |
           docker build . -t ${{ secrets.ACR_REGISTRY }}/sql-ledger-demo:${{ github.sha }} -t ${{ secrets.ACR_REGISTRY }}/sql-ledger-demo:latest
           docker push ${{ secrets.ACR_REGISTRY }}/sql-ledger-demo
-  build-confidential-ledger:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: cl-frontend
-    steps:
-      - uses: actions/checkout@v2
-      - uses: azure/docker-login@v1
-        with:
-          login-server: ${{ secrets.ACR_REGISTRY }}
-          username: ${{ secrets.ACR_USERNAME }}
-          password: ${{ secrets.ACR_PASSWORD }}
-      - run: |
-          docker build . -t ${{ secrets.ACR_REGISTRY }}/cl-demo:${{ github.sha }} -t ${{ secrets.ACR_REGISTRY }}/cl-demo:latest
-          docker push ${{ secrets.ACR_REGISTRY }}/cl-demo
