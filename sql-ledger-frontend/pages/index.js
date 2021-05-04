@@ -35,7 +35,7 @@ export default function Home() {
     <>
       <div className="py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center">
-          <h1 className="text-3xl font-bold leading-tight text-gray-900">
+          <h1 className="text-3xl font-bold leading-tight text-indigo-900">
             Oltiva Actif
           </h1>
         </div>

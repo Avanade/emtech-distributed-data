@@ -1,14 +1,11 @@
 -- QR code (join not correct?)
-SELECT
-  [dbo].[Oltiva_QR].QRlocID AS QRLocId,
-  [dbo].[Oltiva_Partners].PartnerName AS PartnerName
-FROM
-  [dbo].[Oltiva_QR]
-  INNER JOIN [dbo].[Oltiva_QR] ON [dbo].[Oltiva_Partners].PartnerId (
-    WHERE
-      QRLocId = * INPUTId *
-  );
--- insert Heart Rate
+select
+  A.*
+from
+  [dbo].[Oltiva_Partners] A
+  inner join [dbo].[Oltiva_QR] B on A.PartnerId = B.PartnerId
+where
+  B.QRlocId = * Search ID * -- insert Heart Rate
 INSERT INTO
   [dbo].[Oltiva_DataPoints] (DataPointId, DataSetId, DataTimestamp, DataValue)
 VALUES
