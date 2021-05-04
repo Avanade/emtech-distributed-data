@@ -38,3 +38,12 @@ CREATE TABLE [Oltiva_DataPoint](
   PRIMARY KEY (DataPointId),
   FOREIGN KEY (DataSetId) REFERENCES Oltiva_DataSet(DataSetId)
 ) WITH (SYSTEM_VERSIONING = ON, LEDGER = ON);
+INSERT INTO
+  [dbo].[Oltiva_QR]
+VALUES
+  (4002, 3004, 'Equipment', '2021-07-13T09:00:00')
+INSERT INTO
+  [dbo].[Oltiva_Partner] (PartnerId, PartnerName)
+VALUES
+  (3001, 'Sacred Heart Health Ltd'),
+  (3002, 'Greater London Health Service')
