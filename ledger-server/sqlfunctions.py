@@ -37,6 +37,7 @@ def sqlEngine():
     connect_str = "mssql+pyodbc:///?odbc_connect=" + urllib.parse.quote_plus(odbc_str)
 
     engine = create_engine(connect_str)
+    return engine
 
 
 def sqlInsert(engine, table_name):
@@ -53,28 +54,34 @@ def sqlInsert(engine, table_name):
 def getQR(code):
 
     engine = sqlEngine()
-
-    # Create MetaData instance
-    metadata = sa.MetaData(bind=engine, reflect=True)
-    print(metadata.tables)
+    conn = engine.connect()
+    metadata = sa.MetaData()
+    metadata.reflect(bind=engine)
 
     # Get Table
     ex_table = metadata.tables["Oltiva_QR"]
 
-    s = ex_table.select()
-    rs = s.execute()
-    for row in rs:
+    query = ex_table.select()
+    query = query.where(ex_table.c.QRlocId == code)
+    result = conn.execute(query)
+
+    found = ""
+
+    for row in result:
         if row.QRlocId == code:
             found = row.PartnerId
 
     partner_table = metadata.tables["Oltiva_Partners"]
-    ps = partner_table.select()
-    prs = ps.execute()
-    for prow in prs:
+
+    query = partner_table.select()
+    result = conn.execute(query)
+
+    for prow in result:
         if prow.PartnerId == found:
             print("partner is ", prow.PartnerName)
 
             return prow.PartnerName
+    return "No matching QR ID"
 
 
 def SimulateHeartRand():
@@ -194,3 +201,6 @@ def revokeAccess(PartnerId):
     query = sa.delete(table)
     query = query.where(table.columns.PartnerId == PartnerId)
     results = conn.execute(query)
+
+
+getQR(4001)
