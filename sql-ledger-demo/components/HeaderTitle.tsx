@@ -6,6 +6,7 @@ export default function HeaderTitle(props) {
                 <h1 className="text-3xl font-bold leading-tight text-gray-900">
                     {props.title}
                 </h1>
+                {props.children}
             </div>
         </header>
     );
