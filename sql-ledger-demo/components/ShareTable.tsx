@@ -16,14 +16,14 @@ export default function ShareTable(props) {
                                 'flex-shrink-0 flex items-center justify-center w-16 text-white text-sm font-medium rounded-l-md'
                             )}
                         >
-                            {dataElement['initials']}
+                            {dataElement['Unit']}
                         </div>
                         <div className="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate">
                             <div className="flex-1 px-4 py-2 text-sm truncate">
                                 <span className="text-gray-900 font-medium hover:text-gray-600">
                                     {dataElement['type']}
                                 </span>
-                                <p className="text-gray-500">{dataElement['target']}</p>
+                                <p className="text-gray-500">{dataElement['PartnerName']}</p>
                             </div>
                         </div>
                     </li>
