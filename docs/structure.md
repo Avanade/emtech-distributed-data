@@ -5,7 +5,7 @@
 - docs/diagrams-as-code - technical architecture images and the python code used to generate them
 - .vscode - configuration and recommendations for the VS Code IDE
 - ledger-server - the cloud app which runs in Azure to run the ledger demo.
-- sql-ledger-frontend - the folder containing the frontend for SQL ledger exploration.
+- sql-ledger-demo - the folder containing the frontend for SQL ledger exploration.
 - confidential-server - the cloud app which runs in Azure to run the confidential ledger demo.
 - cl-frontend - the folder containing the frontend for confidential ledger exploration.
 
