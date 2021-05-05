@@ -5,7 +5,7 @@ const sqlConfig = {
     password: process.env.PASSWORD,
     database: process.env.DB_NAME,
     server: process.env.SERVER_NAME,
-    port: process.env.PORT,
+    port: Number(process.env.PORT),
     pool: {
         max: 10,
         min: 0,
@@ -13,7 +13,9 @@ const sqlConfig = {
     },
     options: {
         encrypt: true,
-        trustServerCertificate: false
+        trustServerCertificate: false,
+        enableArithAbort: true,
+        debug: { data: true, payload: true }
     }
 }
 
@@ -25,6 +27,7 @@ export async function readQrCode(partnerId: number) {
             .query('select A.* from [dbo].[Oltiva_Partners] A inner join [dbo].[Oltiva_QR] B on A.PartnerId = B.PartnerId where B.QRlocId = @param_partner_id')
     } catch (err) {
         console.error(`Error in readQrCode with partnerID ${partnerId}`);
+        console.error(`${err.name}: ${err.message}`);
     }
 }
 
