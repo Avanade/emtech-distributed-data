@@ -1,15 +1,12 @@
 import os
 import sqlalchemy as sa
 from sqlalchemy import create_engine
-from urllib.parse import quote_plus
 from dotenv import load_dotenv
 import urllib
 
 import random
 from datetime import datetime
 import time
-
-# TODO: Decide whether to remove simulator into dedicated app
 
 
 def sqlEngine():
