@@ -1,9 +1,8 @@
 import { ExclamationCircleIcon, RefreshIcon, ShareIcon } from "@heroicons/react/solid";
-import BasicPage from "../../components/BasicPage";
-import Timeline from "../../components/Timeline"
+import BasicPage from "@/components/BasicPage";
+import Timeline from "@/components/Timeline"
 import useSWR from 'swr';
-
-const fetcher = url => fetch(url).then(r => r.json());
+import fetcher from '@/lib/fetcher';
 
 export default function ShareFeed() {
   const { data, error } = useSWR('/api/feed', fetcher);
