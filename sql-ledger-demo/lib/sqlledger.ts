@@ -1,11 +1,11 @@
 const sql = require('mssql')
 
 const sqlConfig = {
-    user: process.env.USERNAME,
-    password: process.env.PASSWORD,
+    user: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    server: process.env.SERVER_NAME,
-    port: Number(process.env.PORT),
+    server: process.env.DB_SERVER_NAME,
+    port: Number(process.env.DB_PORT),
     pool: {
         max: 10,
         min: 0,
@@ -15,7 +15,7 @@ const sqlConfig = {
         encrypt: true,
         trustServerCertificate: false,
         enableArithAbort: true,
-        debug: { data: true, payload: true }
+        debug: { data: true, payload: true } // Note: This is a prototype app, but debug should not be on in production
     }
 }
 
