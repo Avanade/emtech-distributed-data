@@ -36,13 +36,7 @@ def sqlEngine():
     )
     connect_str = "mssql+pyodbc:///?odbc_connect=" + urllib.parse.quote_plus(odbc_str)
 
-    print(connect_str)
-
     engine = create_engine(connect_str)
-
-    print(engine.execute("SELECT TOP 100 * FROM [dbo].[Oltiva_Partners]").fetchall())
-
-    return engine
 
 
 def sqlInsert(engine, table_name):
@@ -83,7 +77,7 @@ def getQR(code):
             return prow.PartnerName
 
 
-def SimulateHeart():
+def SimulateHeartRand():
 
     engine = sqlEngine()
     conn = engine.connect()
@@ -119,6 +113,47 @@ def SimulateHeart():
             conn.execute(ins)
         except:
             print("wait")
+        time.sleep(4)
+
+
+def SimulateHeartList(HR_list):
+
+    engine = sqlEngine()
+    conn = engine.connect()
+    metadata = sa.MetaData()
+    metadata.reflect(bind=engine)
+
+    HR_table = metadata.tables["Oltiva_DataPoint"]
+
+    i_DataSetId = 5001
+    i_DataPointId = 0
+    j = 0
+
+    while True:
+        i_DataPointId += 1
+
+        HRSim = HR_list[j]
+
+        # datetime object containing current date and time
+        now = datetime.now()
+        # dd/mm/YY H:M:S
+        i_DataTimeStamp = now.strftime("%Y-%m-%d %H:%M:%S")
+
+        ins = (
+            metadata.tables["Oltiva_DataPoint"]
+            .insert()
+            .values(
+                DataSetId=i_DataSetId,
+                DataPointId=i_DataPointId,
+                DataTimestamp=i_DataTimeStamp,
+                DataValue=str(HRSim),
+            )
+        )
+        try:
+            conn.execute(ins)
+        except:
+            print("wait")
+        j += 1
         time.sleep(4)
 
 
@@ -159,18 +194,3 @@ def revokeAccess(PartnerId):
     query = sa.delete(table)
     query = query.where(table.columns.PartnerId == PartnerId)
     results = conn.execute(query)
-
-
-# engine = sqlEngine()
-
-
-# getQR(engine, 4001)
-# sqlInsert(engine, "Oltiva_Partners")
-
-# SimulateHeart()
-
-# print(getAll("Oltiva_DataPoint"))
-
-# dropTable("Oltiva_DataPoint")
-
-# revokeAccess(3003)
