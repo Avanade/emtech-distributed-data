@@ -11,6 +11,7 @@ CREATE TABLE [Oltiva_Partners](
 ) WITH (SYSTEM_VERSIONING = ON, LEDGER = ON);
 CREATE TABLE [Oltiva_QR](
   QRlocId int NOT NULL,
+  QRloc varchar(255),
   PartnerId int NOT NULL,
   QRType int,
   LocType varchar(255),
@@ -40,9 +41,43 @@ CREATE TABLE [Oltiva_DataPoint](
   FOREIGN KEY (DataSetId) REFERENCES Oltiva_DataSet(DataSetId)
 ) WITH (SYSTEM_VERSIONING = ON, LEDGER = ON);
 INSERT INTO
-  [dbo].[Oltiva_QR]
+  [dbo].[Oltiva_QR](
+    QRlocId,
+    QRloc,
+    PartnerId,
+    QRType,
+    LocType,
+    Duration
+  )
 VALUES
-  (4002, 3004, 'Equipment', '2021-07-13T09:00:00')
+  (
+    4002,
+    'actif4002',
+    3004,
+    'Equipment',
+    '2021-07-13T09:00:00'
+  ),
+  (
+    4003,
+    'actif4003',
+    3007,
+    'Healthcare',
+    '2021-08-17T09:00:00'
+  ),
+  (
+    4004,
+    'actif4004',
+    3009,
+    'Equipment',
+    '2022-01-01T09:00:00'
+  ),
+  (
+    4002,
+    'actif4005',
+    3015,
+    'Commercial',
+    '2021-06-03T09:00:00'
+  )
 INSERT INTO
   [dbo].[Oltiva_Partner] (PartnerId, PartnerName)
 VALUES
@@ -51,7 +86,22 @@ VALUES
   (3003, 'Wandsworth Heath Surgery'),
   (3004, 'Jamesons Sports Equipment'),
   (3005, 'Diabetes Research UK'),
-  (3006, 'Le Lapment Laboratories')
+  (3006, 'Le Lapment Laboratories'),
+  (3007, 'Bloomsbury Hospital'),
+  (3008, 'Baker Street Clinic'),
+  (3009, 'Frumptons Sports Co'),
+  (3010, 'Analytics UK Inc'),
+  (3011, 'Slefton Road Pharmacy'),
+  (3012, 'Dr. Green Clinic'),
+  (3013, 'Lambeth East Inpatient Care'),
+  (3014, 'UKSR'),
+  (3015, 'Facebank Data Group'),
+  (3016, 'Thames Front Surgery'),
+  (3017, 'National Testing Laboratories'),
+  (3018, 'Pourtown Down'),
+  (3019, 'Readingly Hospital'),
+  (3020, 'East Buckheads Health'),
+  (3021, 'Pinapple Sports Studio')
 INSERT INTO
   [dbo].[Oltiva_Users] (UserId, UserName, JoinDate, LastActiveDate)
 VALUES
@@ -78,7 +128,61 @@ VALUES
     'Sarah Green',
     '2021-01-21T13:11:54',
     '2021-04-16T17:31:33'
-  )
+  ),
+  (
+    1005,
+    'David Kelly',
+    '2021-01-03T00:00:00',
+    '2021-07-08T00:00:00'
+  ),
+  (
+    1006,
+    'Erica Woods',
+    '2021-10-06T00:00:00',
+    '2021-10-06T00:00:00'
+  ),
+  (
+    1007,
+    'Matteo Thomas',
+    '2021-07-21T00:00:00',
+    '2021-07-21T00:00:00'
+  ),
+  (
+    1008,
+    'Finley Day',
+    '2021-07-08T00:00:00',
+    '2021-01-03T00:00:00'
+  ),
+  (
+    1009,
+    'Kit Morgan',
+    '2021-01-06T00:00:00',
+    '2021-03-15T00:00:00'
+  ),
+  (
+    1010,
+    'Haris Carter',
+    '2021-10-06T00:00:00',
+    '2021-03-22T00:00:00'
+  ),
+  (
+    1011,
+    'Louise Day',
+    '2021-07-08T00:00:00',
+    '2021-01-06T00:00:00'
+  ),
+  (
+    1012,
+    'Cooper Reynolds',
+    '2021-03-15T00:00:00',
+    '2021-01-06T00:00:00'
+  ),
+  (
+    1013,
+    'Martin Foster',
+    '2021-03-22T00:00:00',
+    '2021-01-03T00:00:00'
+  ),
 INSERT INTO
   [dbo].[Oltiva_DataSet](
     DataSetId,
