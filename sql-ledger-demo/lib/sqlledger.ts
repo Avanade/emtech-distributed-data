@@ -19,6 +19,10 @@ const sqlConfig = {
     }
 }
 
+sql.on('error', err => {
+    console.error(`${err.name}: ${err.message}`);
+})
+
 export async function readQrCode(partnerId: number) {
     try {
         let pool = await sql.connect(sqlConfig)
@@ -27,7 +31,6 @@ export async function readQrCode(partnerId: number) {
             .query('select A.* from [dbo].[Oltiva_Partners] A inner join [dbo].[Oltiva_QR] B on A.PartnerId = B.PartnerId where B.QRlocId = @param_partner_id')
     } catch (err) {
         console.error(`Error in readQrCode with partnerID ${partnerId}`);
-        console.error(`${err.name}: ${err.message}`);
     }
 }
 
@@ -64,5 +67,27 @@ export async function readDataSet(DataSetId: number) {
             .query('Select * FROM [dbo].[Oltiva_DataPoints] WHERE DataSetId =  @param_dataset_id;')
     } catch (err) {
         console.error(`Error in createDataPoint with datasetid ${DataSetId}`);
+    }
+}
+
+export async function readUserDataSets(UserId: number) {
+    try {
+        let pool = await sql.connect(sqlConfig)
+        return await pool.request()
+            .input('param_user_id', sql.Int, UserId)
+            .query('select A.*, B.[Unit], B.[DataType], B.[LastUpdateDateTime], B.[SharedUntilDateTime], B.[DataStatus] from [dbo].[Oltiva_Partners] A inner join [dbo].[Oltiva_DataSet] B on A.PartnerId = B.PartnerId WHERE B.UserId = @param_user_id; ')
+    } catch (err) {
+        console.error(`Error in readUserDataSets with userid ${UserId}`);
+    }
+}
+
+export async function readUserLedger(UserId: number) {
+    try {
+        let pool = await sql.connect(sqlConfig)
+        return await pool.request()
+            .input('param_user_id', sql.Int, UserId)
+            .query('select A.*, B.[Unit], B.[DataType], B.[LastUpdateDateTime], B.[SharedUntilDateTime], B.[ledger_sequence_number], B.[DataStatus], B.[ledger_operation_type_desc] from [dbo].[Oltiva_Partners] A inner join [dbo].[Oltiva_DataSet_Ledger] B on A.PartnerId = B.PartnerId WHERE B.UserId = @param_user_id ORDER BY B.[ledger_sequence_number];')
+    } catch (err) {
+        console.error(`Error in readUserDataSets with userid ${UserId}`);
     }
 }
