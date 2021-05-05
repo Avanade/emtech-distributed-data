@@ -1,11 +1,16 @@
 import { QrcodeIcon } from "@heroicons/react/solid";
 import React, { useState, useEffect } from "react";
-import BarcodeScannerComponent from "react-webcam-barcode-scanner";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
+
+const QrScanner = dynamic(() => import('react-webcam-barcode-scanner'), {
+  ssr: false,
+});
+
 
 export default function Scan() {
   const router = useRouter();
-  const [displayData, setDisplayData] = useState("No QR code found.");
+  const [displayData, setDisplayData] = useState<any>("No QR code found.");
   const [instruction, setInstruction] = useState(
     "Point your device's camera at a QR code to detect it."
   );
@@ -50,10 +55,12 @@ export default function Scan() {
           <div className="px-4 py-8 sm:px-0">
             {instruction}
             <div className={validQrCode ? "hidden" : "place-content-center"}>
-              <BarcodeScannerComponent
+              <QrScanner
+                // @ts-ignore
                 className="w-1/3"
                 onUpdate={(err, result) => {
                   if (result) {
+                    // @ts-ignore
                     setQrCode(result.text);
                   }
                 }}

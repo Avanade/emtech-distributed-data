@@ -9,6 +9,8 @@ import random
 from datetime import datetime
 import time
 
+# TODO: Decide whether to remove simulator into dedicated app
+
 
 def sqlEngine():
 
