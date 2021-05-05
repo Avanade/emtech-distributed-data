@@ -7,8 +7,7 @@ function classNames(...classes) {
 export default function Timeline(props) {
     const timeline = Array.from(props.feed);
     if (timeline.length === 0) return <b>Error: No data returned from server</b>;
-    return (
-        timeline.map((event, eventIdx) => (
+    return <>{timeline.map((event, eventIdx) => (
             <li key={event['id']}>
                 <div className="relative pb-8">
                     {eventIdx !== timeline.length - 1 ? (
@@ -51,5 +50,5 @@ export default function Timeline(props) {
                     </div>
                 </div>
             </li>
-        )));
+        ))}</>
 }

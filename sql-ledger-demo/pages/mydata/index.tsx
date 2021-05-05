@@ -3,11 +3,10 @@ import {
   ExclamationCircleIcon,
   RefreshIcon,
 } from "@heroicons/react/solid";
-import BasicPage from "../../components/BasicPage";
-import ShareTable from "../../components/ShareTable";
+import BasicPage from "@/components/BasicPage";
+import ShareTable from "@/components/ShareTable";
 import useSWR from "swr";
-
-const fetcher = (url) => fetch(url).then((r) => r.json());
+import fetcher from '@/lib/fetcher';
 
 export default function MyData() {
   const { data, error } = useSWR("/api/mydata", fetcher);
