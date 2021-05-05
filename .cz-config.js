@@ -27,7 +27,7 @@ module.exports = {
     { value: "WIP", name: "WIP:      Work in progress" },
   ],
 
-  scopes: [{ name: "confidential-ledger" }, { name: "sql-ledger" }],
+  scopes: [ { name: "sql-ledger" },{ name: "confidential-ledger" }],
 
   allowTicketNumber: false,
   isTicketNumberRequired: false,
