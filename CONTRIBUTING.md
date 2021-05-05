@@ -19,7 +19,7 @@ This project, and people participating in it, are governed by our [code of condu
 We're using the [standard GitHub workflow](https://guides.github.com/introduction/flow/), and asking our contributors to use [semantic commits](https://nitayneeman.com/posts/understanding-semantic-commit-messages-using-git-and-angular/#common-types) to support their contributions.
 
 ### Documentation
-When we make changes to the project, including design changes, but also changes which require instructions, please consider you should add to the [documentation directory](https://github.com/Avanade/emtech-stretch-labs/tree/main/docs/).
+Please document changes as you go in the the [documentation directory](https://github.com/Avanade/emtech-distributed-data/tree/main/docs/).
 
 # More information
 ## Semantic Commits and Commitizen
