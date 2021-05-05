@@ -6,7 +6,7 @@ import {
 import BasicPage from "@/components/BasicPage";
 import ShareTable from "@/components/ShareTable";
 import useSWR from "swr";
-import fetcher from '@/lib/fetcher';
+import fetcher from "@/lib/fetcher";
 
 export default function MyData() {
   const { data, error } = useSWR("/api/mydata", fetcher);
