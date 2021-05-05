@@ -12,7 +12,8 @@ CREATE TABLE [Oltiva_Partners](
 CREATE TABLE [Oltiva_QR](
   QRlocId int NOT NULL,
   PartnerId int NOT NULL,
-  QRType varchar(255),
+  QRType int,
+  LocType varchar(255),
   Duration DATETIME,
   PRIMARY KEY (QRlocID),
   FOREIGN KEY (PartnerId) REFERENCES Oltiva_Partners(PartnerId)
@@ -77,4 +78,25 @@ VALUES
     'Sarah Green',
     '2021-01-21T13:11:54',
     '2021-04-16T17:31:33'
+  )
+INSERT INTO
+  [dbo].[Oltiva_DataSet](
+    DataSetId,
+    UserId,
+    PartnerId,
+    Unit,
+    LastUpdateDateTime,
+    DataType,
+    SharedUntilDateTime,
+    DataStatus
+  )
+VALUES(
+    5001,
+    1001,
+    3002,
+    'bpm',
+    '2021-05-04T09:00:00',
+    'Heart Rate',
+    '2021-07-10T09:00:00',
+    'active'
   )
