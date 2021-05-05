@@ -1,3 +1,5 @@
+import { NextApiRequest, NextApiResponse } from 'next'
+
 const timeline = [
   {
     id: 1,
@@ -33,6 +35,6 @@ const timeline = [
   },
 ];
 
-export default (req, res) => {
-  res.status(200).json(timeline);
+export default (_: NextApiRequest, res: NextApiResponse) => {
+  res.status(200).json(timeline)
 }

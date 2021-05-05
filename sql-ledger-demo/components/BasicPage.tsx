@@ -1,4 +1,4 @@
-import HeaderTitle from "./HeaderTitle";
+import HeaderTitle from "@/components/HeaderTitle";
 
 export default function BasicPage(props) {
     return (
