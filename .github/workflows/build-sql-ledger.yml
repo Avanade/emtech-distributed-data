@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "sql-ledger-frontend/**"
+      - "sql-ledger-demo/**"
   workflow_dispatch:
 
 concurrency:
@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: sql-ledger-frontend
+        working-directory: sql-ledger-demo
     steps:
       - uses: actions/checkout@v2
       - uses: azure/docker-login@v1
