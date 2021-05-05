@@ -45,16 +45,11 @@ async def about(request):
 
 
 async def ReadQR(request):
+    qr_code = request.path_params["qrid"]
 
-    qp = request.query_params
+    partner_name = sq.getQR(int(qr_code))
 
-    print(str(qp))
-
-    # sq.getQR(request.
-
-    return JSONResponse(
-        status_code=200, content={"title": "test", "summary": "test summary"}
-    )
+    return JSONResponse({"QR Code": qr_code, "Partner Name": partner_name})
 
 
 async def error_template(request, exc):
@@ -81,7 +76,7 @@ async def error_template(request, exc):
 routes = [
     Route("/", homepage),
     Route("/about", about),
-    Route("/qr", ReadQR),
+    Route("/qr/{qrid}", ReadQR, methods=["GET"]),
     Route("/favicon.ico", FileResponse("static/favicon.ico")),
     Mount(
         "/static",
