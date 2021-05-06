@@ -1,0 +1,4 @@
+#Get the sample code
+https://controlplane.accledger.azure.com/Code_Sample/subscriptions/{{tenantId}}/downloadLink/accl-codesample-zip
+Authorization: {{BearerToken}}
+###
