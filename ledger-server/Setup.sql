@@ -13,7 +13,7 @@ CREATE TABLE [Oltiva_QR](
   QRlocId int NOT NULL,
   QRloc varchar(255),
   PartnerId int NOT NULL,
-  QRType int,
+  QRType varchar(255),
   LocType varchar(255),
   Duration DATETIME,
   PRIMARY KEY (QRlocID),
@@ -55,6 +55,7 @@ VALUES
     4002,
     'actif4002',
     3004,
+    'Store',
     'Equipment',
     '2021-07-13T09:00:00'
   ),
@@ -62,6 +63,7 @@ VALUES
     4003,
     'actif4003',
     3007,
+    'Reception',
     'Healthcare',
     '2021-08-17T09:00:00'
   ),
@@ -69,6 +71,7 @@ VALUES
     4004,
     'actif4004',
     3009,
+    'Store',
     'Equipment',
     '2022-01-01T09:00:00'
   ),
@@ -76,6 +79,7 @@ VALUES
     4005,
     'actif4005',
     3015,
+    'Online',
     'Commercial',
     '2021-06-03T09:00:00'
   ),
@@ -83,6 +87,7 @@ VALUES
     4006,
     'actif4006',
     3014,
+    'Gym Ad',
     'Government',
     '2021-06-03T09:00:00'
   )
