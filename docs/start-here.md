@@ -1,18 +1,41 @@
 # Documentation Overview
-As in [the main readme](https://github.com/Avanade/emtech-distributed-data/tree/main/README.md), this repository is intended to hold Avanade's exploration with SQL Ledger, Confidential Ledger, and other blockchain services.
+This repository is intended to hold Avanade's exploration with Azure SQL Database Ledger Tables, Confidential Ledger, and other blockchain services.
 
-Because of that, you could install and setup every widget and configuration, but you are unlikely to need every single widget installed at once.
 
-## Related Docs
+## Related
 - **[How to contribute](https://github.com/Avanade/emtech-distributed-data/tree/main/CONTRIBUTING.md)**
 - **[Our code of conduct](https://github.com/Avanade/emtech-distributed-data/tree/main/CODE_OF_CONDUCT.md)**
-- [Folder Structure and package requirements](structure.md)
+- [SQL Ledger Tables Demo](./sql-ledger.md)
 
-# Overall Structure
-- Ledger Server - *The Python App used to demonstrate SQL ledger.*
-- Protoyping - *The next.js app used for frontend prototyping.*
-- Confidential Server - *The 2D demonstrator for self-driving cars and Confidential Ledger.*
-# Software Installation
+## Folder Structure
+- docs - documentation, process flows and state diagrams, and technical architecture
+- sql-ledger-demo - the Azure web app for the Azure SQL database ledger tables demo.
+- confidential-server - the cloud app which runs in Azure to run the confidential ledger demo
+- sql - Examples of the SQL we used to set up our SQL ledger demo
+- .vscode - configuration and recommendations for the VS Code IDE.
+- tools - Tools for adding additional dummy data to the demos
+# Running the demos
+## Main Demos
+Both demos use a frontend built with [Next.js](https://nextjs.org/), which then integrates with the respective distributed data solution. More information [is available for the SQL Ledger Tables demo](./sql-ledger.md).
+
+You can run the demos locally using [nodejs](https://nodejs.org/en/download/), or a [dockerfile](https://docs.docker.com/get-started/#what-is-a-container) is provided for each demo, enabling you to run locally or deploy to Azure with all dependencies included.
+
+Whatever your decision, both demos have a `.env.template` file in their respective directories, which shows application settings that you will need. These need to either be contained in a local `.env.local` file, or in the [App Settings](https://docs.microsoft.com/en-gb/azure/app-service/configure-common#configure-app-settings) for your application in Azure.
+
+### Running Locally with node
+1. Open the `.env.template` file, and update with your settings - save it as `.env.local`
+2. Run `npm install` to ensure you have all dependencies.
+3. Run the development server with `npm run dev`
+4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Python Tooling
+The tooling uses Python, and we recommend using a conda environment when installing requirements, for example:
+```bash
+$ conda create --name distribdata python=3.9 -y
+$ conda activate distribdata
+$ pip install -r requirements-dev.txt
+```
+### Software Installation for Python Tooling
 
 1. Create a separate Python environment for your installation, and activate it. You have two options:
 
@@ -41,34 +64,15 @@ Because of that, you could install and setup every widget and configuration, but
    $ pip3 install -r requirements-dev.txt
    ```
    The `requirements.txt` file can be used alone if you don't intend to develop further.
-3. Create an Azure Blob storage resource and update a `.env` file from template if developing locally.
-4. [Create an Azure App Service with a Python Linux plan](https://docs.microsoft.com/en-us/azure/developer/python/tutorial-deploy-app-service-on-linux-03), and deploy the `webapp` folder.
-5. [Set the *Azure Startup Command* on your Azure App Service](https://docs.microsoft.com/en-us/azure/app-service/configure-language-python#customize-startup-command) to `gunicorn -c gunicorn_config.py app:app`.
-6. [Set the Azure App Service settings](https://docs.microsoft.com/en-us/azure/app-service/configure-common#configure-app-settings) for your blob storage, matching the names you used on your local `.env` file, or [use the extension in VS code](https://docs.microsoft.com/en-us/azure/developer/python/tutorial-deploy-app-service-on-linux-03#optional-upload-an-environment-variable-definitions-file).
 
 
-# Running the SQL code
-Make sure you have MS SQL drivers installed.
+### Running the SQL code directly
+You can use the [SQL Server](https://marketplace.visualstudio.com/items?itemName=ms-mssql.mssql) extension for VS Code to run the SQL ledger examples directly. On non-windows machines, make sure you have drivers for MS SQL installed.
+
+On a mac, you can run the following commands:
 ```
 brew install unixodbc
 brew tap microsoft/mssql-release https://github.com/Microsoft/homebrew-mssql-release
 brew update
 brew install msodbcsql mssql-tools
 ```
-
-# Adding to the documentation
-## Requirements
-### Diagrams
-Run the following commands to install `graphviz`, and set up an environment to be able to generate documentation images.
-
-`brew install graphviz`
-`conda create --name distribdata python=3.9 -y`
-`pip install diagrams`
-
-### Mermaid
-Install the [Mermaid Extension for VS Code](https://marketplace.visualstudio.com/items?itemName=tomoyukim.vscode-mermaid-editor).
-
-Generate images as .mmd files are updated, and commit them.
-
-## Image Generation
-Diagrams are generated with [Python Diagrams](https://pypi.org/project/diagrams/) and using the [Mermaid Extension for VS Code](https://marketplace.visualstudio.com/items?itemName=tomoyukim.vscode-mermaid-editor), which supports most [mermaid formatting](https://github.com/mermaid-js/mermaid/blob/master/README.md), in the .mmd format.
