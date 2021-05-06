@@ -3,14 +3,21 @@
 Found in the `sql-ledger-demo` directory, a web application designed to show healthcare scenarios for SQL Ledger.
 
 ## Pre-requisites
+
 - An Azure SQL service with ledger table capabilities turned on
 - A hosting location
-    1. Local with node.js or docker
-    3. Azure hosting with node.js or docker container
+  1. Local with node.js or docker
+  2. Azure hosting with node.js or docker container
+
 # Setting up the application
+
 ## SQL setup
 
-Once an Azure SQL with ledger tables enabled has been setup, use the [Setup.sql](https://github.com/Avanade/emtech-distributed-data/blob/main/sql/Setup.sql) to create the necesary tables within the database according to the data model below.
+Once an Azure SQL with ledger tables enabled has been setup, use the [Setup.sql](sql/Setup.sql) to create the necesary tables within the database according to the data model below.
+
+## SQL Procedures
+
+For common procedures relavant to the use case, see [procedures.sql](sql/procedures.sql)
 
 ## .env file
 
@@ -33,4 +40,5 @@ You can either rename this `.env.local` for local running, or in the [App Settin
 ![](./sql-ledger-images/sitemap.png)
 
 ## Technical Architecture
+
 ![](./diagrams-as-code/sql_ledger_technical_architecture.png)
