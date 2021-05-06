@@ -1,6 +1,6 @@
-#SQL Ledger
+# SQL Ledger
 
-## ABout SQL Ledger
+## About SQL Ledger
 
 SQL Ledger is for data scenarios that may require asecure centralised ledger similar to those used in blockchain, where using a blockchain may be overkill.
 
@@ -43,8 +43,9 @@ The user journey presented is that a user is presented in person with an oppertu
 The use can then:
 
 - See the data shared
-- Revoke the data
+- Revoke access to the data
 - See the timeline of how data has been shared
+- See who has access to shared data
 
 When the user no longer wishes to share this data, partner access is revoked and the sensitve data is deleted from the shared tables.
 
