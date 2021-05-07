@@ -24,3 +24,22 @@ content-type: application/json
     }
   ]
 }
+
+###
+
+#Get all Ledgers for a Subscription
+GET https://controlplane.accledger.azure.com/Subscriptions/{{$dotenv TENANT_ID}}/providers/Microsoft.ACCLedger/Ledgers
+Authorization: Bearer {{$dotenv BEARER_TOKEN}}
+
+###
+
+#Get Ledgers inside a Resource Group
+GET https://controlplane.accledger.azure.com//Subscriptions/{{$dotenv TENANT_ID}}/resourceGroups/{{$dotenv RESOURCE_GROUP}}/providers/Microsoft.ACCLedger/Ledgers
+Authorization: Bearer {{$dotenv BEARER_TOKEN}}
+###
+
+#Get a Ledger
+GET https://controlplane.accledger.azure.com/Subscriptions/{{$dotenv TENANT_ID}}/resourceGroups/{{$dotenv RESOURCE_GROUP}}/providers/Microsoft.ACCLedger/Ledgers/{{$dotenv RESOURCE_NAME}}
+Authorization: Bearer {{$dotenv BEARER_TOKEN}}
+
+###
