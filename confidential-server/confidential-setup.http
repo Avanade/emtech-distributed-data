@@ -5,18 +5,22 @@ Authorization: Bearer {{$dotenv BEARER_TOKEN}}
 
 
 #PUT a new ledger resource on the subscription
-PUT https://controlplane.accledger.azure.com/Code_Sample/subscriptions/Subscriptions/{{$dotenv TENANT_ID}}/resourceGroups/{{$dotenv RESOURCE_GROUP}}/providers/Microsoft.ACCLedger/Ledgers/{{$dotenv RESOURCE_NAME}}
+PUT https://controlplane.accledger.azure.com/Subscriptions/{{$dotenv TENANT_ID}}/resourceGroups/{{$dotenv RESOURCE_GROUP}}/providers/Microsoft.ACCLedger/Ledgers/{{$dotenv RESOURCE_NAME}}
 Authorization: Bearer {{$dotenv BEARER_TOKEN}}
 content-type: application/json
+
 {
-"sku": "Standard",
-"location": "EastUS", "tags":
-{ "IsPreProduction": "true", "otherPropertiesKey": "otherPropertiesValue" }, "LedgerType": "Public",
-"LedgerStorageAccount": "contosoLedger",
-"LedgerCertUsers": [{ "cert": {{$dotenv CERT}},
-"LedgerPermission": "All"}]
+  "sku": "Standard",
+  "location": "EastUS",
+  "tags": {
+    "IsPreProduction": "true"
+  },
+  "ledgerType": "Public",
+  "ledgerStorageAccount": "{{dotenv STORAGE_NAME}}",
+  "certBasedSecurityPrincipals": [
+    {
+      "cert": "{{dotenv CERT}}",
+    "ledgerRoleName": "Contributor"
+    }
+  ]
 }
-
-
-
-###
