@@ -7,7 +7,6 @@ This repository showcases Avanade's exploration with Distributed Data solutions,
 ### Contents
 This repository contains:
 - Oltiva Actif - A prototype application using ledger tables to protect and share healthcare data, between patients, and healthcare providers. The scenario provides QR codes which end users can scan, to approve the sharing of their data - and for how long the data should be shared for. Ledger tables track the consent, and the date at which data should be wiped, so that the 'destroy date' is kept attested, so that data is only retained for as long as needed.
-- Oltiva Safedrive - A demonstrator using confidential ledger to show how IoT data from vehicles could be tracked to attest responsibility in the event of a vehicle collision or breakdown.
 
 
 ### Licensing
