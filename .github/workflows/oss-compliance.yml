@@ -16,17 +16,20 @@ jobs:
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-${{ hashFiles('**/requirements*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r ./ledger-server/requirements.txt
+          python -m pip install -r ./python-tools/requirements.txt
       - name: License Checker from py-liccheck
         uses: andersy005/gh-action-py-liccheck@main
         with:
           strategy-ini-file: ./pyproject.toml
           level: standard
-          requirements-txt-file: ./ledger-server/requirements.txt
+          requirements-txt-file: ./python-tools/requirements.txt
           no-deps: true
+  # Add reference to cl-demo when it's merged into main
   scanleft:
     runs-on: ubuntu-latest
     steps:
