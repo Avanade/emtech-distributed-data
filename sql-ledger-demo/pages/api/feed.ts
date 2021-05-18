@@ -1,7 +1,9 @@
 import { readUserLedger } from '@/lib/sqlledger';
 import { NextApiRequest, NextApiResponse } from 'next'
 
-let userId = 1001;
+import { getUser } from '@/lib/sqlledger'
+
+let userId = getUser();
 
 let operations = {
   "INSERT": "Shared"
@@ -18,10 +20,10 @@ function addOperationType(dataSetObject) {
   }
 }
 
-export default function mydataHandler({ method }, res) {
+export default async function mydataHandler({ method }, res) {
   switch (method) {
     case 'GET':
-      readUserLedger(userId).then(result => res.status(200).json(result.recordsets[0].map(addOperationType)));
+      readUserLedger(await userId).then(result => res.status(200).json(result.recordsets[0].map(addOperationType)));
       break
     default:
       res.setHeader('Allow', ['GET']);
