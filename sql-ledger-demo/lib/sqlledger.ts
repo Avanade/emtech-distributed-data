@@ -21,18 +21,25 @@ const sqlConfig = {
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
-  }
+}
 
-const userId = (getRandomInt(15)+1000)
+let userId = 1000
 
 sql.on('error', err => {
     console.error(`${err.name}: ${err.message}`);
 })
 
 export async function getUser() {
-    return 	userId
+    if (userId == 1000) {
+        userId = getRandomInt(15) + 1000
+        return userId
+    }
+    else {
+        return userId
+    }
     
 }
+
 
 export async function readQrCode(partnerId: number) {
     try {
