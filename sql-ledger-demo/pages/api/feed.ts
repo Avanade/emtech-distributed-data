@@ -10,7 +10,7 @@ let operations = {
 }
 
 function addOperationType(dataSetObject) {
-  dataSetObject.content = "Unknown activity";
+  dataSetObject.content = "Removed"; //previously unknown activity
   if (dataSetObject.hasOwnProperty('ledger_operation_type_desc')) {
     let operationType = dataSetObject.ledger_operation_type_desc;
     if (operationType in operations) {

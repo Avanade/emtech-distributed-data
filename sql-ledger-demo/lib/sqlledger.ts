@@ -30,6 +30,7 @@ sql.on('error', err => {
 })
 
 export async function getUser() {
+
     if (userId == 1000) {
         userId = getRandomInt(15) + 1000
         return userId
