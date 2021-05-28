@@ -29,7 +29,13 @@ jobs:
           level: standard
           requirements-txt-file: ./python-tools/requirements.txt
           no-deps: true
-  # Add reference to cl-demo when it's merged into main
+      - name: License Checker from py-liccheck
+        uses: andersy005/gh-action-py-liccheck@cl-main
+        with:
+          strategy-ini-file: ./pyproject.toml
+          level: standard
+          requirements-txt-file: ./python-tools/requirements.txt
+          no-deps: true
   scanleft:
     runs-on: ubuntu-latest
     steps:
