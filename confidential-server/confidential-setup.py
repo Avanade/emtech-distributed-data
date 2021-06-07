@@ -30,7 +30,7 @@ ledger_name = os.getenv('RESOURCE_NAME')
 subscription_id = os.getenv('SUBSCRIPTION_ID')
 
 identity_url = "https://identity.confidential-ledger.core.azure.com"
-ledger_url = "https://" + ledger_name + ".eastus.confidential-ledger.azure.com"
+ledger_url = "https://" + ledger_name + ".confidential-ledger.azure.com"
 
 confidential_ledger_mgmt = ConfidentialLedgerAPI(
     credential, subscription_id
