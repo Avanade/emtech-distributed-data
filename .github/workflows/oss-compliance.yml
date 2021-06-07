@@ -30,6 +30,13 @@ jobs:
           level: standard
           requirements-txt-file: ./python-tools/requirements.txt
           no-deps: true
+      - name: License Checker from py-liccheck
+        uses: andersy005/gh-action-py-liccheck@main
+        with:
+          strategy-ini-file: ./pyproject.toml
+          level: standard
+          requirements-txt-file: ./confidential-server/requirements.txt
+          no-deps: true
   scanleft:
     runs-on: ubuntu-latest
     steps:
