@@ -1,0 +1,147 @@
+""" Server allows people to record themselves on the fly,
+and sync with their teams, wherever they may be."""
+# Copyright (c) 2021 Chris Lloyd-Jones.
+# Copyright (c) 2021 Avanade Inc.
+
+import uuid
+import os
+import asyncio
+from starlette.applications import Starlette
+from starlette.responses import (
+    Response,
+    FileResponse,
+    JSONResponse,
+    RedirectResponse,
+)
+from starlette.staticfiles import StaticFiles
+from starlette.routing import Route, Mount
+from starlette.templating import Jinja2Templates
+from starlette.middleware import Middleware
+from starlette.middleware.gzip import GZipMiddleware
+from starlette.config import Config
+import aiofiles
+import uvicorn
+from datetime import datetime, timedelta
+from urllib.parse import quote
+import json
+
+import confidentialledger as cl
+
+templates = Jinja2Templates(directory="templates")
+
+config = Config(".env")
+DEBUG = config("DEBUG", cast=bool, default=False)
+
+
+async def homepage(request):
+    """Renders the default homepage."""
+    await request.send_push_promise("/static/custom.min.css")
+    await request.send_push_promise("/favicon.ico")
+    return templates.TemplateResponse("index.html", {"request": request})
+
+
+async def about(request):
+    """Renders the About page."""
+    return templates.TemplateResponse("about.html", {"request": request})
+
+
+async def read(request):
+    name = request.path_params["carid"]
+
+    # Until confidential ledger access is granted:
+    with open("sampledata.json") as json_file:
+        data = json.load(json_file)
+
+        if name == data["Meta"]["guid"]:
+            return JSONResponse(data)
+        else:
+            return JSONResponse({"error": "specified car not found"})
+
+    # get data
+    try:
+        # TODO test with real connection
+        # TODO use carid dependent on data structure
+        latest_data = cl.rpc_get_latest()
+    except:
+        errorMessage = "The confidential data connection seems not to be working"
+        return JSONResponse({"Error": errorMessage})
+
+    return JSONResponse({"read": name, "data": latest_data})
+
+
+async def append(request):
+
+    newEntryId = str(uuid.uuid4())
+
+    # Until confidential ledger access is granted:
+    bodyData = request.json()
+    # verify json
+    try:
+        json.loads(bodyData)
+    except:
+        return JSONResponse({"error": "Body is not a valid json"})
+
+    return JSONResponse({"entry-id": newEntryId})
+
+    # after ledger access
+    bodyData = request.json()
+    try:
+        returnData = cl.rpc_put(bodyData)
+    except:
+        returnData = "The confidential data connection seems not to be working"
+
+    return JSONResponse({"append": str(returnData)})
+
+
+async def error_template(request, exc):
+    """Returns an error template and a message specific to the error case."""
+    error_messages = {
+        404: "Sorry, the page you're looking for isn't here.",
+        500: "Server error.",
+    }
+    print(f"Code: {error_messages}")
+    if exc.status_code in error_messages:
+        error_message = error_messages[exc.status_code]
+    else:
+        error_message = "No message saved for this error."
+    return templates.TemplateResponse(
+        "layout/error.html",
+        {
+            "request": request,
+            "error_code": exc.status_code,
+            "error_message": error_message,
+        },
+    )
+
+
+routes = [
+    Route("/", homepage),
+    Route("/about", about),
+    Route("/favicon.ico", FileResponse("static/favicon.ico")),
+    Route("/append", append, methods=["GET", "POST"]),
+    Route("/read/{carid}", read, methods=["GET"]),
+    Mount(
+        "/static",
+        app=StaticFiles(directory="static"),
+        name="static",
+    ),
+]
+
+middleware = [
+    Middleware(GZipMiddleware, minimum_size=500),
+    Middleware(
+        uvicorn.middleware.proxy_headers.ProxyHeadersMiddleware, trusted_hosts="*"
+    ),
+]
+
+exception_handlers = {404: error_template, 500: error_template}
+
+app = Starlette(
+    debug=DEBUG,
+    routes=routes,
+    middleware=middleware,
+    exception_handlers=exception_handlers,
+)
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", log_level="info")

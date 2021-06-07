@@ -2,7 +2,7 @@
 
 ## About SQL Ledger
 
-SQL Ledger is for data scenarios that may require a secure centralised ledger similar to those used in blockchain, where using a blockchain may be overkill.
+SQL Ledger is for data scenarios that may require asecure centralised ledger similar to those used in blockchain, where using a blockchain may be overkill.
 
 SQL Ledger:
 
@@ -56,3 +56,13 @@ When the data is revoked, a full itinerary of transactions is kept in the SQL Le
 ### Applicability
 
 This Scenario also applies heavily to data protection legislation in differing geographies. Many data protection regulations such as GDPR require a 'right to be forgotten'. This scenario gives that option directly to the user. If a user exercises their 'right to be forgotten' all PII data can be removed, whilst retaining basic infomration about the transactions.
+
+### Demo
+
+Once deployed using the instructions [found here](docs/start-here.md) the local server will show:
+
+![Home page](./sql-ledger-images/Oltiva-home.png)
+
+![My Data](./sql-ledger-images/Oltiva-my-data.png)
+
+![Timeline](./sql-ledger-images/Oltiva-timeline.png)

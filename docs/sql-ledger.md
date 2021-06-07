@@ -33,6 +33,15 @@ For more information on the chosen use case see [sql-ledger-usecase](docs/sql-le
 
 # Technical Architecture
 
+### Run the backend server
+
+`cd ledger-server`
+`./dev-server-start.sh`
+
+### API
+
+Endpoints:
+
 ### Data Model:
 
 ![](./sql-ledger-images/data-model.png)

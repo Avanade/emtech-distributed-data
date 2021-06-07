@@ -2,4 +2,8 @@
 
 pylint
 black
+<<<<<<< HEAD:python-tools/requirements-dev.txt
+dataclasses-serialization==1.3.1
+=======
 #bump version
+>>>>>>> main:sql-ledger-demo/python-tools/requirements-dev.txt

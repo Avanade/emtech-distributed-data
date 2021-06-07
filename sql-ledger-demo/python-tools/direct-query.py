@@ -26,7 +26,9 @@ def sqlEngine():
         + driver
         + ";SERVER="
         + server
-        + ";PORT=1433;UID="
+        + ";PORT="
+        + port
+        + ";UID="
         + username
         + ";DATABASE="
         + database
@@ -36,6 +38,10 @@ def sqlEngine():
     connect_str = "mssql+pyodbc:///?odbc_connect=" + urllib.parse.quote_plus(odbc_str)
 
     engine = create_engine(connect_str)
+<<<<<<< HEAD:ledger-server/sqlfunctions.py
+
+=======
+>>>>>>> main:python-tools/direct-query.py
     return engine
 
 
@@ -45,7 +51,7 @@ def sqlInsert(engine, table_name):
 
     TABLE = META_DATA.tables[table_name]
 
-    stmt = sa.insert(TABLE).values(
+    sa.insert(TABLE).values(
         [{"PartnerId": 3009}, {"PartnerName": "Wandsworth Health Service"}]
     )
 
@@ -89,8 +95,6 @@ def SimulateHeartRand():
     conn = engine.connect()
     metadata = sa.MetaData()
     metadata.reflect(bind=engine)
-
-    HR_table = metadata.tables["Oltiva_DataPoint"]
 
     i_DataSetId = 5001
     i_DataPointId = 0
@@ -180,13 +184,12 @@ def getAll(table_name):
 
 def dropTable(table_name):
     engine = sqlEngine()
-    conn = engine.connect()
     metadata = sa.MetaData()
     metadata.reflect(bind=engine)
 
-    table = metadata.tables[table_name]
+    dropTable = metadata.tables[table_name]
 
-    table.drop(engine)
+    dropTable.drop(engine)
 
 
 def revokeAccess(PartnerId):
@@ -199,7 +202,11 @@ def revokeAccess(PartnerId):
 
     query = sa.delete(table)
     query = query.where(table.columns.PartnerId == PartnerId)
+<<<<<<< HEAD:ledger-server/sqlfunctions.py
+    conn.execute(query)
+=======
     results = conn.execute(query)
 
 
 getQR(4001)
+>>>>>>> main:python-tools/direct-query.py

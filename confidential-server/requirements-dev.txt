@@ -1,0 +1,5 @@
+-r requirements.txt
+
+pylint
+black
+requests==2.23.0
