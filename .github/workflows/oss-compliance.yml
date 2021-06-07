@@ -21,13 +21,21 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r ./ledger-server/requirements.txt
+          python -m pip install -r ./sql-ledger-demo/python-tools/requirements.txt
+          python -m pip install -r ./confidential-ledger-demo/server/requirements.txt
       - name: License Checker from py-liccheck
         uses: andersy005/gh-action-py-liccheck@main
         with:
           strategy-ini-file: ./pyproject.toml
           level: standard
-          requirements-txt-file: ./ledger-server/requirements.txt
+          requirements-txt-file: ./sql-ledger-demo/python-tools/requirements.txt
+          no-deps: true
+      - name: License Checker from py-liccheck
+        uses: andersy005/gh-action-py-liccheck@main
+        with:
+          strategy-ini-file: ./pyproject.toml
+          level: standard
+          requirements-txt-file: ./confidential-ledger-demo/server/requirements.txt
           no-deps: true
   scanleft:
     runs-on: ubuntu-latest

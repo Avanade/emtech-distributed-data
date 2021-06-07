@@ -12,7 +12,10 @@ This repository is intended to hold Avanade's exploration with Azure SQL Databas
 
 - docs - documentation, process flows and state diagrams, and technical architecture
 - sql-ledger-demo - the Azure web app for the Azure SQL database ledger tables demo.
-- sql - Examples of the SQL we used to set up our SQL ledger demo
+- sql-ledger-demo/python-tools - tools for updating and generating random data in SQL ledger.
+- sql-ledger-demo/sql - Examples of the SQL we used to set up our SQL ledger demo
+- confidential-ledger-demo/client - the Azure web app for the confidential ledger demo
+- confidential-ledger-demo/server - the backend python server for the webapp
 - .vscode - configuration and recommendations for the VS Code IDE.
 - tools - Tools for adding additional dummy data to the demos
 

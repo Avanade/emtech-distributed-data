@@ -3,7 +3,7 @@ CREATE TABLE [Oltiva_users](
   UserName varchar(255),
   JoinDate DATETIME,
   LastActiveDate DATETIME
-) WITH (SYSTEM_VERSIONING = ON, LEDGER = ON);
+) WITH (SYSTEM_VERSIONING = ON, LEDGER = OFF);
 CREATE TABLE [Oltiva_Partners](
   PartnerId int NOT NULL,
   PartnerName varchar(255),
@@ -32,7 +32,7 @@ CREATE TABLE [Oltiva_DataSet](
   PRIMARY KEY (SharedUntilDateTime),
   FOREIGN KEY (PartnerId) REFERENCES Oltiva_Partners(PartnerId),
   FOREIGN KEY (UserId) REFERENCES Oltiva_users(UserId)
-) WITH (SYSTEM_VERSIONING = ON, LEDGER = ON);
+) WITH (SYSTEM_VERSIONING = ON, LEDGER = OFF);
 CREATE TABLE [Oltiva_DataPoint](
   DataPointId int NOT NULL,
   DataSetId int NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE [Oltiva_DataPoint](
   DataValue varchar(255),
   PRIMARY KEY (DataPointId),
   FOREIGN KEY (DataSetId) REFERENCES Oltiva_DataSet(DataSetId)
-) WITH (SYSTEM_VERSIONING = ON, LEDGER = ON);
+) WITH (SYSTEM_VERSIONING = ON, LEDGER = OFF);
 INSERT INTO
   [dbo].[Oltiva_QR](
     QRlocId,
