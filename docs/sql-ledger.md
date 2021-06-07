@@ -1,18 +1,37 @@
 # SQL Ledger
 
-Found in the `ledger-server` directory, a Python web application designed to show healthcare scenarios for SQL Ledger.
+Found in the `sql-ledger-demo` directory, a web application designed to show healthcare scenarios for SQL Ledger.
 
-## Get started
+For more information about SQL Ledger, see [sql-ledger-usecase](docs/sql-ledger-usecase.md)
 
-`Pre-requisite`: An Azure SQL service with ledger capabilities turned on
+## Pre-requisites
 
-### SQL setup
+- An Azure SQL service with ledger table capabilities turned on
+- A hosting location
+  1. Local with node.js or docker
+  2. Azure hosting with node.js or docker container
 
-Once an Azure SQL with ledger enabled has been setup, use the [Setup.sql](ledger-server/Setup.sql) to create the necesary tables within the database accoriding to the data model:
+# Setting up the application
 
-### .env file
+## SQL setup
 
-Fill in the [.env file](ledger-server/.env.TEMPLATE) with the required details. Don't forget to whitelist the IP you will connect in from
+Once an Azure SQL with ledger tables enabled has been setup, use the [Setup.sql](sql/Setup.sql) to create the necesary tables within the database according to the data model below.
+
+## SQL Procedures
+
+For common procedures relavant to the use case, see [procedures.sql](sql/procedures.sql)
+
+## .env file
+
+Fill in the [.env file](https://github.com/Avanade/emtech-distributed-data/blob/main/sql-ledger-demo/.env.template) with the required details for your server.
+
+You can either rename this `.env.local` for local running, or in the [App Settings](https://docs.microsoft.com/en-gb/azure/app-service/configure-common#configure-app-settings) for your application in Azure.
+
+# Use Case
+
+For more information on the chosen use case see [sql-ledger-usecase](docs/sql-ledger-usecase.md)
+
+# Technical Architecture
 
 ### Run the backend server
 

@@ -1,0 +1,30 @@
+name: Docker - Confidential Ledger
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "cl-frontend/**"
+  workflow_dispatch:
+
+concurrency:
+  group: main_branch_build
+  cancel-in-progress: true
+
+jobs:
+  build-confidential-ledger:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cl-frontend
+    steps:
+      - uses: actions/checkout@v2
+      - uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.ACR_REGISTRY }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+      - run: |
+          docker build . -t ${{ secrets.ACR_REGISTRY }}/cl-demo:${{ github.sha }} -t ${{ secrets.ACR_REGISTRY }}/cl-demo:latest
+          docker push ${{ secrets.ACR_REGISTRY }}/cl-demo
