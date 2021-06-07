@@ -1,6 +1,8 @@
 import { readUserDataSets } from '@/lib/sqlledger'
 
-let userId = 1001;
+import { getUser } from '@/lib/sqlledger'
+
+let userId = getUser();
 
 let styling = {
   "bpm": { "fullName": "Beats Per Minute", "bgColor": 'bg-pink-600' }
@@ -20,10 +22,10 @@ function addStyling(dataSetObject) {
   return dataSetObject
 }
 
-export default function mydataHandler({ method }, res) {
+export default async function mydataHandler({ method }, res) {
   switch (method) {
     case 'GET':
-      readUserDataSets(userId).then(result => res.status(200).json(result.recordsets[0].map(addStyling)));
+      readUserDataSets(await userId).then(result => res.status(200).json(result.recordsets[0].map(addStyling)));
       break
     default:
       res.setHeader('Allow', ['GET']);

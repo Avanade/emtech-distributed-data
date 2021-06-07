@@ -2,7 +2,7 @@
 
 ## About SQL Ledger
 
-SQL Ledger is for data scenarios that may require asecure centralised ledger similar to those used in blockchain, where using a blockchain may be overkill.
+SQL Ledger is for data scenarios that may require a secure centralised ledger similar to those used in blockchain, where using a blockchain may be overkill.
 
 SQL Ledger:
 

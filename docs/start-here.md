@@ -1,6 +1,6 @@
 # Documentation Overview
 
-This repository is intended to hold Avanade's exploration with Azure SQL Database Ledger Tables, Confidential Ledger, and other blockchain services.
+This repository is intended to hold Avanade's exploration with Azure SQL Database Ledger Tables
 
 ## Related
 
@@ -12,7 +12,6 @@ This repository is intended to hold Avanade's exploration with Azure SQL Databas
 
 - docs - documentation, process flows and state diagrams, and technical architecture
 - sql-ledger-demo - the Azure web app for the Azure SQL database ledger tables demo.
-- confidential-server - the cloud app which runs in Azure to run the confidential ledger demo
 - sql - Examples of the SQL we used to set up our SQL ledger demo
 - .vscode - configuration and recommendations for the VS Code IDE.
 - tools - Tools for adding additional dummy data to the demos
