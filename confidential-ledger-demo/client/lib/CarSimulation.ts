@@ -81,8 +81,8 @@ class Grid implements Grid {
     CountEmpty(): number {
         let grid: GridSquare[][] = this.grid_squares;
         let empty:number = 0;
-        for(var x: number = 0;x< this.x_dimension; x++) {
-            for (var y: number = 0; y < this.y_dimension; y++) {
+        for(let x: number = 0; x< this.x_dimension; x++) {
+            for (let y: number = 0; y < this.y_dimension; y++) {
                 let grid_square: GridSquare = this.grid_squares[x][y];
                 if (grid_square.getFieldType() ===  'null') {
                     empty++;
@@ -97,29 +97,28 @@ class Grid implements Grid {
 class CarSimulation {
     grid: Grid;
     max_cars: number;
-    tick_length_seconds: number;
+    timer: ReturnType<typeof setInterval>;
 
-    constructor(max_cars: number, tick_length_seconds: number) {
+
+    constructor(max_cars: number, tickLengthMilliseconds: number) {
         this.max_cars = max_cars;
-        this.tick_length_seconds = tick_length_seconds;
         this.grid = new Grid(4, 4);
-        this.initSimulation();
+        this.initSimulation(tickLengthMilliseconds);
     }
 
-    runSimulation() { }
-
-    initSimulation() {
+    initSimulation(tickLengthMilliseconds: number) {
         let startingCars = this.randomNumber(1, this.max_cars);
         this.grid = this.addCars(startingCars, this.grid);
+        this.timer = setInterval(() => this.runTimeStep(), tickLengthMilliseconds)
     }
 
-    addCars(car_amount_to_add: number, grid: Grid): Grid {
+    addCars(carAmountToAdd: number, grid: Grid): Grid {
         let total_squares = grid.x_dimension * grid.y_dimension;
-        if (car_amount_to_add > total_squares) {
+        if (carAmountToAdd > total_squares) {
             throw new Error("Asked for more cars than there's space for.");
         }
         let empty_square = grid.CountEmpty();
-        if (car_amount_to_add > empty_square) {
+        if (carAmountToAdd > empty_square) {
             throw new Error("Asked for more cars than there's empty squares.");
         }
         return grid;
@@ -129,15 +128,21 @@ class CarSimulation {
         return Math.random() * (max - min) + min;
     }
 
-    run_time_step() { }
+    runTimeStep() {
+        let currentCars = this.countCars();
+        if (currentCars<this.max_cars) {
 
-    count_cars() { }
+        }
 
-    move_vehicles() { }
+    }
+
+    countCars() {
+        return 10;
+    }
+
+    moveVehicles() { }
+
+    endSimulation() {
+        clearInterval(this.timer);
+    }
 }
-
-
-// max_cars
-// car_gen_rate
-// time_step_size
-//
