@@ -2,4 +2,3 @@ databases
 sqlalchemy
 python-dotenv
 pyodbc
-#bump version
