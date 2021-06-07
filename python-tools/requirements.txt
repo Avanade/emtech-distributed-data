@@ -2,6 +2,3 @@ databases
 sqlalchemy
 python-dotenv
 pyodbc
-azure-identity
-azure.mgmt.confidentialledger
-azure.confidentialledger 
