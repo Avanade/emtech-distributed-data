@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "cl-frontend/**"
+      - "confidential-ledger-demo/client/**"
   workflow_dispatch:
 
 concurrency:
@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: cl-frontend
+        working-directory: confidential-ledger-demo/client
     steps:
       - uses: actions/checkout@v2
       - uses: azure/docker-login@v1
