@@ -9,3 +9,4 @@ export default function LedgerApp({ Component, pageProps }: AppProps) {
     </Layout>
   );
 }
+
