@@ -2,11 +2,6 @@
 
 from azure.identity import DefaultAzureCredential
 
-## Import the control plane sdk
-
-from azure.mgmt.confidentialledger import ConfidentialLedger as ConfidentialLedgerAPI
-from azure.mgmt.confidentialledger.models import ConfidentialLedger
-
 # import the data plane sdk
 
 from azure.confidentialledger import ConfidentialLedgerClient
@@ -29,7 +24,7 @@ def get_ledger_creds():
     ledger_name = os.getenv("RESOURCE_NAME")
     subscription_id = os.getenv("AZURE_TENANT_ID")
 
-    identity_url = "https://identity.confidential-ledger.core.azure.com"
+    identity_url = "https://identity.accledger.azure.com"
     ledger_url = "https://" + ledger_name + ".confidential-ledger.azure.com"
 
     return credential, ledger_name, identity_url, ledger_url
@@ -63,3 +58,12 @@ def append_cl(data):
     print(check.state)
 
     return append_result.transaction_id
+
+
+def read_all():
+    ledger_client = get_ledger_client()
+    all = []
+    for entry in ledger_client.get_ledger_entries():
+        all.append([entry.contents, entry.transaction_id])
+
+    return all
