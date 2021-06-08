@@ -1,17 +1,18 @@
 # Import the Azure authentication library
-
-from azure.identity import DefaultAzureCredential
-
-# import the data plane sdk
-
-from azure.confidentialledger import ConfidentialLedgerClient
-from azure.confidentialledger.identity_service import (
-    ConfidentialLedgerIdentityServiceClient,
-)
+# Copyright (c) 2021 Avanade Inc.
+# Copyright (c) 2021 Microsoft.
 
 import os
 import json
 from dotenv import load_dotenv
+
+from azure.identity import DefaultAzureCredential
+
+# import the data plane sdk
+from azure.confidentialledger import ConfidentialLedgerClient
+from azure.confidentialledger.identity_service import (
+    ConfidentialLedgerIdentityServiceClient,
+)
 
 
 def get_ledger_creds():

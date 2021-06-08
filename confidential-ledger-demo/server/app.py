@@ -53,7 +53,7 @@ async def read(request):
         # TODO use carid dependent on data structure
         latest_data = cl.search_entries_guid(guid)
     except:
-        errorMessage = "The confidential data connection seems not to be working"
+        errorMessage = "The confidential data connection isn't working"
         return JSONResponse({"Error": errorMessage})
 
     return JSONResponse({"read": guid, "data": latest_data})
@@ -108,12 +108,8 @@ routes = [
     Route("/about", about),
     Route("/favicon.ico", FileResponse("static/favicon.ico")),
     Route("/append", append, methods=["GET", "POST"]),
-    Route("/read/{carid}", read, methods=["GET"]),
-    Mount(
-        "/static",
-        app=StaticFiles(directory="static"),
-        name="static",
-    ),
+    Route("/read/{guid}", read, methods=["GET"]),
+    Mount("/static", app=StaticFiles(directory="static"), name="static",),
 ]
 
 middleware = [
