@@ -13,3 +13,6 @@ aiohttp
 uvicorn
 uvloop
 httptools
+azure-confidentialledger
+azure-mgmt-confidentialledger
+azure-identity
