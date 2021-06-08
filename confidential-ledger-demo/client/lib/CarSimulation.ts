@@ -125,7 +125,7 @@ class CarSimulation {
 
 
     constructor(tickLengthMilliseconds: number) {
-        this.grid = new Grid(4, 10);
+        this.grid = new Grid(10, 10);
         this.initSimulation(tickLengthMilliseconds);
     }
 
