@@ -54,12 +54,26 @@ async def read(request):
         errorMessage = "The confidential data connection seems not to be working"
         return JSONResponse({"Error": errorMessage})
 
-    return JSONResponse({"read": guid, "data": latest_data})
+    return_json = {}
+    return_json.update({"read": guid})
+    return_json.update({"data": json.loads(latest_data[0])})
+
+    return JSONResponse(return_json)
+
+
+async def readlicense(request):
+    license_plate = request.path_params["license"]
+    # get data
+    try:
+        latest_data = cl.search_entries_license(license_plate)
+    except:
+        errorMessage = "The confidential data connection seems not to be working"
+        return JSONResponse({"Error": errorMessage})
+
+    return JSONResponse({"read": license_plate, "data": latest_data[0]})
 
 
 async def append(request):
-
-    newEntryId = str(uuid.uuid4())
 
     # Until confidential ledger access is granted:
     bodyData = await request.body()
@@ -71,12 +85,12 @@ async def append(request):
         return JSONResponse({"error": "Body is not a valid json"})
 
     try:
-        returnData = cl.append_cl(bodyData)
+        guid, returnData = cl.append_cl(bodyData)
     except:
         returnData = "The confidential data connection seems not to be working"
 
     return JSONResponse(
-        {"Car ID": newEntryId, "Ledger ID": str(returnData), "Data": str(bodyData)}
+        {"Car ID": guid, "Ledger ID": str(returnData), "Data": str(bodyData)}
     )
 
 
@@ -107,6 +121,7 @@ routes = [
     Route("/favicon.ico", FileResponse("static/favicon.ico")),
     Route("/append", append, methods=["GET", "POST"]),
     Route("/read/{carid}", read, methods=["GET"]),
+    Route("/readlicense/{licence}", readlicense, methods=["GET"]),
     Mount("/static", app=StaticFiles(directory="static"), name="static",),
 ]
 
