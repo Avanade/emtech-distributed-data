@@ -91,7 +91,7 @@ async def append(request):
         returnData = "The confidential data connection seems not to be working"
 
     return JSONResponse(
-        {"Car ID": guid, "Ledger ID": str(returnData), "Data": str(bodyData)}
+        {"Car ID": guid, "Ledger ID": str(returnData), "Data": json.loads(bodyData)}
     )
 
 
