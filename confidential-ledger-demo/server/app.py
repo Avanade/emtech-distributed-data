@@ -46,17 +46,17 @@ async def about(request):
 
 
 async def read(request):
-    guid = request.path_params["carid"]
+    guid = request.path_params["guid"]
     # get data
     try:
         latest_data = cl.search_entries_guid(guid)
     except:
-        errorMessage = "The confidential data connection seems not to be working"
+        errorMessage = "The confidential data connection isn't working"
         return JSONResponse({"Error": errorMessage})
 
     return_json = {}
     return_json.update({"read": guid})
-    return_json.update({"data": json.loads(latest_data[0])})
+    return_json.update({"data": json.loads(latest_data)})
 
     return JSONResponse(return_json)
 
@@ -75,7 +75,8 @@ async def readlicense(request):
 
 async def append(request):
 
-    # Until confidential ledger access is granted:
+    newEntryId = str(uuid.uuid4())
+
     bodyData = await request.body()
 
     # verify json
@@ -120,7 +121,7 @@ routes = [
     Route("/about", about),
     Route("/favicon.ico", FileResponse("static/favicon.ico")),
     Route("/append", append, methods=["GET", "POST"]),
-    Route("/read/{carid}", read, methods=["GET"]),
+    Route("/read/{guid}", read, methods=["GET"]),
     Route("/readlicense/{license}", readlicense, methods=["GET"]),
     Mount("/static", app=StaticFiles(directory="static"), name="static",),
 ]
