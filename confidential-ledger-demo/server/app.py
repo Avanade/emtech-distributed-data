@@ -70,7 +70,7 @@ async def readlicense(request):
         errorMessage = "The confidential data connection seems not to be working"
         return JSONResponse({"Error": errorMessage})
 
-    return JSONResponse({"read": license_plate, "data": latest_data[0]})
+    return JSONResponse({"read": license_plate, "data": latest_data})
 
 
 async def append(request):
@@ -121,7 +121,7 @@ routes = [
     Route("/favicon.ico", FileResponse("static/favicon.ico")),
     Route("/append", append, methods=["GET", "POST"]),
     Route("/read/{carid}", read, methods=["GET"]),
-    Route("/readlicense/{licence}", readlicense, methods=["GET"]),
+    Route("/readlicense/{license}", readlicense, methods=["GET"]),
     Mount("/static", app=StaticFiles(directory="static"), name="static",),
 ]
 
