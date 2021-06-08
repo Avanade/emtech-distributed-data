@@ -1,19 +1,20 @@
 # Import the Azure authentication library
+# Copyright (c) 2021 Avanade Inc.
+# Copyright (c) 2021 Microsoft.
+
+import os
+import json
+from dotenv import load_dotenv
+import uuid
+from datetime import datetime
 
 from azure.identity import DefaultAzureCredential
 
 # import the data plane sdk
-
 from azure.confidentialledger import ConfidentialLedgerClient
 from azure.confidentialledger.identity_service import (
     ConfidentialLedgerIdentityServiceClient,
 )
-
-import uuid
-from datetime import datetime
-import os
-import json
-from dotenv import load_dotenv
 
 
 def get_ledger_creds():
@@ -91,7 +92,7 @@ def search_entries_guid(search_guid):
             # not a valid json
             pass
 
-    return returns
+    return returns[0]
 
 
 def search_entries_license(search_license):
