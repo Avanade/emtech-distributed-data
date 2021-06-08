@@ -35,4 +35,4 @@ unauthorized_licenses = [
 databases = "<=0.4.3"
 python-dotenv = "<=0.17.1"
 starlette = "<=0.14.2"
-uvicorn = "<=0.13.4"
+uvicorn = "<=0.14.0"
