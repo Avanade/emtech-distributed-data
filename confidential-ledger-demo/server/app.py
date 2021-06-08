@@ -46,27 +46,17 @@ async def about(request):
 
 
 async def read(request):
-    name = request.path_params["carid"]
-
-    # Until confidential ledger access is granted:
-    with open("sampledata.json") as json_file:
-        data = json.load(json_file)
-
-        if name == data["Meta"]["guid"]:
-            return JSONResponse(data)
-        else:
-            return JSONResponse({"error": "specified car not found"})
-
+    guid = request.path_params["carid"]
     # get data
     try:
         # TODO test with real connection
         # TODO use carid dependent on data structure
-        latest_data = cl.rpc_get_latest()
+        latest_data = cl.search_entries_guid(guid)
     except:
         errorMessage = "The confidential data connection seems not to be working"
         return JSONResponse({"Error": errorMessage})
 
-    return JSONResponse({"read": name, "data": latest_data})
+    return JSONResponse({"read": guid, "data": latest_data})
 
 
 async def append(request):
@@ -74,23 +64,22 @@ async def append(request):
     newEntryId = str(uuid.uuid4())
 
     # Until confidential ledger access is granted:
-    bodyData = request.json()
+    bodyData = await request.body()
+
     # verify json
     try:
         json.loads(bodyData)
     except:
         return JSONResponse({"error": "Body is not a valid json"})
 
-    return JSONResponse({"entry-id": newEntryId})
-
-    # after ledger access
-    bodyData = request.json()
     try:
-        returnData = cl.rpc_put(bodyData)
+        returnData = cl.append_cl(bodyData)
     except:
         returnData = "The confidential data connection seems not to be working"
 
-    return JSONResponse({"append": str(returnData)})
+    return JSONResponse(
+        {"Car ID": newEntryId, "Ledger ID": str(returnData), "Data": str(bodyData)}
+    )
 
 
 async def error_template(request, exc):
