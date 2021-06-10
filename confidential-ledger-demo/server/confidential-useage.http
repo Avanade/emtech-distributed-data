@@ -1,0 +1,6 @@
+
+#Get a transaction by it's ledger Id
+GET https://{{$dotenv RESOURCE_NAME}}.confidential-ledger.azure.com/app/transactions/2.137
+?api-version=0.1-preview
+Authorization: Bearer {{$dotenv BEARER_TOKEN}}
+
