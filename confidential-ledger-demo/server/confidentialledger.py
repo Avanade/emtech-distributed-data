@@ -29,8 +29,6 @@ def get_ledger_creds():
         tenant_id=tenantId, client_id=clientId, client_secret=clientSecret
     )
 
-    credential = DefaultAzureCredential()
-
     resource_group = os.getenv("RESOURCE_GROUP")
     ledger_name = os.getenv("RESOURCE_NAME")
     subscription_id = os.getenv("AZURE_TENANT_ID")
