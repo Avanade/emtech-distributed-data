@@ -8,10 +8,9 @@ from dotenv import load_dotenv
 import uuid
 from datetime import datetime
 
-from azure.identity import DefaultAzureCredential
-
 # import the data plane sdk
 from azure.confidentialledger import ConfidentialLedgerClient
+from azure.identity import ClientSecretCredential, DefaultAzureCredential
 from azure.confidentialledger.identity_service import (
     ConfidentialLedgerIdentityServiceClient,
 )
@@ -20,8 +19,16 @@ from azure.confidentialledger.identity_service import (
 def get_ledger_creds():
 
     load_dotenv()
-    TENANT_ID = os.getenv("AZURE_TENANT_ID")
-    os.environ["AZURE_TENANT_ID"] = TENANT_ID
+
+    clientId = os.getenv("CL_APP_ID")
+    clientSecret = os.getenv("CL_CLIENT_SECRET")
+    tenantId = os.getenv("AZURE_TENANT_ID")
+
+    # Create a Credential Object
+    credential = ClientSecretCredential(
+        tenant_id=tenantId, client_id=clientId, client_secret=clientSecret
+    )
+
     credential = DefaultAzureCredential()
 
     resource_group = os.getenv("RESOURCE_GROUP")
