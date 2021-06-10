@@ -33,37 +33,38 @@ config = Config(".env")
 DEBUG = config("DEBUG", cast=bool, default=False)
 
 
-async def homepage(request):
-    """Renders the default homepage."""
-    await request.send_push_promise("/static/custom.min.css")
-    await request.send_push_promise("/favicon.ico")
-    return templates.TemplateResponse("index.html", {"request": request})
-
-
-async def about(request):
-    """Renders the About page."""
-    return templates.TemplateResponse("about.html", {"request": request})
-
-
 async def read(request):
-    guid = request.path_params["carid"]
+    guid = request.path_params["guid"]
     # get data
     try:
-        # TODO test with real connection
-        # TODO use carid dependent on data structure
         latest_data = cl.search_entries_guid(guid)
     except:
         errorMessage = "The confidential data connection isn't working"
         return JSONResponse({"Error": errorMessage})
 
-    return JSONResponse({"read": guid, "data": latest_data})
+    return_json = {}
+    return_json.update({"read": guid})
+    return_json.update({"data": json.loads(latest_data)})
+
+    return JSONResponse(return_json)
+
+
+async def readlicense(request):
+    license_plate = request.path_params["license"]
+    # get data
+    try:
+        latest_data = cl.search_entries_license(license_plate)
+    except:
+        errorMessage = "The confidential data connection seems not to be working"
+        return JSONResponse({"Error": errorMessage})
+
+    return JSONResponse({"read": license_plate, "data": latest_data})
 
 
 async def append(request):
 
     newEntryId = str(uuid.uuid4())
 
-    # Until confidential ledger access is granted:
     bodyData = await request.body()
 
     # verify json
@@ -73,12 +74,12 @@ async def append(request):
         return JSONResponse({"error": "Body is not a valid json"})
 
     try:
-        returnData = cl.append_cl(bodyData)
+        guid, returnData = cl.append_cl(bodyData)
     except:
         returnData = "The confidential data connection seems not to be working"
 
     return JSONResponse(
-        {"Car ID": newEntryId, "Ledger ID": str(returnData), "Data": str(bodyData)}
+        {"Car ID": guid, "Ledger ID": str(returnData), "Data": json.loads(bodyData)}
     )
 
 
@@ -95,20 +96,15 @@ async def error_template(request, exc):
         error_message = "No message saved for this error."
     return templates.TemplateResponse(
         "layout/error.html",
-        {
-            "request": request,
-            "error_code": exc.status_code,
-            "error_message": error_message,
-        },
+        {"error_code": exc.status_code, "error_message": error_message,},
     )
 
 
 routes = [
-    Route("/", homepage),
-    Route("/about", about),
     Route("/favicon.ico", FileResponse("static/favicon.ico")),
     Route("/append", append, methods=["GET", "POST"]),
     Route("/read/{guid}", read, methods=["GET"]),
+    Route("/readlicense/{license}", readlicense, methods=["GET"]),
     Mount("/static", app=StaticFiles(directory="static"), name="static",),
 ]
 

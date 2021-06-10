@@ -1,9 +1,9 @@
 {
     "Meta":{
        "TimeStamp":"021-04-29T09:23:08+00:00",
-       "guid":"92bbe046-a8cc-11eb-bcbc-0242ac130002",
-       "Licence":"HY87 5FR"
+       "guid":"92bbe046-a8cc-11eb-bcbc-0242ac130002"
     },
+    "Licence":"HY87 5FR",
     "CarState":{
        "Signals":[
           {
