@@ -3,4 +3,19 @@
 GET https://{{$dotenv RESOURCE_NAME}}.confidential-ledger.azure.com/app/transactions/2.137
 ?api-version=0.1-preview
 Authorization: Bearer {{$dotenv BEARER_TOKEN}}
+###
 
+#Get the latest transaction
+GET https://{{$dotenv RESOURCE_NAME}}.confidential-ledger.azure.com/app/transactions/current
+?api-version=0.1-preview
+Authorization: Bearer {{$dotenv BEARER_TOKEN}}
+###
+
+#Post a JSON body to the confidential ledger
+POST https://{{$dotenv RESOURCE_NAME}}.confidential-ledger.azure.com/app/transactions
+?api-version=0.1-preview
+Authorization: Bearer {{$dotenv BEARER_TOKEN}}
+{
+    "name": "sample from https request",
+    "source": "confidential-usage.http"
+}
