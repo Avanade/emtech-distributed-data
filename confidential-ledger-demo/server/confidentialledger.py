@@ -21,7 +21,7 @@ def get_ledger_creds():
     load_dotenv()
 
     clientId = os.getenv("CL_APP_ID")
-    clientSecret = os.getenv("CL_CLIENT_SECRET")
+    clientSecret = os.getenv("CL_CLIENT_SC")
     tenantId = os.getenv("AZURE_TENANT_ID")
 
     # Create a Credential Object
