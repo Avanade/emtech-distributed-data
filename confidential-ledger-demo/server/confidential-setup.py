@@ -1,6 +1,9 @@
+# Copyright (c) 2021 Avanade Inc.
+# Copyright (c) 2021 Microsoft.
+
 # Import the Azure authentication library
 
-from azure.identity import DefaultAzureCredential
+from azure.identity import ClientSecretCredential
 
 ## Import the control plane sdk
 
@@ -19,11 +22,14 @@ load_dotenv()
 
 #Set tenant ID from .env file
 
-TENANT_ID = os.getenv('AZURE_TENANT_ID')
-os.environ["AZURE_TENANT_ID"] = TENANT_ID
+clientId = os.getenv("CL_APP_ID")
+clientSecret = os.getenv("CL_CLIENT_SC")
+tenantId = os.getenv("AZURE_TENANT_ID")
 
-#Make sure to use az login and select your desired subscription
-credential = DefaultAzureCredential()
+# Create a Credential Object
+credential = ClientSecretCredential(
+    tenant_id=tenantId, client_id=clientId, client_secret=clientSecret
+)
 
 resource_group = os.getenv('RESOURCE_GROUP')
 ledger_name = os.getenv('RESOURCE_NAME')
