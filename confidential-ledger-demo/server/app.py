@@ -33,18 +33,6 @@ config = Config(".env")
 DEBUG = config("DEBUG", cast=bool, default=False)
 
 
-async def homepage(request):
-    """Renders the default homepage."""
-    await request.send_push_promise("/static/custom.min.css")
-    await request.send_push_promise("/favicon.ico")
-    return templates.TemplateResponse("index.html", {"request": request})
-
-
-async def about(request):
-    """Renders the About page."""
-    return templates.TemplateResponse("about.html", {"request": request})
-
-
 async def read(request):
     guid = request.path_params["guid"]
     # get data
@@ -108,17 +96,11 @@ async def error_template(request, exc):
         error_message = "No message saved for this error."
     return templates.TemplateResponse(
         "layout/error.html",
-        {
-            "request": request,
-            "error_code": exc.status_code,
-            "error_message": error_message,
-        },
+        {"error_code": exc.status_code, "error_message": error_message,},
     )
 
 
 routes = [
-    Route("/", homepage),
-    Route("/about", about),
     Route("/favicon.ico", FileResponse("static/favicon.ico")),
     Route("/append", append, methods=["GET", "POST"]),
     Route("/read/{guid}", read, methods=["GET"]),
