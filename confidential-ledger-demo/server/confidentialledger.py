@@ -5,11 +5,12 @@
 import os
 import json
 from dotenv import load_dotenv
-
-from azure.identity import DefaultAzureCredential
+import uuid
+from datetime import datetime
 
 # import the data plane sdk
 from azure.confidentialledger import ConfidentialLedgerClient
+from azure.identity import ClientSecretCredential, DefaultAzureCredential
 from azure.confidentialledger.identity_service import (
     ConfidentialLedgerIdentityServiceClient,
 )
@@ -18,9 +19,15 @@ from azure.confidentialledger.identity_service import (
 def get_ledger_creds():
 
     load_dotenv()
-    TENANT_ID = os.getenv("AZURE_TENANT_ID")
-    os.environ["AZURE_TENANT_ID"] = TENANT_ID
-    credential = DefaultAzureCredential()
+
+    clientId = os.getenv("CL_APP_ID")
+    clientSecret = os.getenv("CL_CLIENT_SECRET")
+    tenantId = os.getenv("AZURE_TENANT_ID")
+
+    # Create a Credential Object
+    credential = ClientSecretCredential(
+        tenant_id=tenantId, client_id=clientId, client_secret=clientSecret
+    )
 
     resource_group = os.getenv("RESOURCE_GROUP")
     ledger_name = os.getenv("RESOURCE_NAME")
@@ -53,13 +60,15 @@ def get_ledger_client():
 
 
 def append_cl(data):
-    ledger_client = get_ledger_client()
-    append_result = ledger_client.append_to_ledger(entry_contents=str(data))
-    print(append_result.transaction_id)
-    check = ledger_client.get_transaction_status(append_result.transaction_id)
-    print(check.state)
 
-    return append_result.transaction_id
+    guid, data = append_meta_data(json.loads(data))
+
+    ledger_client = get_ledger_client()
+    append_result = ledger_client.append_to_ledger(
+        entry_contents=str((json.dumps(data)))
+    )
+
+    return guid, append_result.transaction_id
 
 
 def read_all():
@@ -88,4 +97,37 @@ def search_entries_guid(search_guid):
             # not a valid json
             pass
 
+    return returns[0]
+
+
+def search_entries_license(search_license):
+    """Returns a json of entries with the relavant licese"""
+    returns = {}
+
+    ledger_client = get_ledger_client()
+    entries = ledger_client.get_ledger_entries()
+
+    for entry in entries:
+        try:
+            json_read = json.loads(str(entry.contents))
+            if (json_read["Licence"]) == search_license:
+                returns.update(json_read)
+
+        except:
+            # not a valid json
+            pass
+
     return returns
+
+
+def append_meta_data(content):
+    """appends new guid and timestamp to given json"""
+
+    generated_guid = str(uuid.uuid4())
+    timestamp = str(datetime.now())
+
+    meta = {"Meta": {"TimeStamp": timestamp, "guid": generated_guid}}
+
+    content.update(meta)
+
+    return generated_guid, content
