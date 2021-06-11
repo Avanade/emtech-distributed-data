@@ -21,7 +21,10 @@ def get_ledger_creds():
     load_dotenv()
 
     clientId = os.getenv("CL_APP_ID")
-    clientSecret = os.getenv("CL_CLIENT_SECRET")
+    # scan:ignore
+    clientSecret = os.getenv(
+        "CL_CLIENT_SECRET"
+    )  # suppress the sl-scan as credential is not embedded
     tenantId = os.getenv("AZURE_TENANT_ID")
 
     # Create a Credential Object
