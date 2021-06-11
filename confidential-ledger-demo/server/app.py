@@ -82,23 +82,18 @@ async def append(request):
         {"Car ID": guid, "Ledger ID": str(returnData), "Data": json.loads(bodyData)}
     )
 
-
 async def error_template(request, exc):
-    """Returns an error template and a message specific to the error case."""
-    error_messages = {
-        404: "Sorry, the page you're looking for isn't here.",
-        500: "Server error.",
-    }
-    print(f"Code: {error_messages}")
-    if exc.status_code in error_messages:
-        error_message = error_messages[exc.status_code]
+    """Returns an error template."""
+    error_codes={404:"Sorry, the page you're looking for isn't here.",500:"Internal Server error."}
+    status_code=exc.status_code
+    if status_code in error_codes:
+        error_message=error_codes[status_code]
     else:
-        error_message = "No message saved for this error."
+       error_message="Unknown error."
     return templates.TemplateResponse(
         "layout/error.html",
-        {"error_code": exc.status_code, "error_message": error_message,},
+        {'request': request,"error_code": status_code, "error_message": error_message,},
     )
-
 
 routes = [
     Route("/favicon.ico", FileResponse("static/favicon.ico")),
@@ -125,4 +120,4 @@ app = Starlette(
 )
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", log_level="info")
+    uvicorn.run(app, host="0.0.0.0", port=5000, log_level="info")
