@@ -20,5 +20,5 @@ COPY --from=builder /install /usr/local
 COPY . /app
 WORKDIR /app
 
-EXPOSE 3000
+EXPOSE 5000
 ENTRYPOINT [ "python3","app.py"]
