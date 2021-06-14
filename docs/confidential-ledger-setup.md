@@ -16,13 +16,13 @@ You can now insert new entries into the ledger and retrieve them using the SDK.
 
 `N.B Using the provided script will create and upload a cert for you, so you will not need to create your own cert`
 
-### Steup - Register an Application
+### Setup - Register an Application
 
-In order to use the python SDK without using your Azure Default Credentials through VS code, in order to run the solution on a server for example we will need a client app id and a client secret.
+To run the application on a server, you'll need to register a client application ID and a client secret. In development, you can use the Python SDK
 
 Follow the instructions [here](https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal) to use your Azure subscription to generate the required information.
 
-Add teh following information to your .env file:
+Add the following information to your .env file:
 
 ```
 AZURE_TENANT_ID = ""
