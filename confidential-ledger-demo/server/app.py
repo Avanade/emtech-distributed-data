@@ -49,41 +49,46 @@ async def read(request):
     return JSONResponse(return_json)
 
 
-async def readlicense(request):
+async def read_license(request):
     license_plate = request.path_params["license"]
     # get data
     try:
         latest_data = cl.search_entries_license(license_plate)
     except:
-        errorMessage = "The confidential data connection seems not to be working"
-        return JSONResponse({"Error": errorMessage})
+        error_message = "The confidential data connection seems not to be working"
+        return JSONResponse({"Error": error_message})
 
     return JSONResponse({"read": license_plate, "data": latest_data})
 
 
 async def append(request):
-    # TODO: What do we do if we want to add data to an existing guid?
-    newEntryId = str(uuid.uuid4())
+    new_entry_id = request.path_params["guid"]
 
-    bodyData = await request.body()
+    body_data = await request.body()
 
     # verify json
     try:
-        json.loads(bodyData)
+        json.loads(body_data)
     except:
         return JSONResponse({"error": "Body is not a valid json"})
 
     try:
-        guid, returnData = cl.append_cl(bodyData)
+        return_data = cl.append_cl(body_data, new_entry_id)
     except:
-        returnData = "The confidential data connection seems not to be working"
+        return JSONResponse(
+            {"error": "The confidential data connection seems not to be working"}
+        )
 
     return JSONResponse(
-        {"Car ID": guid, "Ledger ID": str(returnData), "Data": json.loads(bodyData)}
+        {
+            "Car ID": new_entry_id,
+            "Ledger ID": str(return_data),
+            "Data": json.loads(body_data),
+        }
     )
 
 
-async def error_template(request, exc):
+async def error_template(request, exc):  # scan:ignore
     """Returns an error template."""
     error_codes = {
         404: "Sorry, the page you're looking for isn't here.",
@@ -94,7 +99,7 @@ async def error_template(request, exc):
         error_message = error_codes[status_code]
     else:
         error_message = "Unknown error."
-    return templates.TemplateResponse(
+    return templates.TemplateResponse(  # scan:ignore
         "layout/error.html",
         {
             "request": request,
@@ -106,11 +111,11 @@ async def error_template(request, exc):
 
 routes = [
     Route("/favicon.ico", FileResponse("static/favicon.ico")),
-    Route("/append", append, methods=["GET", "POST"]),
+    Route("/append/{guid}", append, methods=["GET", "POST"]),
     Route(
         "/read/{guid}", read, methods=["GET"]
     ),  # TODO: Consider casting to UUID? https://www.starlette.io/routing/
-    Route("/readlicense/{license}", readlicense, methods=["GET"]),
+    Route("/readlicense/{license}", read_license, methods=["GET"]),
     Mount(
         "/static",
         app=StaticFiles(directory="static"),
