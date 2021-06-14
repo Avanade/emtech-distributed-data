@@ -1,13 +1,12 @@
 # Copyright (c) 2021 Avanade Inc.
 # Copyright (c) 2021 Microsoft.
 
-import os
-import json
 from dotenv import load_dotenv
-import uuid
 from datetime import datetime
+import json
+import os
+import uuid
 
-# import the data plane sdk and authentication library
 from azure.confidentialledger import ConfidentialLedgerClient
 from azure.identity import ClientSecretCredential
 from azure.confidentialledger.identity_service import (
@@ -29,9 +28,7 @@ def get_ledger_creds():
         tenant_id=tenant_id, client_id=client_id, client_secret=client_secret
     )
 
-    resource_group = os.getenv("RESOURCE_GROUP")
     ledger_name = os.getenv("RESOURCE_NAME")
-    subscription_id = os.getenv("AZURE_TENANT_ID")
 
     identity_url = "https://identity.accledger.azure.com"
     ledger_url = "https://" + ledger_name + ".confidential-ledger.azure.com"
