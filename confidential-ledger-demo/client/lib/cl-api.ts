@@ -1,4 +1,4 @@
-const confidentialLedgerBackend="http://cl-api.dev:5000/"; // this is set in the docker-compose network aliases
+const confidentialLedgerBackend="http://cl-api.dev:5000/";
 
 export async function readLedger(vehicleId: string) {
     try {
