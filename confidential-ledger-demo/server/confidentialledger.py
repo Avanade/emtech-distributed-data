@@ -19,7 +19,7 @@ def get_ledger_creds():
     load_dotenv()
 
     client_id = os.getenv("CL_APP_ID")
-    client_secret = os.getenv("CL_CLIENT_SC")# scan:ignore
+    client_secret = os.getenv("CL_CLIENT_SC")  # scan:ignore
     tenant_id = os.getenv("AZURE_TENANT_ID")
 
     # Create a Credential Object
@@ -55,9 +55,9 @@ def get_ledger_client():
     return ledger_client
 
 
-def append_cl(data):
+def append_cl(data, guid):
 
-    guid, data = append_meta_data(json.loads(data))
+    data = append_meta_data(json.loads(data), guid)
 
     ledger_client = get_ledger_client()
     append_result = ledger_client.append_to_ledger(
@@ -116,14 +116,12 @@ def search_entries_license(search_license):
     return returns
 
 
-def append_meta_data(content):
+def append_meta_data(content, guid):
     """appends new guid and timestamp to given json"""
-
-    generated_guid = str(uuid.uuid4())
     timestamp = str(datetime.now())
 
-    meta = {"Meta": {"TimeStamp": timestamp, "guid": generated_guid}}
+    meta = {"Meta": {"TimeStamp": timestamp, "guid": str(guid)}}
 
     content.update(meta)
 
-    return generated_guid, content
+    return content
