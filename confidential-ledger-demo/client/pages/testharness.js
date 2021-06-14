@@ -14,12 +14,14 @@ export default function TestHarness() {
     if (error)
         return (
             <BasicPage title="Error loading test harness" icon={ExclamationCircleIcon} />
-        );
-    if (!data) return <BasicPage title="Loading confidential ledger test harness" icon={RefreshIcon} />;
+        )
+    if (!data) {
+        return <BasicPage title="Loading confidential ledger test harness" icon={RefreshIcon} />;
+    }
 
     return (
         <BasicPage title="Test Harness" icon={TableIcon}>
-            {data}
+            {JSON.stringify(data)}
         </BasicPage>
     );
 }
