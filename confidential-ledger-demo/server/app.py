@@ -62,8 +62,7 @@ async def readlicense(request):
 
 
 async def append(request):
-    # TODO: What do we do if we want to add data to an existing guid?
-    newEntryId = str(uuid.uuid4())
+    newEntryId = request.path_params["guid"]
 
     bodyData = await request.body()
 
@@ -74,12 +73,18 @@ async def append(request):
         return JSONResponse({"error": "Body is not a valid json"})
 
     try:
-        guid, returnData = cl.append_cl(bodyData)
+        returnData = cl.append_cl(bodyData, newEntryId)
     except:
-        returnData = "The confidential data connection seems not to be working"
+        return JSONResponse(
+            {"error": "The confidential data connection seems not to be working"}
+        )
 
     return JSONResponse(
-        {"Car ID": guid, "Ledger ID": str(returnData), "Data": json.loads(bodyData)}
+        {
+            "Car ID": newEntryId,
+            "Ledger ID": str(returnData),
+            "Data": json.loads(bodyData),
+        }
     )
 
 
@@ -106,7 +111,7 @@ async def error_template(request, exc):
 
 routes = [
     Route("/favicon.ico", FileResponse("static/favicon.ico")),
-    Route("/append", append, methods=["GET", "POST"]),
+    Route("/append/{guid}", append, methods=["GET", "POST"]),
     Route(
         "/read/{guid}", read, methods=["GET"]
     ),  # TODO: Consider casting to UUID? https://www.starlette.io/routing/
