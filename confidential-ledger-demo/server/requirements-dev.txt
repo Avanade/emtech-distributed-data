@@ -1,5 +1,5 @@
 -r requirements.txt
 
-pylint
-black
+pylint==2.8.1
+black==21.4b0
 requests==2.23.0
