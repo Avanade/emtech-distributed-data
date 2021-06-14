@@ -16,6 +16,22 @@ You can now insert new entries into the ledger and retrieve them using the SDK.
 
 `N.B Using the provided script will create and upload a cert for you, so you will not need to create your own cert`
 
+### Setup - Register an Application
+
+To run the application on a server, you'll need to register a client application ID and a client secret. In development, you can use the Python SDK
+
+Follow the instructions [here](https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal) to use your Azure subscription to generate the required information.
+
+Add the following information to your .env file:
+
+```
+AZURE_TENANT_ID = ""
+CL_APP_ID = ""
+CL_CLIENT_SC=""
+```
+
+The SDK will use the client secret to authenticate itself. At this time no additional permissions are required to be granted to the app.
+
 ## Setup - REST
 
 In private preview, confidential ledger is set up through REST calls. These are available in the [Confidential ledger setup requests file](confidential-ledger-demo/server/confidential-setup.http).
