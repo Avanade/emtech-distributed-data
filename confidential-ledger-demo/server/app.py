@@ -49,31 +49,31 @@ async def read(request):
     return JSONResponse(return_json)
 
 
-async def readlicense(request):
+async def read_license(request):
     license_plate = request.path_params["license"]
     # get data
     try:
         latest_data = cl.search_entries_license(license_plate)
     except:
-        errorMessage = "The confidential data connection seems not to be working"
-        return JSONResponse({"Error": errorMessage})
+        error_message = "The confidential data connection seems not to be working"
+        return JSONResponse({"Error": error_message})
 
     return JSONResponse({"read": license_plate, "data": latest_data})
 
 
 async def append(request):
-    newEntryId = request.path_params["guid"]
+    new_entry_id = request.path_params["guid"]
 
-    bodyData = await request.body()
+    body_data = await request.body()
 
     # verify json
     try:
-        json.loads(bodyData)
+        json.loads(body_data)
     except:
         return JSONResponse({"error": "Body is not a valid json"})
 
     try:
-        returnData = cl.append_cl(bodyData, newEntryId)
+        return_data = cl.append_cl(body_data, new_entry_id)
     except:
         return JSONResponse(
             {"error": "The confidential data connection seems not to be working"}
@@ -81,14 +81,14 @@ async def append(request):
 
     return JSONResponse(
         {
-            "Car ID": newEntryId,
-            "Ledger ID": str(returnData),
-            "Data": json.loads(bodyData),
+            "Car ID": new_entry_id,
+            "Ledger ID": str(return_data),
+            "Data": json.loads(body_data),
         }
     )
 
 
-async def error_template(request, exc):# scan:ignore
+async def error_template(request, exc):  # scan:ignore
     """Returns an error template."""
     error_codes = {
         404: "Sorry, the page you're looking for isn't here.",
@@ -99,7 +99,7 @@ async def error_template(request, exc):# scan:ignore
         error_message = error_codes[status_code]
     else:
         error_message = "Unknown error."
-    return templates.TemplateResponse(# scan:ignore
+    return templates.TemplateResponse(  # scan:ignore
         "layout/error.html",
         {
             "request": request,
@@ -115,7 +115,7 @@ routes = [
     Route(
         "/read/{guid}", read, methods=["GET"]
     ),  # TODO: Consider casting to UUID? https://www.starlette.io/routing/
-    Route("/readlicense/{license}", readlicense, methods=["GET"]),
+    Route("/readlicense/{license}", read_license, methods=["GET"]),
     Mount(
         "/static",
         app=StaticFiles(directory="static"),
