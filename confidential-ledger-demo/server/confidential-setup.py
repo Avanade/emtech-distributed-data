@@ -23,6 +23,7 @@ load_dotenv()
 #Set tenant ID from .env file
 
 clientId = os.getenv("CL_APP_ID")
+# scan:ignore
 clientSecret = os.getenv("CL_CLIENT_SC")
 tenantId = os.getenv("AZURE_TENANT_ID")
 

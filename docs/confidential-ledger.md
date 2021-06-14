@@ -36,7 +36,7 @@ The method will return the guid of the entry, as well as the confidetnail ledger
 
 In [confidential usage](confidential-ledger-demo/server/confidential-useage.http) you will see a selection of REST calls to make various calls to the confidential ledger service.
 
-To autherise these you will need to get a Bearer token:
+To autherise these you will need to get a Bearer token by running the following Azure CLI command:
 
 `az account get-access-token --subscription "{subscription name or id}"`
 
