@@ -1,24 +1,16 @@
 # Copyright (c) 2021 Avanade Inc.
 # Copyright (c) 2021 Microsoft.
 
-# Import the Azure authentication library
+from dotenv import load_dotenv
+import os
 
 from azure.identity import ClientSecretCredential
-
-# Import the control plane sdk
-
 from azure.mgmt.confidentialledger import ConfidentialLedger as ConfidentialLedgerAPI
 from azure.mgmt.confidentialledger.models import ConfidentialLedger
-
-# import the data plane sdk
-
 from azure.confidentialledger import ConfidentialLedgerClient
 from azure.confidentialledger.identity_service import (
     ConfidentialLedgerIdentityServiceClient,
 )
-
-import os
-from dotenv import load_dotenv
 
 load_dotenv()
 
