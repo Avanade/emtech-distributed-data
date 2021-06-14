@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 const navigation = [
   { name: 'About', href: '/' },
   { name: 'Simulate', href: '/simulate' },
+  { name: 'Test Harness', href: '/testharness' },
 
 ]
 
