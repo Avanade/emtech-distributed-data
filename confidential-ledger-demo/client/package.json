@@ -11,7 +11,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/Avanade/emtech-distributed-data.git",
-    "directory": "cl-frontend"
+    "directory": "confidential-ledger-demo/client"
   },
   "scripts": {
     "dev": "next dev",
