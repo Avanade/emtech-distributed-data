@@ -1,224 +1,133 @@
-# Copyright (c) 2021 Microsoft.
 # Copyright (c) 2021 Avanade Inc.
+# Copyright (c) 2021 Microsoft.
 
-
-from enum import Enum
-
-from typing import Dict, NamedTuple, Iterable
-import argparse
-
-from dotenv import load_dotenv
-import requests
 import os
 import json
+from dotenv import load_dotenv
+import uuid
+from datetime import datetime
 
-from dataclasses_serialization.json import JSONSerializer
-
-
-class Certificates(NamedTuple):
-    """Collection of certificate filenames."""
-
-    network_cert_filename: str
-    public_key_filename: str
-    private_key_filename: str
-
-
-class AppData(NamedTuple):
-    """Collection of data required by the client."""
-
-    certificates: Certificates
-    receipts: Dict
-    identity_url: str
-    ledger_url: str
+# import the data plane sdk and authentication library
+from azure.confidentialledger import ConfidentialLedgerClient
+from azure.identity import ClientSecretCredential
+from azure.confidentialledger.identity_service import (
+    ConfidentialLedgerIdentityServiceClient,
+)
 
 
-class Response:
-    """Base class for response objects."""
+def get_ledger_creds():
 
-    @staticmethod
-    # Microsoft TOxDO: this should be moved to a common dir as shared between different projects
-    def _validate_required_fields(json_response: Dict, required_fields: Iterable[str]):
-        for field in required_fields:
-            if field not in json_response:
-                raise ValueError(f"JSON response missing required field {field}")
+    load_dotenv()
 
+    client_id = os.getenv("CL_APP_ID")
+    # scan:ignore
+    client_secret = os.getenv("CL_CLIENT_SC")
+    tenant_id = os.getenv("AZURE_TENANT_ID")
 
-class GetLedgerDataResponse(Response):
-    """Translate the state response retrieved from a CCF node."""
-
-    view: str
-    seqno: str
-
-    @staticmethod
-    def from_json_response(json_response: Dict):
-        """Produce a LedgerResponse from a JSON response."""
-        print(json_response)
-        GetLedgerDataResponse._validate_required_fields(json_response, ["commit_info"])
-
-        return GetLedgerDataResponse(
-            str(json_response["commit_info"]["view"]),
-            str(json_response["commit_info"]["seq-no"]),
-        )
-
-    # Serialize
-    def to_json(self):
-        return JSONSerializer.serialize(self)
-
-
-class GetLedgerDataResponseWithBody(GetLedgerDataResponse):
-    """Translate the state response retrieved from a CCF node."""
-
-    # response: LedgerResponse
-    body: str
-
-    @staticmethod
-    def from_json_response(json_response: Dict):
-        """Produce a LedgerResponse from a JSON response."""
-        print(json_response)
-        GetLedgerDataResponse._validate_required_fields(
-            json_response, ["body", "commit_info"]
-        )
-
-        return GetLedgerDataResponseWithBody(
-            view=str(json_response["commit_info"]["view"]),
-            seqno=str(json_response["commit_info"]["seq-no"]),
-            body=json_response["body"],
-        )
-
-
-class RequestType(Enum):
-    """Enum for possible HTTP request types."""
-
-    GET = 0
-    POST = 1
-
-
-def getLedgerUri():
-
-    load_dotenv()  # take environment variables from .env.
-
-    return (os.getenv("IDENTITY_SERVICE_URI"), os.getenv("LEDGER_URI"))
-
-
-def createAppData():
-
-    parser = argparse.ArgumentParser("Sends commands to a Confidential Ledger")
-
-    parser.add_argument(
-        "--public-key", help="user public key", default="user0_cert.pem"
+    # Create a Credential Object
+    credential = ClientSecretCredential(
+        tenant_id=tenant_id, client_id=client_id, client_secret=client_secret
     )
 
-    parser.add_argument(
-        "--private-key", help="user private key", default="user0_privk.pem"
+    resource_group = os.getenv("RESOURCE_GROUP")
+    ledger_name = os.getenv("RESOURCE_NAME")
+    subscription_id = os.getenv("AZURE_TENANT_ID")
+
+    identity_url = "https://identity.accledger.azure.com"
+    ledger_url = "https://" + ledger_name + ".confidential-ledger.azure.com"
+
+    return credential, ledger_name, identity_url, ledger_url
+
+
+def get_ledger_client():
+
+    credential, ledger_name, identity_url, ledger_url = get_ledger_creds()
+
+    identity_client = ConfidentialLedgerIdentityServiceClient(identity_url)
+    network_identity = identity_client.get_ledger_identity(ledger_id=ledger_name)
+
+    ledger_tls_cert_file_name = "networkcert.pem"
+    with open(ledger_tls_cert_file_name, "w") as cert_file:
+        cert_file.write(network_identity.ledger_tls_certificate)
+
+    ledger_client = ConfidentialLedgerClient(
+        endpoint=ledger_url,
+        credential=credential,
+        ledger_certificate_path=ledger_tls_cert_file_name,
     )
 
-    parser.add_argument(
-        "-v",
-        "--verbose",
-        help="enable verbose output",
-        action="store_true",
-        default=False,
+    return ledger_client
+
+
+def append_cl(data):
+
+    guid, data = append_meta_data(json.loads(data))
+
+    ledger_client = get_ledger_client()
+    append_result = ledger_client.append_to_ledger(
+        entry_contents=str((json.dumps(data)))
     )
 
-    args = parser.parse_args()
-
-    identity_url, ledger_url = getLedgerUri()
-
-    # Create AppDataObject
-    app_data = AppData(
-        Certificates("", args.public_key, args.private_key),
-        {},
-        identity_url,
-        ledger_url,
-    )
-
-    return app_data
+    return guid, append_result.transaction_id
 
 
-def rpc_get_latest():
-    appData = createAppData()
-    result = _make_request__(
-        appData, "latest", data={"id": 1}  # this should (be?) commitId
-    )
-    # Format to ledger Response
-    response = GetLedgerDataResponseWithBody.from_json_response(json.loads(result))
-    return response
+def read_all():
+    ledger_client = get_ledger_client()
+    all = []
+    for entry in ledger_client.get_ledger_entries():
+        all.append([entry.contents, entry.transaction_id])
+
+    return all
 
 
-def rpc_put(body, wait_for_commit=False):
-    # Using the same LedgerId
-    data = {"id": 1, "body": body}
-    print(data)
-    appData = createAppData()
-    response = _make_request__(
-        appData, "latest", data=data, request_type=RequestType.POST
-    )
-    return response
+def search_entries_guid(search_guid):
+    """Returns a list of entries with the relavant guid"""
+    returns = []
+
+    ledger_client = get_ledger_client()
+    entries = ledger_client.get_ledger_entries()
+
+    for entry in entries:
+        try:
+            json_read = json.loads(str(entry.contents))
+            if (json_read["Meta"]["guid"]) == search_guid:
+                returns.append(entry.contents)
+
+        except:
+            # not a valid json
+            pass
+
+    return returns[0]
 
 
-def _make_request__(
-    app_data: AppData,
-    method: str,
-    data: Dict = None,
-    request_type: RequestType = RequestType.GET,
-):
-    _session = (requests.Session(),)
-    # _network_cert_path = self._ledger_client_phase.network_cert_path TODO get this another way
-    """Makes a request to the network."""
-    headers = (
-        None
-        if request_type == RequestType.GET
-        else {"content-type": "application/json"}
-    )
-    url = f"https://{app_data.ledger_url}/app/{method}"
-    if request_type == RequestType.GET:
-        response = _session.get(
-            url,
-            headers=headers,
-            # verify=self._network_cert_path,
-            cert=(
-                app_data.certificates.public_key_filename,
-                app_data.certificates.private_key_filename,
-            ),
-            params=data,
-        )
-    elif request_type == RequestType.POST:
-        response = _session.post(
-            url,
-            headers=headers,
-            # verify=self._network_cert_path,
-            cert=(
-                app_data.certificates.public_key_filename,
-                app_data.certificates.private_key_filename,
-            ),
-            json=data,
-        )
-    else:
-        raise RuntimeError("Unsupported request type")
+def search_entries_license(search_license):
+    """Returns a json of entries with the relavant licese"""
+    returns = {}
 
-    expected_commit_info = {
-        "x-ccf-tx-seqno": "seq-no",
-        "x-ccf-global-commit": "global-commit",
-        "x-ccf-tx-view": "view",
-    }
+    ledger_client = get_ledger_client()
+    entries = ledger_client.get_ledger_entries()
 
-    commit_info = {}
-    for header_key, print_key in expected_commit_info.items():
-        if header_key not in response.headers:
-            continue
+    for entry in entries:
+        try:
+            json_read = json.loads(str(entry.contents))
+            if (json_read["Licence"]) == search_license:
+                returns.update(json_read)
 
-        commit_info[print_key] = response.headers[header_key]
+        except:
+            # not a valid json
+            pass
 
-    # Check for { because the put request says it's application/json type but is
-    # just a bool.
-    result_data = {}
-    if response.text.find("{") != -1:
-        result_data = json.loads(response.text)
-    else:
-        result_data["response"] = response.text
+    return returns
 
-    result_data["commit_info"] = commit_info
 
-    result_output = json.dumps(result_data, indent=4, sort_keys=True)
+def append_meta_data(content):
+    """appends new guid and timestamp to given json"""
 
-    return result_output
+    generated_guid = str(uuid.uuid4())
+    timestamp = str(datetime.now())
+
+    meta = {"Meta": {"TimeStamp": timestamp, "guid": generated_guid}}
+
+    content.update(meta)
+
+    return generated_guid, content

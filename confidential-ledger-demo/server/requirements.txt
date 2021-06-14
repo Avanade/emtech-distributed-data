@@ -3,13 +3,13 @@ databases
 sqlalchemy
 aiofiles
 jinja2
-#python-multipart
 python-dotenv
-# Required for blob storage
 aiohttp
-# TODO: Fix aiohttp speedups
-#aiohttp[speedups]
-# Required for deploying to Azure
 uvicorn
 uvloop
+#TODO: Required in docker?
 httptools
+dataclasses_serialization
+azure-confidentialledger
+azure-mgmt-confidentialledger
+azure-identity
