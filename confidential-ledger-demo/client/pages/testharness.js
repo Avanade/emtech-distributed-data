@@ -1,26 +1,25 @@
-import { useRouter } from "next/router";
-import { TableIcon } from "@heroicons/react/solid";
+import useSWR from "swr";
+import fetcher from "@/lib/fetcher";
+import {
+    ExclamationCircleIcon,
+    RefreshIcon,
+    TableIcon,
+} from "@heroicons/react/solid";
+import BasicPage from "@/components/BasicPage";
 
-export default function DataId() {
-    const router = useRouter();
+export default function TestHarness() {
     const testguid = "9d965b53-1e92-4507-a3b6-49a38803cc68";
+    const { data, error } = useSWR(`/api/ledger/${testguid}`, fetcher);
+
+    if (error)
+        return (
+            <BasicPage title="Error loading test harness" icon={ExclamationCircleIcon} />
+        );
+    if (!data) return <BasicPage title="Loading confidential ledger test harness" icon={RefreshIcon} />;
+
     return (
-        <div className="py-10">
-            <header>
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center">
-                    <TableIcon className="-ml-1 mr-1 h-5 w-5" aria-hidden="true" />
-                    <h1 className="text-3xl font-bold leading-tight text-gray-900">
-                        My Data
-                    </h1>
-                </div>
-            </header>
-            <main>
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="px-4 py-8 sm:px-0">
-                        You're trying to look at {did}.
-                    </div>
-                </div>
-            </main>
-        </div>
+        <BasicPage title="Test Harness" icon={TableIcon}>
+            {data}
+        </BasicPage>
     );
 }
