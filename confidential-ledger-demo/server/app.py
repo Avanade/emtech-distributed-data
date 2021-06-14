@@ -62,7 +62,7 @@ async def readlicense(request):
 
 
 async def append(request):
-
+    # TODO: What do we do if we want to add data to an existing guid?
     newEntryId = str(uuid.uuid4())
 
     bodyData = await request.body()
@@ -82,25 +82,40 @@ async def append(request):
         {"Car ID": guid, "Ledger ID": str(returnData), "Data": json.loads(bodyData)}
     )
 
+
 async def error_template(request, exc):
     """Returns an error template."""
-    error_codes={404:"Sorry, the page you're looking for isn't here.",500:"Internal Server error."}
-    status_code=exc.status_code
+    error_codes = {
+        404: "Sorry, the page you're looking for isn't here.",
+        500: "Internal Server error.",
+    }
+    status_code = exc.status_code
     if status_code in error_codes:
-        error_message=error_codes[status_code]
+        error_message = error_codes[status_code]
     else:
-       error_message="Unknown error."
+        error_message = "Unknown error."
     return templates.TemplateResponse(
         "layout/error.html",
-        {'request': request,"error_code": status_code, "error_message": error_message,},
+        {
+            "request": request,
+            "error_code": status_code,
+            "error_message": error_message,
+        },
     )
+
 
 routes = [
     Route("/favicon.ico", FileResponse("static/favicon.ico")),
     Route("/append", append, methods=["GET", "POST"]),
-    Route("/read/{guid}", read, methods=["GET"]),
+    Route(
+        "/read/{guid}", read, methods=["GET"]
+    ),  # TODO: Consider casting to UUID? https://www.starlette.io/routing/
     Route("/readlicense/{license}", readlicense, methods=["GET"]),
-    Mount("/static", app=StaticFiles(directory="static"), name="static",),
+    Mount(
+        "/static",
+        app=StaticFiles(directory="static"),
+        name="static",
+    ),
 ]
 
 middleware = [

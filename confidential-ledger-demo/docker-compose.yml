@@ -6,6 +6,10 @@ services:
       - "5000:5000"
     env_file:
       - ./server/.env
+    networks:
+      default:
+        aliases:
+          - cl-api.dev
   frontend:
     build: ./client
     ports:
