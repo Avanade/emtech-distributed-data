@@ -4,6 +4,10 @@ services:
     build: ./server
     ports:
       - "5000:5000"
+    networks:
+      default:
+        aliases:
+          - cl-api.dev
   frontend:
     build: ./client
     ports:
