@@ -27,7 +27,7 @@ Both demos use a frontend built with [Next.js](https://nextjs.org/), which then 
 
 You can run the demos locally using [nodejs](https://nodejs.org/en/download/), or a [dockerfile](https://docs.docker.com/get-started/#what-is-a-container) is provided for each demo, enabling you to run locally or deploy to Azure with all dependencies included.
 
-Whatever your decision, both demos have a `.env.template` file in their respective directories, which shows application settings that you will need. These need to either be contained in a local `.env.local` file, or in the [App Settings](https://docs.microsoft.com/en-gb/azure/app-service/configure-common#configure-app-settings) for your application in Azure.
+Whatever your decision, both demos have a `.env.template` file in their respective directories, which shows application settings that you will need. These need to either be contained in a local `.env.local` file, or in the [App Settings](https://docs.microsoft.com/en-gb/azure/app-service/configure-common?WT.mc_id=AI-MVP-5004204#configure-app-settings) for your application in Azure.
 
 ### Running Locally with node
 
