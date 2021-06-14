@@ -1,4 +1,3 @@
-# Import the Azure authentication library
 # Copyright (c) 2021 Avanade Inc.
 # Copyright (c) 2021 Microsoft.
 
@@ -8,9 +7,9 @@ from dotenv import load_dotenv
 import uuid
 from datetime import datetime
 
-# import the data plane sdk
+# import the data plane sdk and authentication library
 from azure.confidentialledger import ConfidentialLedgerClient
-from azure.identity import ClientSecretCredential, DefaultAzureCredential
+from azure.identity import ClientSecretCredential
 from azure.confidentialledger.identity_service import (
     ConfidentialLedgerIdentityServiceClient,
 )
@@ -21,8 +20,8 @@ def get_ledger_creds():
     load_dotenv()
 
     clientId = os.getenv("CL_APP_ID")
+    # scan:ignore
     clientSecret = os.getenv("CL_CLIENT_SC")
-
     tenantId = os.getenv("AZURE_TENANT_ID")
 
     # Create a Credential Object
