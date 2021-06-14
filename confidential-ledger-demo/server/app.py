@@ -88,7 +88,7 @@ async def append(request):
     )
 
 
-async def error_template(request, exc):
+async def error_template(request, exc):# scan:ignore
     """Returns an error template."""
     error_codes = {
         404: "Sorry, the page you're looking for isn't here.",
@@ -99,7 +99,7 @@ async def error_template(request, exc):
         error_message = error_codes[status_code]
     else:
         error_message = "Unknown error."
-    return templates.TemplateResponse(
+    return templates.TemplateResponse(# scan:ignore
         "layout/error.html",
         {
             "request": request,
