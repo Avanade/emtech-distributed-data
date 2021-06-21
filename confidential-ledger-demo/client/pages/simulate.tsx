@@ -2,6 +2,8 @@ import { BeakerIcon } from "@heroicons/react/solid";
 import React, { useState, useEffect } from "react";
 import Panel from "../components/Panel";
 import dynamic from "next/dynamic";
+import MotorwayGrid from "../components/MotorwayGrid";
+import GridSquare from "../components/GridSquare";
 
 const DynamicSlideOver = dynamic(() => import("../components/SlideOver"), {
   ssr: false,
@@ -42,7 +44,38 @@ export default function Simulate() {
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
           <div className="px-4 py-8 sm:px-0">
             <Panel>
-              <button onClick={() => setIsOpen(true)}>Content</button>
+              <MotorwayGrid>
+                <GridSquare
+                  onClick={() => setIsOpen(true)}
+                  squareContains="car"
+                  color="text-purple-600"
+                />
+                <GridSquare squareContains="none" />
+                <GridSquare
+                  onClick={() => setIsOpen(true)}
+                  squareContains="car"
+                  color="text-purple-600"
+                />
+                <GridSquare squareContains="none" />{" "}
+                <GridSquare
+                  onClick={() => setIsOpen(true)}
+                  squareContains="car"
+                  color="text-blue-600"
+                />
+                <GridSquare squareContains="none" />{" "}
+                <GridSquare
+                  onClick={() => setIsOpen(true)}
+                  squareContains="car"
+                  color="text-purple-600"
+                />
+                <GridSquare squareContains="none" />{" "}
+                <GridSquare
+                  onClick={() => setIsOpen(true)}
+                  squareContains="car"
+                  color="text-purple-600"
+                />
+                <GridSquare squareContains="none" />
+              </MotorwayGrid>
             </Panel>
             {modal}
           </div>
