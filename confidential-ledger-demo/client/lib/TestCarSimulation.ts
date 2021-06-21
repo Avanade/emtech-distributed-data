@@ -1,4 +1,4 @@
-import { Grid, MockTickData, CarSimulation } from "./CarSimulation";
+import { Grid, Dictionary, CarSimulation } from "./CarSimulation";
 
 function printGrid(gridToPrint: Grid) {
     let gridSquares=gridToPrint.gridSquares;
@@ -15,7 +15,9 @@ function printGrid(gridToPrint: Grid) {
     })
 }
 
-class TestCarSimulation extends CarSimulation {
+export function MockTickData(vehicleId: string, dataToAppend: Dictionary) {
+    console.log(`Mock function ran for ${vehicleId}`);
+    console.log(dataToAppend);
 }
 
-let testSimulation = new TestCarSimulation( 500, MockTickData, printGrid);
+let testSimulation = new CarSimulation( 500, MockTickData, printGrid);
