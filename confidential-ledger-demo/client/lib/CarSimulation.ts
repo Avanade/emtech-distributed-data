@@ -20,13 +20,13 @@ interface GridSquare {
     squareContains: CanContain;
 }
 
-interface Grid {
+export interface Grid {
     xDimension: number;
     yDimension: number;
     gridSquares: GridSquare[][];
 }
 
-function MockTickData(vehicleId: string, dataToAppend: Dictionary) {
+export function MockTickData(vehicleId: string, dataToAppend: Dictionary) {
     console.log(`Mock function ran for ${vehicleId}`);
     console.log(dataToAppend);
 }
@@ -103,7 +103,7 @@ class GridSquare implements GridSquare {
     }
 }
 
-class Grid implements Grid {
+export class Grid implements Grid {
     xDimension: number;
     yDimension: number;
     gridSquares: GridSquare[][];
@@ -145,16 +145,18 @@ class Grid implements Grid {
     }
 }
 
-class CarSimulation {
+export class CarSimulation {
     grid: Grid;
     timer: ReturnType<typeof setInterval>;
-    ledgerAppendFunction:any;
+    ledgerAppendFunction:(vehicleId: string, dataToAppend: Dictionary) => void;
+    stepCallbackFunction:(gridData: Grid) => void;
 
 
-    constructor(tickLengthMilliseconds: number, ledgerAppendFunction: (vehicleId: string, dataToAppend: Dictionary) => void) {
+    constructor(tickLengthMilliseconds: number, ledgerAppendFunction: (vehicleId: string, dataToAppend: Dictionary) => void, stepCallbackFunction: (gridToPrint: Grid) => void) {
         this.grid = new Grid(10, 10);
-        this.initSimulation(tickLengthMilliseconds);
         this.ledgerAppendFunction=ledgerAppendFunction;
+        this.stepCallbackFunction=stepCallbackFunction;
+        this.initSimulation(tickLengthMilliseconds);
     }
 
     initSimulation(tickLengthMilliseconds: number) {
@@ -162,7 +164,7 @@ class CarSimulation {
         this.addCars(startingCars);
         this.timer = setInterval(() => this.runTimeStep(), tickLengthMilliseconds);
         console.log("Simulation started, running every %sms.",tickLengthMilliseconds);
-        this.printGrid();
+        this.stepCallbackFunction(this.grid);
     }
 
     addCars(carAmountToAdd: number): void {
@@ -187,22 +189,7 @@ class CarSimulation {
         console.log("Time step. %s",DateTime.now().toLocaleString(DateTime.TIME_24_WITH_SECONDS));
         this.grid=this.moveVehicles();
         this.addCars(this.randomNumber(this.grid.xDimension));
-        this.printGrid();
-    }
-
-    printGrid() {
-        let gridSquares=this.grid.gridSquares;
-        gridSquares.slice().reverse().forEach((element,index) => {
-            let printString="-" + index + "-";
-            element.forEach((yElement,yIndex) => {
-                if (yElement.hasCar()) {
-                    printString+="c";
-                } else {
-                    printString+="-";
-                }
-            });
-            console.log(printString);
-        })
+        this.stepCallbackFunction(this.grid);
     }
 
     moveVehicles():Grid {
@@ -230,5 +217,3 @@ class CarSimulation {
         console.log("Simulation ended.");
     }
 }
-
-let testSimulation = new CarSimulation( 500, MockTickData);
