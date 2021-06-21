@@ -1,22 +1,21 @@
 import {v4 as uuid4} from 'uuid';
 import {DateTime} from 'luxon';
-import App from "next/app";
 
 type CanContain = Car | null;
 
-type Dictionary = {
+export type Dictionary = {
     [x: string]: boolean | Dictionary;
 };
 
 
-interface Car {
+export interface Car {
     licencePlate: string;
     sprite: string;
     id: string;
     location: { x: number, y: number };
 }
 
-interface GridSquare {
+export interface GridSquare {
     squareContains: CanContain;
 }
 
@@ -26,13 +25,7 @@ export interface Grid {
     gridSquares: GridSquare[][];
 }
 
-export function MockTickData(vehicleId: string, dataToAppend: Dictionary) {
-    console.log(`Mock function ran for ${vehicleId}`);
-    console.log(dataToAppend);
-}
-
-
-class Car implements Car {
+export class Car implements Car {
     public licencePlate: string;
     public sprite: string;
     public id: string;
@@ -49,7 +42,7 @@ class Car implements Car {
     }
 }
 
-class GridSquare implements GridSquare {
+export class GridSquare implements GridSquare {
     squareContains: CanContain;
     xCoordinate: number;
     yCoordinate: number;
