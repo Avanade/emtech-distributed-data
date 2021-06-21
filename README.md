@@ -20,8 +20,8 @@ emtech-distributed-data is available under the [MIT Licence](./LICENCE).
 
 ### Solutions Referenced
 
-- Azure SQL Database ledger tables
-- Azure Confidential Ledger
+- [Azure SQL Database ledger tables](https://docs.microsoft.com/en-us/azure/azure-sql/database/ledger-overview?WT.mc_id=AI-MVP-5004204)
+- [Azure Confidential Ledger](https://docs.microsoft.com/en-gb/azure/confidential-ledger/?WT.mc_id=AI-MVP-5004204)
 
 ### Documentation
 

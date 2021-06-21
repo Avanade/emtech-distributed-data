@@ -1,7 +1,13 @@
 import {v4 as uuid4} from 'uuid';
-import { DateTime } from 'luxon';
+import {DateTime} from 'luxon';
+import App from "next/app";
 
-type canContain = Car | null;
+type CanContain = Car | null;
+
+type Dictionary = {
+    [x: string]: boolean | Dictionary;
+};
+
 
 interface Car {
     licencePlate: string;
@@ -11,7 +17,7 @@ interface Car {
 }
 
 interface GridSquare {
-    squareContains: canContain;
+    squareContains: CanContain;
 }
 
 interface Grid {
@@ -20,20 +26,31 @@ interface Grid {
     gridSquares: GridSquare[][];
 }
 
+function MockTickData(vehicleId: string, dataToAppend: Dictionary) {
+    console.log(`Mock function ran for ${vehicleId}`);
+    console.log(dataToAppend);
+}
+
+
 class Car implements Car {
     public licencePlate: string;
     public sprite: string;
     public id: string;
+    public metadata: Dictionary;
 
     constructor(licencePlate: string, sprite: string) {
         this.licencePlate = licencePlate;
         this.sprite = sprite;
         this.id = uuid4();
     }
+
+    setCarMetadata(metadata: Dictionary) {
+        this.metadata=metadata;
+    }
 }
 
 class GridSquare implements GridSquare {
-    squareContains: canContain;
+    squareContains: CanContain;
     xCoordinate: number;
     yCoordinate: number;
 
@@ -57,6 +74,16 @@ class GridSquare implements GridSquare {
     updateCoordinates(xCoordinate:number, yCoordinate: number): void {
         this.xCoordinate=xCoordinate;
         this.yCoordinate=yCoordinate;
+    }
+
+    appendMetadata(ledgerAppendFunction: (vehicleId: string, dataToAppend: Dictionary) => void): void{
+        if (this.hasCar()===true) {
+            let car=this.getField();
+            let carId=car.id;
+            let carMetadata=car.metadata;
+            ledgerAppendFunction(carId, carMetadata);
+        }
+
     }
 
     hasCar(): boolean {
@@ -118,15 +145,16 @@ class Grid implements Grid {
     }
 }
 
-
 class CarSimulation {
     grid: Grid;
     timer: ReturnType<typeof setInterval>;
+    ledgerAppendFunction:any;
 
 
-    constructor(tickLengthMilliseconds: number) {
+    constructor(tickLengthMilliseconds: number, ledgerAppendFunction: (vehicleId: string, dataToAppend: Dictionary) => void) {
         this.grid = new Grid(10, 10);
         this.initSimulation(tickLengthMilliseconds);
+        this.ledgerAppendFunction=ledgerAppendFunction;
     }
 
     initSimulation(tickLengthMilliseconds: number) {
@@ -189,6 +217,7 @@ class CarSimulation {
               if (targetX<xWidth) {
                   let targetY=yGridSquare.yCoordinate;
                   yGridSquare.updateCoordinates(targetX,targetY);
+                  yGridSquare.appendMetadata(this.ledgerAppendFunction);
                   nextTick.gridSquares[targetX][targetY]=yGridSquare;
               }
            });
@@ -202,4 +231,4 @@ class CarSimulation {
     }
 }
 
-let testSimulation = new CarSimulation( 500);
+let testSimulation = new CarSimulation( 500, MockTickData);

@@ -4,7 +4,7 @@
 
 In public preview the Python SDK can be used to set up the confidential ledger. Ensure the correct variables have been entered into the .env file from the [.env.template](confidential-ledger-demo/server/.env.template) example.
 
-If you are new to confidential ledger, use the instructions in the [Microsoft documentation](https://docs.microsoft.com/en-gb/azure/confidential-ledger/quickstart-python?tabs=azure-cli) to enable your subscription and register for the service using:
+If you are new to confidential ledger, use the instructions in the [Microsoft documentation](https://docs.microsoft.com/en-gb/azure/confidential-ledger/quickstart-python?tabs=azure-cli&WT.mc_id=AI-MVP-5004204) to enable your subscription and register for the service using:
 
 `az login` to login to your Azure subscription
 
@@ -20,7 +20,7 @@ You can now insert new entries into the ledger and retrieve them using the SDK.
 
 To run the application on a server, you'll need to register a client application ID and a client secret. In development, you can use the Python SDK
 
-Follow the instructions [here](https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal) to use your Azure subscription to generate the required information.
+Follow the instructions [here](https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal?WT.mc_id=AI-MVP-5004204) to use your Azure subscription to generate the required information.
 
 Add the following information to your .env file:
 
