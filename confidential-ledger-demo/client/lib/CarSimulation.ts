@@ -1,38 +1,31 @@
 import {v4 as uuid4} from 'uuid';
 import {DateTime} from 'luxon';
-import App from "next/app";
 
 type CanContain = Car | null;
 
-type Dictionary = {
+export type Dictionary = {
     [x: string]: boolean | Dictionary;
 };
 
 
-interface Car {
+export interface Car {
     licencePlate: string;
     sprite: string;
     id: string;
     location: { x: number, y: number };
 }
 
-interface GridSquare {
+export interface GridSquare {
     squareContains: CanContain;
 }
 
-interface Grid {
+export interface Grid {
     xDimension: number;
     yDimension: number;
     gridSquares: GridSquare[][];
 }
 
-function MockTickData(vehicleId: string, dataToAppend: Dictionary) {
-    console.log(`Mock function ran for ${vehicleId}`);
-    console.log(dataToAppend);
-}
-
-
-class Car implements Car {
+export class Car implements Car {
     public licencePlate: string;
     public sprite: string;
     public id: string;
@@ -49,7 +42,7 @@ class Car implements Car {
     }
 }
 
-class GridSquare implements GridSquare {
+export class GridSquare implements GridSquare {
     squareContains: CanContain;
     xCoordinate: number;
     yCoordinate: number;
@@ -65,6 +58,11 @@ class GridSquare implements GridSquare {
             throw new Error("Tried to put a car where a car already exists.");
         }
         this.squareContains = newField;
+    }
+
+    getCoordId(): string {
+        let id:string=this.xCoordinate+"-"+this.yCoordinate;
+        return id;
     }
 
     getField(): Car | null {
@@ -103,7 +101,7 @@ class GridSquare implements GridSquare {
     }
 }
 
-class Grid implements Grid {
+export class Grid implements Grid {
     xDimension: number;
     yDimension: number;
     gridSquares: GridSquare[][];
@@ -145,16 +143,18 @@ class Grid implements Grid {
     }
 }
 
-class CarSimulation {
+export class CarSimulation {
     grid: Grid;
     timer: ReturnType<typeof setInterval>;
-    ledgerAppendFunction:any;
+    ledgerAppendFunction:(vehicleId: string, dataToAppend: Dictionary) => void;
+    stepCallbackFunction:(gridData: Grid) => void;
 
 
-    constructor(tickLengthMilliseconds: number, ledgerAppendFunction: (vehicleId: string, dataToAppend: Dictionary) => void) {
+    constructor(tickLengthMilliseconds: number, ledgerAppendFunction: (vehicleId: string, dataToAppend: Dictionary) => void, stepCallbackFunction: (gridToPrint: Grid) => void) {
         this.grid = new Grid(10, 10);
-        this.initSimulation(tickLengthMilliseconds);
         this.ledgerAppendFunction=ledgerAppendFunction;
+        this.stepCallbackFunction=stepCallbackFunction;
+        this.initSimulation(tickLengthMilliseconds);
     }
 
     initSimulation(tickLengthMilliseconds: number) {
@@ -162,7 +162,7 @@ class CarSimulation {
         this.addCars(startingCars);
         this.timer = setInterval(() => this.runTimeStep(), tickLengthMilliseconds);
         console.log("Simulation started, running every %sms.",tickLengthMilliseconds);
-        this.printGrid();
+        this.stepCallbackFunction(this.grid);
     }
 
     addCars(carAmountToAdd: number): void {
@@ -187,22 +187,7 @@ class CarSimulation {
         console.log("Time step. %s",DateTime.now().toLocaleString(DateTime.TIME_24_WITH_SECONDS));
         this.grid=this.moveVehicles();
         this.addCars(this.randomNumber(this.grid.xDimension));
-        this.printGrid();
-    }
-
-    printGrid() {
-        let gridSquares=this.grid.gridSquares;
-        gridSquares.slice().reverse().forEach((element,index) => {
-            let printString="-" + index + "-";
-            element.forEach((yElement,yIndex) => {
-                if (yElement.hasCar()) {
-                    printString+="c";
-                } else {
-                    printString+="-";
-                }
-            });
-            console.log(printString);
-        })
+        this.stepCallbackFunction(this.grid);
     }
 
     moveVehicles():Grid {
@@ -230,5 +215,3 @@ class CarSimulation {
         console.log("Simulation ended.");
     }
 }
-
-let testSimulation = new CarSimulation( 500, MockTickData);
