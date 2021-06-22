@@ -25,7 +25,7 @@ For common procedures relavant to the use case, see [procedures.sql](sql/procedu
 
 Fill in the [.env file](https://github.com/Avanade/emtech-distributed-data/blob/main/sql-ledger-demo/.env.template) with the required details for your server.
 
-You can either rename this `.env.local` for local running, or in the [App Settings](https://docs.microsoft.com/en-gb/azure/app-service/configure-common#configure-app-settings) for your application in Azure.
+You can either rename this `.env.local` for local running, or in the [App Settings](https://docs.microsoft.com/en-gb/azure/app-service/configure-common?WT.mc_id=AI-MVP-5004204#configure-app-settings) for your application in Azure.
 
 # Use Case
 

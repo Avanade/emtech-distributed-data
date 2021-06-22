@@ -18,11 +18,15 @@ Create and set up your confidential-ledger - read the [confidential ledger setup
 
 Fill in the [.env file](./confidential-server/server/.env.TEMPLATE) with the details in the template, to allow the application to store and read date to the confidential ledger.
 
-### 3. Run the multi-container application
+### 3. Run the multi-container application locally
 
 Open the `confidential-ledger-demo` directory and run `docker-compose up --build -d` to build the container images, and start the application.
 
 Open [https://localhost:3000] to see the application in use.
+
+### 4. Deploy the application in Azure
+
+To deploy the multi-container application in Azure, [follow the instructions provided by the Microsoft Docs](https://docs.microsoft.com/en-us/azure/container-instances/tutorial-docker-compose?WT.mc_id=AI-MVP-5004204#create-azure-context).
 
 # Alternatives
 You can also run the backend and frontend server separately to see the interactions.
