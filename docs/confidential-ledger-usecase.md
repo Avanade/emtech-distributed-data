@@ -6,7 +6,7 @@ Azure Confidential Ledger provides tamperproof, unstructured data store hosted i
 
 Azure Confidential Ledger provides a managed and decentralized ledger for data entries backed by Blockchain. Maintain data integrity by preventing unauthorized or accidental modification with tamperproof storage. Protect your data at rest, in transit, and in use with hardware-backed secure enclaves used in Azure confidential computing.
 
-[More Information](https://docs.microsoft.com/en-gb/azure/confidential-ledger/overview)
+[More Information](https://docs.microsoft.com/en-gb/azure/confidential-ledger/overview?WT.mc_id=AI-MVP-5004204)
 
 ## Use Case
 
