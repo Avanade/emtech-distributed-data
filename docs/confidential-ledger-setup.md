@@ -1,5 +1,9 @@
-# Confidential Ledger
+# Confidential Ledger - Oltiva SafeDrive
 
+## Overview
+The Confidential Ledger demo utilizes a front-end server running with TypeScript, and a back-end server running in Python, reading and writing data to Azure Confidential Ledger. [More architectural information in the use case](confidential-ledger-usecase.md).
+
+This section describes how to set up and enable your confidential ledger.
 ## Setup - Python SDK
 
 In public preview the Python SDK can be used to set up the confidential ledger. Ensure the correct variables have been entered into the .env file from the [.env.template](confidential-ledger-demo/server/.env.template) example.

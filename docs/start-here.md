@@ -10,26 +10,25 @@ This repository is intended to hold Avanade's exploration with Azure SQL Databas
 
 ## Folder Structure
 
-- docs - documentation, process flows and state diagrams, and technical architecture
+- docs - documentation, process flows and state diagrams, and technical architecture.
 - sql-ledger-demo - the Azure web app for the Azure SQL database ledger tables demo.
 - sql-ledger-demo/python-tools - tools for updating and generating random data in SQL ledger.
-- sql-ledger-demo/sql - Examples of the SQL we used to set up our SQL ledger demo
-- confidential-ledger-demo/client - the Azure web app for the confidential ledger demo
-- confidential-ledger-demo/server - the backend python server for the webapp
+- sql-ledger-demo/sql - Examples of the SQL we used to set up our SQL ledger demo.
+- confidential-ledger-demo/ - the Docker compose definition to run the confidential ledger use case.
+- confidential-ledger-demo/client - the Azure web app for the confidential ledger demo.
+- confidential-ledger-demo/server - the backend python server for the webapp.
 - .vscode - configuration and recommendations for the VS Code IDE.
-- tools - Tools for adding additional dummy data to the demos
-
 # Running the demos
 
 ## Main Demos
 
-Both demos use a frontend built with [Next.js](https://nextjs.org/), which then integrates with the respective distributed data solution. More information [is available for the SQL Ledger Tables demo](./sql-ledger.md).
+Both demos use a frontend built with [Next.js](https://nextjs.org/), which then integrates with the respective distributed data solution. More information [is available for the SQL Ledger Tables demo](./sql-ledger.md) and [for the Confidential Ledger demo](./confidential-ledger.md).
 
-You can run the demos locally using [nodejs](https://nodejs.org/en/download/), or a [dockerfile](https://docs.docker.com/get-started/#what-is-a-container) is provided for each demo, enabling you to run locally or deploy to Azure with all dependencies included.
+You can run the demos locally using [nodejs](https://nodejs.org/en/download/), or a [dockerfile](https://docs.docker.com/get-started/#what-is-a-container)/docker compose definition is provided for each demo, enabling you to run locally or deploy to Azure with all dependencies included.
 
 Whatever your decision, both demos have a `.env.template` file in their respective directories, which shows application settings that you will need. These need to either be contained in a local `.env.local` file, or in the [App Settings](https://docs.microsoft.com/en-gb/azure/app-service/configure-common?WT.mc_id=AI-MVP-5004204#configure-app-settings) for your application in Azure.
 
-### Running Locally with node
+### Running the next.js server locally with node
 
 1. Open the `.env.template` file, and update with your settings - save it as `.env.local`
 2. Run `npm install` to ensure you have all dependencies.
