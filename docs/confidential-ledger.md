@@ -1,16 +1,34 @@
-# Confidential Ledger Server
+# Confidential Ledger
 
+## Overview
+This section describes how to set up the [Confidential Ledger usecase](confidential-ledger-usecase.md).
+
+The use case comprises a backend python server, and a frontend TypeScript server. Both components are deployed to Azure with Docker Compose.
+
+### Backend Server
 Found in the [confidential-ledger-demo/server](confidential-ledger-demo/server) directory, you will find a Python web application designed to show smart car interaction scenarios with confidential ledger
 
-The server iniates a connection to the confidential ledger, and posts data passed to it, adding appropriate meta data. It can also retrieve and filter results read from teh confidential ledger.
+The server iniates a connection to the confidential ledger, and posts data passed to it, adding appropriate meta data. It can also retrieve and filter results read from the confidential ledger.
 
-## .env file
+## Setting up the Demo
 
-Fill in the [.env file](confidential-server/.env.TEMPLATE) with the required details. See [confidential-ledger-setup.md](docs/confidential-ledger-setup.md) for more infomration on authenticating the app to use the CL SDK.
+### 1. Confidential Ledger
+Create and set up your confidential-ledger - read the [confidential ledger setup](docs/confidential-ledger-setup.md) document, to create and authenticate an Azure Application to use the Confidential Ledger SDK.
+### 2. .env file
 
+Fill in the [.env file](./confidential-server/server/.env.TEMPLATE) with the details in the template, to allow the application to store and read date to the confidential ledger.
+
+### 3. Run the multi-container application
+
+Open the `confidential-ledger-demo` directory and run `docker-compose up --build -d` to build the container images, and start the application.
+
+Open [https://localhost:3000] to see the application in use.
+
+# Alternatives
+You can also run the backend and frontend server separately to see the interactions.
 ## Run the backend server
 
-`cd confidential-server`
+`cd confidential-ledger-demo/server`
 `./dev-server-start.sh`
 
 ## API
@@ -34,7 +52,7 @@ The method will return the guid of the entry, as well as the confidetnail ledger
 
 ## Uisng the REST API.
 
-In [confidential usage](confidential-ledger-demo/server/confidential-useage.http) you will see a selection of REST calls to make various calls to the confidential ledger service.
+In [confidential usage](confidential-ledger-demo/server/confidential-usage.http) you will see a selection of REST calls to make various calls to the confidential ledger service.
 
 To autherise these you will need to get a Bearer token by running the following Azure CLI command:
 
