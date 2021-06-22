@@ -2,7 +2,7 @@
 
 First import the required libraries:
 
-For more information on these libraries and how to install them, see the [confidential ledger documentation](https://docs.microsoft.com/en-us/azure/confidential-ledger/quickstart-python?tabs=azure-cli)
+For more information on these libraries and how to install them, see the [confidential ledger documentation](https://docs.microsoft.com/en-us/azure/confidential-ledger/quickstart-python?tabs=azure-cli&WT.mc_id=AI-MVP-5004204)
 
 ```
 from dotenv import load_dotenv
