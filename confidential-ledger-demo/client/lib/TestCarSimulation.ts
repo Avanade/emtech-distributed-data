@@ -1,4 +1,4 @@
-import { Grid, Dictionary, CarSimulation } from "./CarSimulation";
+import { Grid, Dictionary, CarSimulation } from "@/lib/CarSimulation";
 
 function printGrid(gridToPrint: Grid) {
     let gridSquares=gridToPrint.gridSquares;

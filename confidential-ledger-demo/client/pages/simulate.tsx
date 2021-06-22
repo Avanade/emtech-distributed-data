@@ -1,9 +1,10 @@
 import { BeakerIcon } from "@heroicons/react/solid";
 import React, { useState, useEffect } from "react";
-import Panel from "../components/Panel";
+import Panel from "@/components/Panel";
 import dynamic from "next/dynamic";
-import MotorwayGrid from "../components/MotorwayGrid";
-import GridSquare from "../components/GridSquare";
+import { MotorwayGrid, CarIcon } from "@/components/CarVisualizations";
+import { Grid, Dictionary, CarSimulation } from "@/lib/CarSimulation";
+import { appendLedger } from "@/lib/cl-api";
 
 const DynamicSlideOver = dynamic(() => import("../components/SlideOver"), {
   ssr: false,
@@ -12,7 +13,16 @@ const DynamicSlideOver = dynamic(() => import("../components/SlideOver"), {
 export default function Simulate() {
   let [isOpen, setIsOpen] = useState(false);
   let [modal, setModal] = useState(<></>);
-  let [carGrid, setCarGrid] = useState(false);
+  let [carGrid, setCarGrid] = useState(new Grid(1,1));
+  let [carSimulation, setCarSim] = React.useState<any>(false);
+
+  useEffect(() => {
+    if (carSimulation === false) {
+      setCarSim(new CarSimulation(500, appendLedger, setCarGrid));
+    }
+  });
+
+
 
   useEffect(() => {
     if (isOpen === true) {
@@ -44,38 +54,7 @@ export default function Simulate() {
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
           <div className="px-4 py-8 sm:px-0">
             <Panel>
-              <MotorwayGrid>
-                <GridSquare
-                  onClick={() => setIsOpen(true)}
-                  squareContains="car"
-                  color="text-purple-600"
-                />
-                <GridSquare squareContains="none" />
-                <GridSquare
-                  onClick={() => setIsOpen(true)}
-                  squareContains="car"
-                  color="text-purple-600"
-                />
-                <GridSquare squareContains="none" />{" "}
-                <GridSquare
-                  onClick={() => setIsOpen(true)}
-                  squareContains="car"
-                  color="text-blue-600"
-                />
-                <GridSquare squareContains="none" />{" "}
-                <GridSquare
-                  onClick={() => setIsOpen(true)}
-                  squareContains="car"
-                  color="text-purple-600"
-                />
-                <GridSquare squareContains="none" />{" "}
-                <GridSquare
-                  onClick={() => setIsOpen(true)}
-                  squareContains="car"
-                  color="text-purple-600"
-                />
-                <GridSquare squareContains="none" />
-              </MotorwayGrid>
+              <MotorwayGrid grid={carGrid} />
             </Panel>
             {modal}
           </div>

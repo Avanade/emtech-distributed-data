@@ -1,4 +1,22 @@
-export default function GridSquare(props) {
+import { Grid, GridSquare } from "@/lib/CarSimulation"
+import React from "react";
+
+
+export function MotorwayGrid(props) {
+    let grid : Grid = props.grid;
+    let gridSquares : GridSquare[][] =grid.gridSquares;
+    return (<>
+        <div className="max-w-md bg-gray-300 grid grid-cols-5 gap-0 divide-x divide-white divide-dashed">
+            {gridSquares.slice().reverse().map((element) => (
+                    element.map((yElement) => (
+                        <CarIcon key={yElement.getCoordId()} squareContains={yElement.hasCar() ? "car" : "nothing"} color="text-purple-600"/>
+                    ))
+            ))}
+        </div>
+    </>);
+}
+
+export function CarIcon(props) {
     return props.squareContains == "car" ? (
         <div className="{props.color}">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -11,5 +29,5 @@ export default function GridSquare(props) {
     ) : (
         <div>&nbsp;</div>
     );
-
 }
+

@@ -60,6 +60,11 @@ export class GridSquare implements GridSquare {
         this.squareContains = newField;
     }
 
+    getCoordId(): string {
+        let id:string=this.xCoordinate+"-"+this.yCoordinate;
+        return id;
+    }
+
     getField(): Car | null {
         return this.squareContains;
     }
