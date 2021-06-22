@@ -10,9 +10,11 @@ This repository showcases Avanade's exploration with Distributed Data solutions,
 
 This repository contains:
 
-- Oltiva Actif - A prototype application using ledger tables to protect and share healthcare data, between patients, and healthcare providers. The scenario provides QR codes which end users can scan, to approve the sharing of their data - and for how long the data should be shared for. Ledger tables track the consent, and the date at which data should be wiped, so that the 'destroy date' is kept attested, so that data is only retained for as long as needed.
+- [Oltiva Actif](docs/sql-ledger-usecase.md) - A prototype application using ledger tables to protect and share healthcare data, between patients, and healthcare providers. The scenario provides QR codes which end users can scan, to approve the sharing of their data - and for how long the data should be shared for. Ledger tables track the consent, and the date at which data should be wiped, so that the 'destroy date' is kept attested, so that data is only retained for as long as needed.
+- [Oltiva SafeDrive](docs/confidential-ledger-usecase.md) - A multi-container docker compose application that simulates the actions of multiple vehicles with IoT sensors driving on the roads, storing the data to Azure Confidential Ledger, so that in the event of a crash, by comparing the data from one car, to the data on another (if it exists), you could determine liability for the collision.
 
-Explore the [Use case](docs/sql-ledger-usecase.md)
+
+Explore the [Azure SQL Ledger use case](docs/sql-ledger-usecase.md) and the [Azure Confidential Ledger use case](docs/confidential-ledger-usecase.md).
 
 ### Licensing
 
