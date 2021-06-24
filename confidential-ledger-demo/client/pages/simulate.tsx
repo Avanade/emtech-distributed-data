@@ -33,14 +33,14 @@ export default function Simulate() {
     }
   },[isOpen]);
 
-  let displaySideModal = (header, data):void => {
+  let displaySideModal = (header, guid):void => {
     setIsOpen(true);
     setModal(
         <>
           <DynamicSlideOver
               open={isOpen}
               header={header}
-              data={data}
+              guid={guid}
               setIsOpen={setIsOpen}
           />
         </>
