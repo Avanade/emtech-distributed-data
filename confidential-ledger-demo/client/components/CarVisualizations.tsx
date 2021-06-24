@@ -1,28 +1,61 @@
 import { Grid, GridSquare } from "@/lib/CarSimulation"
 import React, {useState} from "react";
+import {CarSimData, CarSimSensorReading, CarSimState} from "@/lib/CarSimDataGeneration";
 
 
 export function MotorwayGrid(props) {
     let grid : Grid = props.grid;
     let gridSquares : GridSquare[][] =grid.gridSquares;
     let displayModalFunction=props.displayModalFunction;
-    let [currentCar, setCurrentCar] = useState("");
+    let [currentCarLicence, setCurrentCarLicence] = useState("");
+    let [currentCarState, setCurrentCarState] = useState(<></>);
+
+    let sideBarDisplay = (header, data) => {
+        setCurrentCarLicence(header);
+        setCurrentCarState(data);
+    };
+    
     return (<>
         <div className="bg-white overflow-hidden shadow rounded-lg">
             <div className="bg-gray-50 px-4 py-5 sm:p-6 grid-cols-2 grid">
                 <div className="max-w-md bg-gray-300 grid grid-cols-5 gap-0 divide-x divide-white divide-dashed">
                     {gridSquares.slice().reverse().map((element) => (
                             element.map((yElement) => (
-                                <CarIcon focusElement={setCurrentCar} displayModalFunction={displayModalFunction} field={yElement.getField()} key={yElement.getCoordId()} squareContains={yElement.hasCar() ? "car" : "nothing"} />
+                                <CarIcon focusElement={sideBarDisplay} displayModalFunction={displayModalFunction} field={yElement.getField()} key={yElement.getCoordId()} squareContains={yElement.hasCar() ? "car" : "nothing"} />
                             ))
                     ))}
                 </div>
                 <div>
-                    <h3 className="text-xl font-medium text-gray-900">{currentCar}</h3>
+                    <h3 className="text-xl font-medium text-gray-900">{currentCarLicence}</h3>
+                    {currentCarState}
                 </div>
             </div>
         </div>
     </>);
+}
+
+function buildData(carSimData:CarSimData) {
+    let carStateData = carSimData.carState;
+    let signalling="No signalling";
+    if (carStateData.signal.signalL===true) {
+        signalling="Signalling left";
+    } else if (carStateData.signal.signalR===true) {
+        signalling="Signalling right";
+    }
+    delete carStateData.signal;
+    delete carStateData.gps;
+    let carStateKeys = Object.keys(carStateData);
+
+    let carStateList = carStateKeys.map((item) => (<li>{item}: {carStateData[item]}</li>));
+    let builtDate = <>
+        <p>Timestamp: {carSimData.meta.timestamp}</p>
+        <p>Unique ID: {carSimData.meta.uuid}</p>
+        <p>{signalling}</p>
+        <p>
+            <ul>{carStateList}</ul>
+        </p>
+    </>;
+    return builtDate;
 }
 
 export function CarIcon(props) {
@@ -31,8 +64,9 @@ export function CarIcon(props) {
         let carClasses="cursor-pointer inline-block " + props.field.carColor;
         let carTitle = props.field.licencePlate;
         let carData=props.field.metadata;
+        let carId=props.field.id;
 
-        return <div onMouseEnter={() => props.focusElement(carTitle)} onMouseLeave={() => props.focusElement("")} onClick={() => displayModalFunction(carTitle,carData)} className={carClasses}>
+        return <div onMouseEnter={() => props.focusElement(carTitle, buildData(carData))} onMouseLeave={() => props.focusElement("",<></>)} onClick={() => displayModalFunction(carTitle,carId)} className={carClasses}>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
                  stroke="currentColor">
                 <path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/>

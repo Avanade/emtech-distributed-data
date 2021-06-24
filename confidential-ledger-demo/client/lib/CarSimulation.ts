@@ -189,6 +189,9 @@ export class CarSimulation {
         while (carsLeftToAdd>0) {
             let nextSquare=startingColumn.shift();
             let newCar:Car=new Car(washington());
+            let carData= new CarSimDataGenerator(newCar.licencePlate, newCar.id);
+            let carSimulatedData=carData.generateCarData();
+            newCar.setCarMetadata(carSimulatedData);
             let yCoOrd:number=nextSquare.yCoordinate;
             let gridSquare:GridSquare=this.grid.gridSquares[0][yCoOrd];
             gridSquare.setField(newCar);
