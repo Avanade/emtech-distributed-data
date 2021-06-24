@@ -10,10 +10,10 @@ const DynamicSlideOver = dynamic(() => import("../components/SlideOver"), {
   ssr: false,
 });
 
-const ledgerFunction = process.env.NODE_ENV === 'production' ? appendLedger : (vehicleId: string, dataToAppend: Dictionary) => {
+const ledgerFunction = appendLedger;/* .env.NODE_ENV === 'production' ? appendLedger : (vehicleId: string, dataToAppend: Dictionary) => {
   console.log(`Mock function ran for ${vehicleId}`);
   console.log(dataToAppend);
-};
+};*/
 
 export default function Simulate() {
   let [isOpen, setIsOpen] = useState(false);
