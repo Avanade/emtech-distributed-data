@@ -1,13 +1,13 @@
 import {v4 as uuid4} from 'uuid';
 import {DateTime} from 'luxon';
 import { washington } from 'license-plate-serial-generator';
+import {CarSimDataGenerator} from "@/lib/CarSimDataGeneration";
 
 type CanContain = Car | null;
 
 export type Dictionary = {
-    [x: string]: boolean | Dictionary;
+    [x: string]: boolean | string | number | Dictionary | Dictionary[];
 };
-
 
 export interface Car {
     licencePlate: string;
@@ -46,6 +46,16 @@ export class Car implements Car {
 
     setCarMetadata(metadata: Dictionary) {
         this.metadata=metadata;
+    }
+}
+
+export class CarSimulatedData {
+    public licencePlate: string;
+    public id: string;
+
+    constructor(licencePlate: string, id: string) {
+        this.licencePlate = licencePlate;
+        this.id = id;
     }
 }
 
@@ -209,6 +219,12 @@ export class CarSimulation {
               if (targetX<xWidth) {
                   let targetY=yGridSquare.yCoordinate;
                   yGridSquare.updateCoordinates(targetX,targetY);
+                  let carField=yGridSquare.getField();
+                  let carLicence=carField.licencePlate;
+                  let carId=carField.id;
+                  let carData= new CarSimDataGenerator(carLicence,carId);
+                  let carSimulatedData=carData.generateCarData();
+                  carField.setCarMetadata(carSimulatedData);
                   yGridSquare.appendMetadata(this.ledgerAppendFunction);
                   nextTick.gridSquares[targetX][targetY]=yGridSquare;
               }
