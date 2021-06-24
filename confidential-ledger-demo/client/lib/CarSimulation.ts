@@ -1,5 +1,6 @@
 import {v4 as uuid4} from 'uuid';
 import {DateTime} from 'luxon';
+import { washington } from 'license-plate-serial-generator';
 
 type CanContain = Car | null;
 
@@ -177,7 +178,7 @@ export class CarSimulation {
         let carsLeftToAdd=carAmountToAdd;
         while (carsLeftToAdd>0) {
             let nextSquare=startingColumn.shift();
-            let newCar:Car=new Car("LICENCE"); // TODO: Add licence plates and sprits
+            let newCar:Car=new Car(washington());
             let yCoOrd:number=nextSquare.yCoordinate;
             let gridSquare:GridSquare=this.grid.gridSquares[0][yCoOrd];
             gridSquare.setField(newCar);
