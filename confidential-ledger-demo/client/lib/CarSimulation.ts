@@ -27,14 +27,20 @@ export interface Grid {
 
 export class Car implements Car {
     public licencePlate: string;
-    public sprite: string;
+    public carColor: string;
     public id: string;
     public metadata: Dictionary;
 
-    constructor(licencePlate: string, sprite: string) {
+    constructor(licencePlate: string) {
         this.licencePlate = licencePlate;
-        this.sprite = sprite;
         this.id = uuid4();
+        this.setCarColor();
+    }
+
+    setCarColor(): void {
+        let carColors = [ "text-purple-600", "text-blue-600", "text-green-600", "text-red-700", "text-pink-900","text-yellow-900","text-grey-400 bg-gradient-to-r from-green-400 to-blue-500" ];
+        let randIndex = Math.floor(Math.random() * carColors.length);
+        this.carColor=carColors[randIndex];
     }
 
     setCarMetadata(metadata: Dictionary) {
@@ -171,7 +177,7 @@ export class CarSimulation {
         let carsLeftToAdd=carAmountToAdd;
         while (carsLeftToAdd>0) {
             let nextSquare=startingColumn.shift();
-            let newCar:Car=new Car("LICENCE","nosprite"); // TODO: Add licence plates and sprits
+            let newCar:Car=new Car("LICENCE"); // TODO: Add licence plates and sprits
             let yCoOrd:number=nextSquare.yCoordinate;
             let gridSquare:GridSquare=this.grid.gridSquares[0][yCoOrd];
             gridSquare.setField(newCar);

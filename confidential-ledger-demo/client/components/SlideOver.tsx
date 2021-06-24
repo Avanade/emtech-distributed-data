@@ -38,17 +38,14 @@ export default function SlideOver(props) {
                     </div>
                     <div className="mt-1">
                       <p className="text-sm text-indigo-300">
-                        { props.vehicleId }
+                        { props.header }
                       </p>
                     </div>
                   </div>
                   <div className="relative flex-1 py-6 px-4 sm:px-6">
-                    {/* Replace with your content */}
-                    {/* TODO: Add car information from feed on click */}
                     <div className="absolute inset-0 py-6 px-4 sm:px-6">
-                      <div className="h-full border-2 border-dashed border-gray-200" aria-hidden="true" >Car Information Goes Here</div>
+                      <div className="h-full border-2 border-dashed border-gray-200" aria-hidden="true" >{ props.data }</div>
                     </div>
-                    {/* /End replace */}
                   </div>
                 </div>
               </div>
