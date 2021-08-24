@@ -2,7 +2,7 @@
 
 Found in the `sql-ledger-demo` directory, a web application designed to show healthcare scenarios for SQL Ledger.
 
-For more information about SQL Ledger, see [sql-ledger-usecase](./docs/sql-ledger-usecase.md)
+For more information about SQL Ledger, see [sql-ledger-usecase](./sql-ledger-usecase.md)
 
 ## Pre-requisites
 
