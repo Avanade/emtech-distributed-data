@@ -59,7 +59,7 @@ This Scenario also applies heavily to data protection legislation in differing g
 
 ### Demo
 
-Once deployed using the instructions [found here](./docs/start-here.md) the local server will show:
+Once deployed using the instructions [found here](./start-here.md) the local server will show:
 
 ![Home page](./sql-ledger-images/Oltiva-home.png)
 
