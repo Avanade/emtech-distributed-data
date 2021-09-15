@@ -1,9 +1,16 @@
+--drop table [dbo].[Oltiva_DataPoint]
+--drop table [dbo].[Oltiva_DataSet]
+--drop table [dbo].[Oltiva_QR]
+--drop table [dbo].[Oltiva_Partners]
+--drop table [dbo].[Oltiva_users]
+--go
+
 CREATE TABLE [Oltiva_users](
   UserId int NOT NULL primary key,
   UserName varchar(255),
   JoinDate DATETIME,
   LastActiveDate DATETIME
-) WITH (SYSTEM_VERSIONING = ON, LEDGER = OFF);
+) WITH (SYSTEM_VERSIONING = ON, LEDGER = ON);
 CREATE TABLE [Oltiva_Partners](
   PartnerId int NOT NULL,
   PartnerName varchar(255),
@@ -28,11 +35,10 @@ CREATE TABLE [Oltiva_DataSet](
   DataType varchar(255),
   SharedUntilDateTime DATETIME,
   DataStatus varchar(255),
-  PRIMARY KEY (DataSetId),
-  PRIMARY KEY (SharedUntilDateTime),
+  PRIMARY KEY (DataSetId),  -- , SharedUntilDateTime)
   FOREIGN KEY (PartnerId) REFERENCES Oltiva_Partners(PartnerId),
   FOREIGN KEY (UserId) REFERENCES Oltiva_users(UserId)
-) WITH (SYSTEM_VERSIONING = ON, LEDGER = OFF);
+) WITH (SYSTEM_VERSIONING = ON, LEDGER = ON);
 CREATE TABLE [Oltiva_DataPoint](
   DataPointId int NOT NULL,
   DataSetId int NOT NULL,
@@ -40,57 +46,8 @@ CREATE TABLE [Oltiva_DataPoint](
   DataValue varchar(255),
   PRIMARY KEY (DataPointId),
   FOREIGN KEY (DataSetId) REFERENCES Oltiva_DataSet(DataSetId)
-) WITH (SYSTEM_VERSIONING = ON, LEDGER = OFF);
-INSERT INTO
-  [dbo].[Oltiva_QR](
-    QRlocId,
-    QRloc,
-    PartnerId,
-    QRType,
-    LocType,
-    Duration
-  )
-VALUES
-  (
-    4002,
-    'actif4002',
-    3004,
-    'Store',
-    'Equipment',
-    '2021-07-13T09:00:00'
-  ),
-  (
-    4003,
-    'actif4003',
-    3007,
-    'Reception',
-    'Healthcare',
-    '2021-08-17T09:00:00'
-  ),
-  (
-    4004,
-    'actif4004',
-    3009,
-    'Store',
-    'Equipment',
-    '2022-01-01T09:00:00'
-  ),
-  (
-    4005,
-    'actif4005',
-    3015,
-    'Online',
-    'Commercial',
-    '2021-06-03T09:00:00'
-  ),
-  (
-    4006,
-    'actif4006',
-    3014,
-    'Gym Ad',
-    'Government',
-    '2021-06-03T09:00:00'
-  )
+) WITH (SYSTEM_VERSIONING = ON, LEDGER = ON);
+
 INSERT INTO
   [dbo].[Oltiva_Partners] (PartnerId, PartnerName)
 VALUES
@@ -114,7 +71,24 @@ VALUES
   (3018, 'Pourtown Down'),
   (3019, 'Readingly Hospital'),
   (3020, 'East Buckheads Health'),
-  (3021, 'Pinapple Sports Studio')
+  (3021, 'Pinapple Sports Studio');
+  INSERT INTO
+  [dbo].[Oltiva_QR](
+    QRlocId,
+    QRloc,
+    PartnerId,
+    QRType,
+    LocType,
+    Duration
+  )
+VALUES
+  (4002,'actif4002',3004,'Store','Equipment','2021-07-13T09:00:00' ),
+  (4003,'actif4003',3007,'Reception','Healthcare','2021-08-17T09:00:00' ),
+  (4004,'actif4004',3009,'Store','Equipment','2022-01-01T09:00:00' ),
+  (4005,'actif4005',3015,'Online','Commercial','2021-06-03T09:00:00' ),
+  (4006,'actif4006',3014,'Gym Ad','Government','2021-06-03T09:00:00'
+  )
+
 INSERT INTO
   [dbo].[Oltiva_Users] (UserId, UserName, JoinDate, LastActiveDate)
 VALUES
@@ -264,11 +238,11 @@ VALUES(
     'bpm',
     '2021-05-04T14:40:00',
     'Heart Rate',
-    '2021-010-10T09:00:00',
+    '2021-10-10T09:00:00',
     'active'
-  ),
+  );
 INSERT INTO
-  [dbo.Oltiva_DataPoint](
+  [dbo].[Oltiva_DataPoint](
     DataPointId,
     DataSetId,
     DataTimestamp,
