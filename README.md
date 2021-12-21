@@ -1,6 +1,11 @@
 # emtech-distributed-data
 
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) ![GitHub issues](https://img.shields.io/github/issues/Avanade/emtech-distributed-data) ![GitHub](https://img.shields.io/github/license/Avanade/emtech-distributed-data) ![GitHub Repo stars](https://img.shields.io/github/stars/Avanade/emtech-distributed-data?style=social)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+![GitHub issues](https://img.shields.io/github/issues/Avanade/emtech-distributed-data)
+![GitHub](https://img.shields.io/github/license/Avanade/emtech-distributed-data)
+![GitHub Repo stars](https://img.shields.io/github/stars/Avanade/emtech-distributed-data?style=social)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](https://avanade.github.io/code-of-conduct/)
+[![Ready OpenSource](https://img.shields.io/badge/Ready-Ava--Maturity-%23FF5800?labelColor=green)](https://avanade.github.io/maturity-model/)
 
 ## Overview
 
