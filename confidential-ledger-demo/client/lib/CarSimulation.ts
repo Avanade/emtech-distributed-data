@@ -1,7 +1,7 @@
 import {v4 as uuid4} from 'uuid';
 import {DateTime} from 'luxon';
-import { washington } from 'license-plate-serial-generator';
-import {CarSimDataGenerator} from "@/lib/CarSimDataGeneration";
+import { random } from 'bb26';
+import { CarSimDataGenerator } from "@/lib/CarSimDataGeneration";
 
 type CanContain = Car | null;
 
@@ -182,13 +182,24 @@ export class CarSimulation {
         this.stepCallbackFunction(this.grid);
     }
 
+    // Function utilises code from washington function in license-plate-serial-generator,
+    // an npm package copyright(c) 2019 Patrik Csak released under MIT license.
+    randomStateLicencePlate() {
+        const letters = random('AAA', 'BKU');
+        let lodashRandom = require('lodash.random');
+        const number = lodashRandom.default(0, 9999);
+        const digits = `${number}`.padStart(4, '0');
+        return letters + digits;
+    }
+    // End of utilised code
+
     addCars(carAmountToAdd: number): void {
         let startingColumn=[...this.grid.gridSquares[0]];
         startingColumn=startingColumn.sort( () => .5 - Math.random() );//not truly random, but this isn't crypto
         let carsLeftToAdd=carAmountToAdd;
         while (carsLeftToAdd>0) {
             let nextSquare=startingColumn.shift();
-            let newCar:Car=new Car(washington());
+            let newCar:Car=new Car(this.randomStateLicencePlate());
             let carData= new CarSimDataGenerator(newCar.licencePlate, newCar.id);
             let carSimulatedData=carData.generateCarData();
             newCar.setCarMetadata(carSimulatedData);

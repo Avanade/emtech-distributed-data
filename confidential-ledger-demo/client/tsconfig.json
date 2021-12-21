@@ -3,8 +3,12 @@
     "baseUrl": "./",
     "target": "es2017",
     "paths": {
-      "@/components/*": ["components/*"],
-      "@/lib/*": ["lib/*"]
+      "@/components/*": [
+        "components/*"
+      ],
+      "@/lib/*": [
+        "lib/*"
+      ]
     },
     "lib": [
       "dom",
@@ -24,8 +28,9 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "typeRoots": [
-      "./node_modules/@types",
-    ]
+      "./node_modules/@types"
+    ],
+    "incremental": true
   },
   "include": [
     "next-env.d.ts",
