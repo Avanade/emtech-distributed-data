@@ -19,7 +19,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@headlessui/react": "^1.1.0",
+    "@headlessui/react": "^1.6.1",
     "@heroicons/react": "^1.0.1",
     "mssql": "^6.3.1",
     "next": "^12.1.0",
