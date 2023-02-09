@@ -1,4 +1,4 @@
-FROM python:3.9-alpine as base
+FROM python:3.12.0a5-alpine as base
 FROM base as builder
 
 RUN apk -U upgrade
